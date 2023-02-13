@@ -22,9 +22,8 @@ public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public Pigeon2 gyro;
-    public PhotonVision vision;
+
     public Swerve() {
-        PhotonVision vison = new PhotonVision();
         gyro = new Pigeon2(Constants.Swerve.pigeonID);
         gyro.configFactoryDefault();
         zeroGyro();
@@ -115,7 +114,7 @@ public class Swerve extends SubsystemBase {
 
     @Override
     public void periodic(){
-        vision.getEstimatedGlobalPose(getPose());
+        
         swerveOdometry.update(getYaw(), getModulePositions());  
 
         for(SwerveModule mod : mSwerveMods){

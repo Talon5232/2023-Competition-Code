@@ -14,6 +14,9 @@ import frc.lib.util.COTSFalconSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
+    public static final int liftMotor1 = 111;
+    public static final int liftMotor2 = 111;
+    public static final int armMotor = 111;
     public static class FieldConstants {
         public static final double length = Units.feetToMeters(54);
         public static final double width = Units.feetToMeters(27);
