@@ -20,7 +20,7 @@ public class armSub extends SubsystemBase {
     double derivitive;
     public armSub(){
         setName("Arm");
-        armMotor = new CANSparkMax(37, MotorType.kBrushless);
+        armMotor = new CANSparkMax(62, MotorType.kBrushless);
         armEncoder = armMotor.getEncoder().getPosition();
         
         setpoint = setpoint + 1;

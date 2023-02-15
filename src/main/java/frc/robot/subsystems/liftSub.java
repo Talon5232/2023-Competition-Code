@@ -1,4 +1,4 @@
-/*package frc.robot.subsystems;
+package frc.robot.subsystems;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
@@ -15,14 +15,21 @@ public class liftSub extends SubsystemBase {
     double currentPosition;
     double correction;
     double derivitive;
-   private CANSparkMax liftMotor1 = new CANSparkMax(111, MotorType.kBrushless);
-    private CANSparkMax liftMotor2 = new CANSparkMax(111, MotorType.kBrushless);
-   private double liftencoder1 = liftMotor1.getEncoder().getPosition();
-   private double liftencoder2 = liftMotor2.getEncoder().getPosition();
-
+   private CANSparkMax liftMotor1;
+    private CANSparkMax liftMotor2;
+   public liftSub(){
+    setName("Lift");
+        liftMotor1 = new CANSparkMax(55, MotorType.kBrushless);
+        liftMotor2 = new CANSparkMax(56, MotorType.kBrushless);
+     double liftencoder1 = liftMotor1.getEncoder().getPosition();
+    double liftencoder2 = liftMotor2.getEncoder().getPosition();
+    SmartDashboard.putNumber("liftencoder1", liftencoder1);
+   }
+  
    // liftEncoder = new 
     public void liftMovement(double setpoint){
-        setName("Lift");
+        double liftencoder1 = liftMotor1.getEncoder().getPosition();
+        double liftencoder2 = liftMotor2.getEncoder().getPosition();
         //SmartDashboard.putNumber("Encoder", liftencoder2);
         currentPosition = (liftencoder1 + liftencoder2)/2;
         //Porportional Math
@@ -32,6 +39,21 @@ public class liftSub extends SubsystemBase {
         correction = (error * kP) + (derivitive * kD);
         lastError = error;
     }
-   
+    public void liftUp(){
+        liftMotor1.set(-.2);
+        liftMotor1.set(.2);
     }
-    */
+    public void liftDown(){
+        liftMotor1.set(.2);
+        liftMotor1.set(-.2);
+    }
+    public void liftStop(){
+        liftMotor1.set(0);
+        liftMotor2.set(0);
+    }
+    @Override
+public void periodic(){
+
+}
+    }
+    
