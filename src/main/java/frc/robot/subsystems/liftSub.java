@@ -40,12 +40,12 @@ public class liftSub extends SubsystemBase {
         lastError = error;
     }
     public void liftUp(){
-        liftMotor1.set(-.2);
-        liftMotor1.set(.2);
+        liftMotor1.set(-.6);
+        liftMotor1.set(.6);
     }
     public void liftDown(){
-        liftMotor1.set(.2);
-        liftMotor1.set(-.2);
+        liftMotor1.set(.6);
+        liftMotor1.set(-.6);
     }
     public void liftStop(){
         liftMotor1.set(0);
