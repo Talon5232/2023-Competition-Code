@@ -32,7 +32,7 @@ public class exampleAuto extends SequentialCommandGroup {
                 // move over charging station, moving 190in putting us in front of cone by a bit
                 List.of(new Translation2d(-4.826, 0), new Translation2d(2.41935, 0)),
                 // drive onto charging station, reaching the theoretical center
-                new Pose2d(0, 0, new Rotation2d(0)),
+                new Pose2d(2.41935, 0, new Rotation2d(0)),
                 
                 
                 config);
