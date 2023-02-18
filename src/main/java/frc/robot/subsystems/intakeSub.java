@@ -16,11 +16,11 @@ public class intakeSub extends SubsystemBase {
     }
     
     public void intakeUp(){
-        intakeMotor.set(TalonSRXControlMode.PercentOutput, .5);
+        intakeMotor.set(TalonSRXControlMode.PercentOutput, 1);
         
     }
     public void intakeDown(){
-        intakeMotor.set(TalonSRXControlMode.PercentOutput, -.5);
+        intakeMotor.set(TalonSRXControlMode.PercentOutput, -1);
        
     }
     public void intakeStop(){
