@@ -42,11 +42,11 @@ public class armSub extends SubsystemBase {
         armMotor.set(correction);
     }
     public void armUp(){
-        armMotor.set(.2);
+        armMotor.set(.5);
         setpoint = 5;
     }
     public void armDown(){
-       armMotor.set(-.2);
+       armMotor.set(-.5);
        setpoint = -5;
     }
     public void armStop(){
