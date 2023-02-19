@@ -41,12 +41,18 @@ public class RobotContainer {
     private final JoystickButton button8 = new JoystickButton(Thrustmaster,8);
     private final JoystickButton button7 = new JoystickButton(Thrustmaster,7);
     private final JoystickButton button2 = new JoystickButton(Thrustmaster, 2);
+
+    private final JoystickButton button14 = new JoystickButton(Thrustmaster, 14);
+    private final JoystickButton button15 = new JoystickButton(Thrustmaster, 15);
+    private final JoystickButton button16 = new JoystickButton(Thrustmaster, 16);
+
+
     private final JoystickButton trigger = new JoystickButton(Thrustmaster, 1);
     private final JoystickButton backButton = new JoystickButton(driver, XboxController.Button.kBack.value);
 
 
-    private final JoystickButton button4 = new JoystickButton(Thrustmaster,4);
-    private final JoystickButton button3 = new JoystickButton(Thrustmaster,3);
+    private final JoystickButton button9 = new JoystickButton(Thrustmaster,9);
+    private final JoystickButton button6 = new JoystickButton(Thrustmaster,6);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     //Thrust Master Buttons
     //private final boolean trigger = driver2.getRawButton(1);
@@ -81,23 +87,20 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
+        
         /* Driver Buttons */
         
-        button8.whileTrue(new InstantCommand(() -> m_arm.armUp())).whileFalse(new InstantCommand(() -> m_arm.armStop()));
+        button16.whileTrue(new InstantCommand(() -> m_arm.armUp()));
+        button15.whileTrue(new InstantCommand(() -> m_arm.armMiddle()));
+        button14.whileTrue(new InstantCommand(() -> m_arm.armDown()));
        // backButton.whileTrue(new InstantCommand(() -> m_arm.armMovement(double setpoint + .025)));
-        button7.whileTrue(new InstantCommand(() -> m_arm.armDown())).whileFalse(new InstantCommand(() -> m_arm.armStop()));
-        button4.whileTrue(new InstantCommand(() -> m_lift.liftUp())).whileFalse(new InstantCommand(() -> m_lift.liftStop()));
-        button3.whileTrue(new InstantCommand(() -> m_lift.liftDown())).whileFalse(new InstantCommand(() -> m_lift.liftStop()));
+        button9.whileTrue(new InstantCommand(() -> m_lift.liftUp())).whileFalse(new InstantCommand(() -> m_lift.liftStop()));
+        button6.whileTrue(new InstantCommand(() -> m_lift.liftDown())).whileFalse(new InstantCommand(() -> m_lift.liftStop()));
         trigger.whileTrue(new InstantCommand(() -> m_Intake.intakein())).whileFalse(new InstantCommand(() -> m_Intake.intakeStop()));
         button2.whileTrue(new InstantCommand(() -> m_Intake.intakeout())).whileFalse(new InstantCommand(() -> m_Intake.intakeStop()));
-        /* 
-        if(trigger == true){
-           new InstantCommand(() -> m_lift.liftUp());
-        }
-        else{
-            new InstantCommand(() -> m_lift.liftDown());
-        }
-        */
+
+       
+        
         
 
 
