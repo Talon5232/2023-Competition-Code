@@ -3,7 +3,6 @@ import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class intakeSub extends SubsystemBase {
@@ -15,11 +14,11 @@ public class intakeSub extends SubsystemBase {
             
     }
     
-    public void intakeUp(){
+    public void intakein(){
         intakeMotor.set(TalonSRXControlMode.PercentOutput, 1);
         
     }
-    public void intakeDown(){
+    public void intakeout(){
         intakeMotor.set(TalonSRXControlMode.PercentOutput, -1);
        
     }

@@ -88,8 +88,8 @@ public class RobotContainer {
         button7.whileTrue(new InstantCommand(() -> m_arm.armDown())).whileFalse(new InstantCommand(() -> m_arm.armStop()));
         button4.whileTrue(new InstantCommand(() -> m_lift.liftUp())).whileFalse(new InstantCommand(() -> m_lift.liftStop()));
         button3.whileTrue(new InstantCommand(() -> m_lift.liftDown())).whileFalse(new InstantCommand(() -> m_lift.liftStop()));
-        trigger.whileTrue(new InstantCommand(() -> m_Intake.intakeDown())).whileFalse(new InstantCommand(() -> m_Intake.intakeStop()));
-        button2.whileTrue(new InstantCommand(() -> m_Intake.intakeUp())).whileFalse(new InstantCommand(() -> m_Intake.intakeStop()));
+        trigger.whileTrue(new InstantCommand(() -> m_Intake.intakein())).whileFalse(new InstantCommand(() -> m_Intake.intakeStop()));
+        button2.whileTrue(new InstantCommand(() -> m_Intake.intakeout())).whileFalse(new InstantCommand(() -> m_Intake.intakeStop()));
         /* 
         if(trigger == true){
            new InstantCommand(() -> m_lift.liftUp());
