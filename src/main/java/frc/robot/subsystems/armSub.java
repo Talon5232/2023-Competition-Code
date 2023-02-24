@@ -17,6 +17,8 @@ public class armSub extends SubsystemBase {
     double correction;
     double setpoint;
     double test;
+    boolean ManualUp;
+    boolean ManualDown;
     private final CANSparkMax armMotor;
     private double armEncoder;
     double derivitive;
@@ -45,20 +47,40 @@ public class armSub extends SubsystemBase {
         */
     }
     public void armUp(){
-        setpoint = -8;
+        setpoint = -13;
     }
     public void armMiddle(){
-        setpoint = -5;
+        setpoint = -10;
     }
-   
     public void armDown(){
-       setpoint = -2;
+       setpoint = -6;
+    }
+    public void armUpManual(){
+        ManualUp = true;
+    }
+    public void armDownManual(){
+        ManualDown = true;
+    }
+    public void armUpManualStop(){
+        ManualUp = false;
+    }
+    public void armDownManualStop(){
+        ManualDown = false;
     }
    
 @Override
 public void periodic(){
-    if(setpoint >= -1){
-        setpoint = -1;
+    if(ManualDown == true){
+        setpoint = setpoint + .04;
+    }
+    if(ManualUp == true){
+        setpoint = setpoint - .04;
+    }
+    if(setpoint >= -1.5){
+        setpoint = -1.5;
+    }
+    if(setpoint <= -14){
+        setpoint = -14;
     }
     currentPosition = armEncoder;
     //Porportional Math

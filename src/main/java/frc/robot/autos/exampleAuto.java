@@ -33,9 +33,8 @@ public class exampleAuto extends SequentialCommandGroup {
                 List.of(new Translation2d(-4.826, 0), new Translation2d(2.41935, 0)),
                 // drive onto charging station, reaching the theoretical center
                 new Pose2d(2.41935, 0, new Rotation2d(0)),
-                
-                
-                config);
+                config
+                );
         var thetaController =
             new ProfiledPIDController(
                 Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
