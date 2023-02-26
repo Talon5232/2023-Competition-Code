@@ -35,11 +35,11 @@ public class liftSub extends SubsystemBase {
    
     public void liftUp(){
     //    liftMotor1.set(-.3);
-       setpoint = 95;
-      // liftMotor2.set(.3);
+       setpoint = 94.25;
+      // liftMotor2.set(.3);3 
     }
     public void liftMiddle(){
-        setpoint = 64;
+        setpoint = 56;
     }
     public void liftDown(){
    //    liftMotor1.set(.3);
@@ -73,8 +73,8 @@ public void periodic(){
     }
 
    // liftMotor2.getEncoder().setPosition(0);
-    double liftencoder2 = liftMotor2.getEncoder().getPosition();
-    double liftencoder1 = liftMotor1.getEncoder().getPosition();
+    double liftencoder2 = Math.abs(liftMotor2.getEncoder().getPosition());
+    double liftencoder1 = Math.abs(liftMotor1.getEncoder().getPosition());
    // double liftencoder3 = liftMotor1
 
     SmartDashboard.putNumber("lf2", liftencoder2);
@@ -86,12 +86,12 @@ public void periodic(){
     SmartDashboard.putNumber("rightLiftMotor", liftMotor1.get());
 
     
-    currentPosition = liftencoder2;
+    currentPosition = liftencoder1;
     if(setpoint <= 1){
         setpoint = 1;
     }
-    if(setpoint >= 95){
-        setpoint = 95;
+    if(setpoint >= 98){
+        setpoint = 98;
     }
 
         //Porportional Math

@@ -4,10 +4,17 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.autos.LongAuto;
+import frc.robot.subsystems.*;
+
+import frc.robot.autos.ShortAuto;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -16,7 +23,18 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
+ // private final Swerve s_Swerve = new Swerve();
+ // private final ShortAuto a_ShortAuto = new ShortAuto(s_Swerve);
+ // private final LongAuto a_LongAuto = new LongAuto(s_Swerve);
   public static CTREConfigs ctreConfigs;
+ // private final SendableChooser<String> m_chooser = new SendableChooser<>();
+
+ // private static final String ShortAuto = "ShortAuto";
+ // private static final String LongAuto = "LongAuto";
+ 
+
+ 
+  //private String m_autoSelected;
 
   private Command m_autonomousCommand;
 
@@ -28,10 +46,14 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    CameraServer.startAutomaticCapture();
     ctreConfigs = new CTREConfigs();
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+   // m_chooser.setDefaultOption("ShortAuto", ShortAuto);
+   // m_chooser.setDefaultOption("LongAuto", LongAuto);
+   // SmartDashboard.putData("Auto Choices", m_chooser);
   }
 
   /**
@@ -65,11 +87,27 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();  
     }
+   // m_autoSelected = m_chooser.getSelected();
+    //System.out.println("Auto Selected: " + m_autoSelected);
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    /*
+    switch (m_autoSelected){
+      case ShortAuto:
+        new ShortAuto(s_Swerve);
+      break;
+      case LongAuto:
+        default:
+        new LongAuto(s_Swerve);
+        break;
+
+    }
+    */
+
+  }
 
   @Override
   public void teleopInit() {

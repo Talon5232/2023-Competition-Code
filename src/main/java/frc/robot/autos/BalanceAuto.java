@@ -16,8 +16,8 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-public class exampleAuto extends SequentialCommandGroup {
-    public exampleAuto(Swerve s_Swerve){
+public class BalanceAuto extends SequentialCommandGroup {
+    public BalanceAuto(Swerve s_Swerve){
         TrajectoryConfig config = 
             new TrajectoryConfig(
                     Constants.AutoConstants.kMaxSpeedMetersPerSecond,
@@ -30,9 +30,9 @@ public class exampleAuto extends SequentialCommandGroup {
                 // Start at node, put code to place cone before this
                 new Pose2d(0, 0, new Rotation2d(0)),
                 // move over charging station, moving 190in putting us in front of cone by a bit
-                List.of(new Translation2d(-4.826, 0), new Translation2d(2.41935, 0)),
+                List.of(),//new Translation2d(2.95, 0)
                 // drive onto charging station, reaching the theoretical center
-                new Pose2d(2.41935, 0, new Rotation2d(0)),
+                new Pose2d(2.581, 0, new Rotation2d(0)),
                 config
                 );
         var thetaController =
