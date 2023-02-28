@@ -141,6 +141,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-      return new OverlineBalance(s_Swerve);
+      return new BalanceAuto(s_Swerve);
     }
 }
