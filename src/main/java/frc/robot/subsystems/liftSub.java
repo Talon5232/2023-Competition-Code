@@ -73,7 +73,7 @@ public void periodic(){
     }
 
    // liftMotor2.getEncoder().setPosition(0);
-    double liftencoder2 = Math.abs(liftMotor2.getEncoder().getPosition());
+    double liftencoder2 = liftMotor2.getEncoder().getPosition();
     double liftencoder1 = Math.abs(liftMotor1.getEncoder().getPosition());
    // double liftencoder3 = liftMotor1
 
@@ -86,7 +86,7 @@ public void periodic(){
     SmartDashboard.putNumber("rightLiftMotor", liftMotor1.get());
 
     
-    currentPosition = liftencoder1;
+    currentPosition = liftencoder2;
     if(setpoint <= 1){
         setpoint = 1;
     }

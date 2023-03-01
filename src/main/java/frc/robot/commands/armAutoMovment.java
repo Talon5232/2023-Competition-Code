@@ -4,26 +4,24 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-/*
+
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.liftSub;
+import frc.robot.subsystems.*;
 
-public class liftMiddle extends CommandBase {
+public class armAutoMovment extends CommandBase {
 
-  private final liftSub m_lift;
+  private final armSub m_arm = new armSub();
+  private final liftSub m_lift = new liftSub();
+  private final Swerve s_Swerve = new Swerve();
+  private final intakeSub m_Intake = new intakeSub();
+  
 
   /*
    * Creates a new IntakeDumpCommand.
    */
-  /*
-  public liftMiddle(liftSub lift) {
-    // Use addRequirements() here to declare subsystem dependencies.
-     m_lift = lift;
 
-    addRequirements(m_lift);
-  }
 
   // Called when the command is initially scheduled.
   @Override
@@ -33,7 +31,6 @@ public class liftMiddle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   
   }
 
   // Called once the command ends or is interrupted.
@@ -48,4 +45,3 @@ public class liftMiddle extends CommandBase {
     return false;
   }
 }
-*/

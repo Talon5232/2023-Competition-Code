@@ -7,11 +7,12 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.autos.LongAuto;
+import frc.robot.autos.*;
 import frc.robot.subsystems.*;
 
 import frc.robot.autos.ShortAuto;
@@ -23,7 +24,9 @@ import frc.robot.autos.ShortAuto;
  * project.
  */
 public class Robot extends TimedRobot {
- // private final Swerve s_Swerve = new Swerve();
+  //SendableChooser<Command> autoChooser;
+  Command autonomousCommand;
+// private final Swerve s_Swerve = new Swerve();
  // private final ShortAuto a_ShortAuto = new ShortAuto(s_Swerve);
  // private final LongAuto a_LongAuto = new LongAuto(s_Swerve);
   public static CTREConfigs ctreConfigs;
@@ -48,13 +51,16 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     CameraServer.startAutomaticCapture();
     ctreConfigs = new CTREConfigs();
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-   // m_chooser.setDefaultOption("ShortAuto", ShortAuto);
-   // m_chooser.setDefaultOption("LongAuto", LongAuto);
-   // SmartDashboard.putData("Auto Choices", m_chooser);
-  }
+
+    //autoChooser = new SendableChooser<Command>();
+    //autoChooser.setDefaultOption("LongAuto", new LongAuto(s_Swerve));
+    //autoChooser.addOption("ShortAuto", new ShortAuto(s_Swerve));
+    //autoChooser.addOption("BalanceAuto", new BalanceAuto(s_Swerve));
+   // SmartDashboard.putData("Autonomous Chooser", autoChooser);
+    
+
+    }
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for items like

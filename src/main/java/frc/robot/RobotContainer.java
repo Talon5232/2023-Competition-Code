@@ -25,6 +25,8 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
     /* Controllers */
+    private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+
     private final Joystick driver = new Joystick(0);//xbox controller
     private final Joystick Thrustmaster = new Joystick(1);
     //private final Joystick driver2 = new Joystick(1);
@@ -71,6 +73,7 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+
       
         s_Swerve.setDefaultCommand(
             
@@ -83,12 +86,13 @@ public class RobotContainer {
             )
 
         );
-     //   m_chooser.setDefaultOption("LongAuto", a_LongAuto);
-       // m_chooser.addOption("ShortAuto", a_ShortAuto);
-
-      //  Shuffleboard.getTab("Autonomous").add(m_chooser);
-
-
+        //autoChooser = new SendableChooser<Command>();
+    autoChooser.setDefaultOption("LongAuto", new LongAuto(s_Swerve));
+    autoChooser.addOption("ShortAuto", new ShortAuto(s_Swerve));
+    autoChooser.addOption("BalanceAuto", new BalanceAuto(s_Swerve));
+    SmartDashboard.putData("Autonomous Chooser", autoChooser);
+    
+     
 
         // Configure the button bindings
         configureButtonBindings();
@@ -141,6 +145,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-      return new BalanceAuto(s_Swerve);
+      return autoChooser.getSelected();
     }
 }
