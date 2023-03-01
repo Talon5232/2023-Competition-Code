@@ -86,7 +86,7 @@ public void periodic(){
     SmartDashboard.putNumber("rightLiftMotor", liftMotor1.get());
 
     
-    currentPosition = liftencoder2;
+    currentPosition = liftencoder1;
     if(setpoint <= 1){
         setpoint = 1;
     }

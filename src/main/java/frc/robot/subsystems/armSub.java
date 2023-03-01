@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class armSub extends SubsystemBase {
-    double kP = .08;
+    double kP = .06;
     double kD = .065;
     double error;
     double lastError;
