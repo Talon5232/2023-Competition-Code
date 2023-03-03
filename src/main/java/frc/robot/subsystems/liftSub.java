@@ -21,13 +21,13 @@ public class liftSub extends SubsystemBase {
     double liftencoder1;
     double liftencoder2;
    private CANSparkMax liftMotor1;
-    private CANSparkMax liftMotor2;
+   // private CANSparkMax liftMotor2;
    public liftSub(){
     setName("Lift");
     //right motor
         liftMotor1 = new CANSparkMax(55, MotorType.kBrushless);
         //left motor
-        liftMotor2 = new CANSparkMax(56, MotorType.kBrushless);
+      //  liftMotor2 = new CANSparkMax(56, MotorType.kBrushless);
 
    }
   
@@ -73,7 +73,7 @@ public void periodic(){
     }
 
    // liftMotor2.getEncoder().setPosition(0);
-    double liftencoder2 = liftMotor2.getEncoder().getPosition();
+   // double liftencoder2 = liftMotor2.getEncoder().getPosition();
     double liftencoder1 = Math.abs(liftMotor1.getEncoder().getPosition());
    // double liftencoder3 = liftMotor1
 
@@ -82,11 +82,11 @@ public void periodic(){
     SmartDashboard.putNumber("SetpointLift", setpoint);
    
     SmartDashboard.putNumber("correction", correction);
-    SmartDashboard.putNumber("leftLiftMotor", liftMotor2.get());
+   // SmartDashboard.putNumber("leftLiftMotor", liftMotor2.get());
     SmartDashboard.putNumber("rightLiftMotor", liftMotor1.get());
 
     
-    currentPosition = liftencoder1;
+    currentPosition = liftencoder1; 
     if(setpoint <= 1){
         setpoint = 1;
     }
@@ -100,14 +100,14 @@ public void periodic(){
         derivitive = error - lastError;
         correction = (error * kP) + (derivitive * kD);
         lastError = error;
-        if(correction >= .4){
-            correction = .4;
+        if(correction >= .6){
+            correction = .6;
         }
-        if(correction <= -.4){
-            correction = -.4;
+        if(correction <= -.6){
+            correction = -.6;
         }
   liftMotor1.set(-correction);
-  liftMotor2.set(correction);
+//  liftMotor2.set(correction); 
 }
     }
     
