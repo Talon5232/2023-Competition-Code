@@ -16,6 +16,8 @@ public class intakeSub extends SubsystemBase {
             
     }
     
+
+
     public void intakein(){
         intakeMotor.set(TalonSRXControlMode.PercentOutput, 1);
         
@@ -32,3 +34,4 @@ public class intakeSub extends SubsystemBase {
 public void periodic(){
 }
 }
+

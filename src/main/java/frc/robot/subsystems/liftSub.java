@@ -77,13 +77,13 @@ public void periodic(){
     double liftencoder1 = Math.abs(liftMotor1.getEncoder().getPosition());
    // double liftencoder3 = liftMotor1
 
-    SmartDashboard.putNumber("lf2", liftencoder2);
+   // SmartDashboard.putNumber("lf2", liftencoder2);
     SmartDashboard.putNumber("lf1", liftencoder1);
     SmartDashboard.putNumber("SetpointLift", setpoint);
    
     SmartDashboard.putNumber("correction", correction);
    // SmartDashboard.putNumber("leftLiftMotor", liftMotor2.get());
-    SmartDashboard.putNumber("rightLiftMotor", liftMotor1.get());
+   // SmartDashboard.putNumber("rightLiftMotor", liftMotor1.get());
 
     
     currentPosition = liftencoder1; 

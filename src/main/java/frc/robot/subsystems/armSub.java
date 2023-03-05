@@ -77,11 +77,11 @@ public void periodic(){
     if(ManualUp == true){
         setpoint = setpoint - .04;
     }
-    if(setpoint >= -1.5){
-        setpoint = -1.5;
+    if(setpoint >= -.5){
+        setpoint = -.5;
     }
-    if(setpoint <= -14.5){
-        setpoint = -14.5;
+    if(setpoint <= -25.5){
+        setpoint = -25.5;
     }
     currentPosition = armEncoder;
     //Porportional Math
@@ -90,21 +90,21 @@ public void periodic(){
     derivitive = error - lastError;
     lastError = error;
     correction = (error * kP) + (derivitive * kD);
-    if(correction >= .6){
-        correction = .6;
+    if(correction >= .8){
+        correction = .8;
     }
-    if(correction <= -.6){
-        correction = -.6;
+    if(correction <= -.8){
+        correction = -.8;
     }
     armMotor.set(correction);
 
 
-    SmartDashboard.putNumber("Motor Speed", armMotor.get());
+   // SmartDashboard.putNumber("Motor Speed", armMotor.get());
     SmartDashboard.putNumber("setpoint", setpoint);
-    SmartDashboard.putNumber("correctoin", correction);
+   // SmartDashboard.putNumber("correctoin", correction);
     armEncoder = armMotor.getEncoder().getPosition();
     SmartDashboard.putNumber("ArmEncoder", armEncoder);
-    SmartDashboard.putNumber("test", test);
+    //SmartDashboard.putNumber("test", test);
     SmartDashboard.updateValues();
 
 
