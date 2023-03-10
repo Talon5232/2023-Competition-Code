@@ -14,18 +14,20 @@ import java.sql.Time;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.*;
 
-public class armAutoMovment extends CommandBase {
+public class waitTime extends CommandBase {
   private boolean endcommand = false;
   private final Timer m_timer = new Timer();
   private double time_to_wait = 5;
-private armSub m_arm; 
+  private armSub m_arm; 
+  private  int a;
+
+
 
   /*
    * Creates a new IntakeDumpCommand.
    */
-  public armAutoMovment(armSub m_arm){
-    this.m_arm = m_arm;
-    addRequirements(m_arm);
+  public waitTime(){
+    
   }
 
   // Called when the command is initially scheduled.
@@ -37,9 +39,6 @@ private armSub m_arm;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    m_arm.armMiddle();
-    
     
   }
 

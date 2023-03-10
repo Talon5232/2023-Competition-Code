@@ -46,6 +46,9 @@ public class liftSub extends SubsystemBase {
         setpoint = 1;
     //   liftMotor2.set(-.3);
     }
+    public void liftLittleUp(){
+        setpoint = 10;
+    }
     public void liftUpManual(){
         ManualUp = true;
     }

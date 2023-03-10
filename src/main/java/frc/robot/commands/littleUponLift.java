@@ -9,23 +9,21 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import java.sql.Time;
 
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.*;
 
-public class armAutoMovment extends CommandBase {
-  private boolean endcommand = false;
+public class littleUponLift extends CommandBase {
   private final Timer m_timer = new Timer();
-  private double time_to_wait = 5;
-private armSub m_arm; 
+  private double time_to_wait = 1;
+private liftSub m_lift; 
 
   /*
    * Creates a new IntakeDumpCommand.
    */
-  public armAutoMovment(armSub m_arm){
-    this.m_arm = m_arm;
-    addRequirements(m_arm);
+  public littleUponLift(liftSub m_lift){
+    this.m_lift = m_lift;
+    addRequirements(m_lift);
   }
 
   // Called when the command is initially scheduled.
@@ -38,7 +36,7 @@ private armSub m_arm;
   @Override
   public void execute() {
     
-    m_arm.armMiddle();
+    m_lift.liftLittleUp();
     
     
   }

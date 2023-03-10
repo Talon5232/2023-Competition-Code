@@ -1,7 +1,8 @@
 package frc.robot.autos;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.Swerve;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 
 import java.util.List;
 
@@ -16,8 +17,10 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-public class BalanceAuto extends SequentialCommandGroup {
-    public BalanceAuto(Swerve s_Swerve){
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+public class DropAuto extends SequentialCommandGroup {
+    
+    public DropAuto(Swerve s_Swerve, armSub m_arm, liftSub m_lift){
         TrajectoryConfig config = 
             new TrajectoryConfig(
                     Constants.AutoConstants.kMaxSpeedMetersPerSecond,
@@ -32,7 +35,7 @@ public class BalanceAuto extends SequentialCommandGroup {
                 // move over charging station, moving 190in putting us in front of cone by a bit
                 List.of(),//new Translation2d(2.95, 0)
                 // drive onto charging station, reaching the theoretical center
-                new Pose2d(2.725, 0, new Rotation2d(0)),
+                new Pose2d(.25, 0, new Rotation2d(0)),
                 config
                 );
         var thetaController =
@@ -51,11 +54,8 @@ public class BalanceAuto extends SequentialCommandGroup {
                 s_Swerve::setModuleStates,
                 s_Swerve);
 
+        addCommands(new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
+        new littleUponLift(m_lift), new InstantCommand(() -> m_arm.armUp()), new InstantCommand(() -> m_lift.liftUp()), new waitTime(), swerveControllerCommand,  new InstantCommand(() -> m_arm.armDown()));
 
-        addCommands(
-            new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
-            swerveControllerCommand
-        );
-        
     }
 }

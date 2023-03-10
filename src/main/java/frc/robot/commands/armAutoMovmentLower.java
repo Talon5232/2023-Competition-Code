@@ -14,7 +14,7 @@ import java.sql.Time;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.*;
 
-public class armAutoMovment extends CommandBase {
+public class armAutoMovmentLower extends CommandBase {
   private boolean endcommand = false;
   private final Timer m_timer = new Timer();
   private double time_to_wait = 5;
@@ -23,7 +23,7 @@ private armSub m_arm;
   /*
    * Creates a new IntakeDumpCommand.
    */
-  public armAutoMovment(armSub m_arm){
+  public armAutoMovmentLower(armSub m_arm){
     this.m_arm = m_arm;
     addRequirements(m_arm);
   }
@@ -38,7 +38,7 @@ private armSub m_arm;
   @Override
   public void execute() {
     
-    m_arm.armMiddle();
+    m_arm.armDown();
     
     
   }

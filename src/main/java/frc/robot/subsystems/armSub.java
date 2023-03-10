@@ -80,8 +80,8 @@ public void periodic(){
     if(setpoint >= -.5){
         setpoint = -.5;
     }
-    if(setpoint <= -25.5){
-        setpoint = -25.5;
+    if(setpoint <= -15){
+        setpoint = -15;
     }
     currentPosition = armEncoder;
     //Porportional Math
