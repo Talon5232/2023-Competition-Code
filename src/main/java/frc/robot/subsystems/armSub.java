@@ -90,11 +90,11 @@ public void periodic(){
     derivitive = error - lastError;
     lastError = error;
     correction = (error * kP) + (derivitive * kD);
-    if(correction >= .8){
-        correction = .8;
+    if(correction >= .6){
+        correction = .6;
     }
-    if(correction <= -.8){
-        correction = -.8;
+    if(correction <= -.6){
+        correction = -.6;
     }
     armMotor.set(correction);
 
