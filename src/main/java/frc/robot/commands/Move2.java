@@ -20,19 +20,23 @@ import java.sql.Time;
 import java.util.List;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.subsystems.*;
 
-public class AutoLevel extends CommandBase {
+public class Move2 extends CommandBase {
+  private int looper;
+
   private boolean endcommand = false;
   private final Timer m_timer = new Timer();
   private double time_to_wait = 5;
 private Swerve s_Swerve; 
+private int runonce = 0;
 
   /*
    * Creates a new IntakeDumpCommand.
    */
-  public AutoLevel(Swerve s_Swerve){
+  public Move2(Swerve s_Swerve){
     this.s_Swerve= s_Swerve;
     addRequirements(s_Swerve);
   }
@@ -40,8 +44,12 @@ private Swerve s_Swerve;
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_timer.reset();
     m_timer.start();
+
     
+    
+   
 
   }
 
@@ -62,7 +70,7 @@ private Swerve s_Swerve;
                 // move over charging station, moving 190in putting us in front of cone by a bit
                 List.of(),//new Translation2d(2.95, 0)
                 // drive onto charging station, reaching the theoretical center
-                new Pose2d(2.725, 0, new Rotation2d(0)),
+                new Pose2d(2, 0, new Rotation2d(0)),
                 config
                 );
         var thetaController =
@@ -80,7 +88,18 @@ private Swerve s_Swerve;
                 thetaController,
                 s_Swerve::setModuleStates,
                 s_Swerve);
-                
+        
+        if(runonce == 0){
+        s_Swerve.resetOdometry(exampleTrajectory.getInitialPose());
+        runonce = 1;
+        swerveControllerCommand.schedule();
+
+        }
+        looper = looper + 1;
+
+        SmartDashboard.putNumber("timer10", m_timer.get());
+        
+        
   }
 
   // Called once the command ends or is interrupted.
