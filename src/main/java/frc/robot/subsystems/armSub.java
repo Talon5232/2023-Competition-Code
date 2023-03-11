@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class armSub extends SubsystemBase {
-    double kP = .07;
-    double kD = .055;
+    double kP = .05;
+    double kD = .035;
     double error;
     double lastError;
     double currentPosition;
@@ -80,8 +80,8 @@ public void periodic(){
     if(setpoint >= -.5){
         setpoint = -.5;
     }
-    if(setpoint <= -15){
-        setpoint = -15;
+    if(setpoint <= -30){
+        setpoint = -30;
     }
     currentPosition = armEncoder;
     //Porportional Math
@@ -90,11 +90,11 @@ public void periodic(){
     derivitive = error - lastError;
     lastError = error;
     correction = (error * kP) + (derivitive * kD);
-    if(correction >= .6){
-        correction = .6;
+    if(correction >= .4){
+        correction = .4;
     }
-    if(correction <= -.6){
-        correction = -.6;
+    if(correction <= -.4){
+        correction = -.4;
     }
     armMotor.set(correction);
 

@@ -41,13 +41,14 @@ public class DropAuto extends SequentialCommandGroup {
         Trajectory exampleTrajectory2 =
                 TrajectoryGenerator.generateTrajectory(
                     // Start at node, put code to place cone before this
-                    new Pose2d(.25, 0, new Rotation2d(0)),
+                    new Pose2d(0, 0, new Rotation2d(0)),
                     // move over charging station, moving 190in putting us in front of cone by a bit
                     List.of(),//new Translation2d(2.95, 0)
                     // drive onto charging station, reaching the theoretical center
                     new Pose2d(-.25, 0, new Rotation2d(0)),
                     config
                     );
+        var concatTraj = exampleTrajectory.concatenate(exampleTrajectory2);
         var thetaController =
             new ProfiledPIDController(
                 Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
@@ -74,8 +75,18 @@ public class DropAuto extends SequentialCommandGroup {
                     s_Swerve::setModuleStates,
                     s_Swerve);
 
-        addCommands(new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
-        new littleUponLift(m_lift), new InstantCommand(() -> m_arm.armUp()), new InstantCommand(() -> m_lift.liftUp()), new waitTime(), swerveControllerCommand,  new InstantCommand(() -> m_arm.armMiddle()), swerveControllerCommand2, new InstantCommand(() -> m_arm.armUp()));
+        addCommands(
+        new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
+        new littleUponLift(m_lift), 
+        new InstantCommand(() -> m_arm.armUp()), 
+        new InstantCommand(() -> m_lift.liftUp()), 
+        new waitTime(), 
+        swerveControllerCommand,  
+        new InstantCommand(() -> m_arm.armDown()), 
+        new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory2.getInitialPose())),
+        swerveControllerCommand2, 
+        new waitTime(),
+        new InstantCommand(() -> m_arm.armUp()));
 
     }
 }
