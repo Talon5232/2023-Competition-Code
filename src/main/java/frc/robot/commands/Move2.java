@@ -63,10 +63,13 @@ private int runonce = 0;
                 .setKinematics(Constants.Swerve.swerveKinematics);
 
         // An example trajectory to follow.  All units in meters.
-        Trajectory exampleTrajectory =
+        
+        
+        if(runonce == 0){
+          Trajectory exampleTrajectory =
             TrajectoryGenerator.generateTrajectory(
                 // Start at node, put code to place cone before this
-                new Pose2d(0, 0, new Rotation2d(0)),
+                new Pose2d(s_Swerve.getPose().getX(), s_Swerve.getPose().getY(), new Rotation2d(s_Swerve.getYaw().getDegrees())),
                 // move over charging station, moving 190in putting us in front of cone by a bit
                 List.of(),//new Translation2d(2.95, 0)
                 // drive onto charging station, reaching the theoretical center
@@ -88,12 +91,9 @@ private int runonce = 0;
                 thetaController,
                 s_Swerve::setModuleStates,
                 s_Swerve);
-        
-        if(runonce == 0){
         s_Swerve.resetOdometry(exampleTrajectory.getInitialPose());
         runonce = 1;
-        swerveControllerCommand.schedule();
-
+          
         }
         looper = looper + 1;
 

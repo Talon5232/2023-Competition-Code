@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.math.controller.PIDController;
@@ -19,13 +20,15 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import java.sql.Time;
 import java.util.List;
 
+import javax.imageio.plugins.tiff.ExifGPSTagSet;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.subsystems.*;
 
 public class Move1 extends CommandBase {
-private int looper;
+private double looper;
   private final Timer m2_timer = new Timer();
   private double time_to_wait = 5;
 private Swerve s_Swerve; 
@@ -46,33 +49,32 @@ private int runonce = 0;
     m2_timer.reset();
     m2_timer.start();
   }
-
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    
     TrajectoryConfig config = 
-            new TrajectoryConfig(
-                    Constants.AutoConstants.kMaxSpeedMetersPerSecond,
-                    Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-                .setKinematics(Constants.Swerve.swerveKinematics);
-
-        // An example trajectory to follow.  All units in meters.
+    new TrajectoryConfig(
+            Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+            Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+        .setKinematics(Constants.Swerve.swerveKinematics);
         Trajectory exampleTrajectory5 =
-            TrajectoryGenerator.generateTrajectory(
-                // Start at node, put code to place cone before this
-                new Pose2d(0, 0, new Rotation2d(0)),
-                // move over charging station, moving 190in putting us in front of cone by a bit
-                List.of(),//new Translation2d(2.95, 0)
-                // drive onto charging station, reaching the theoretical center
-                new Pose2d(1, 0, new Rotation2d(0)),
-                config
-                );
-        var thetaController =
-            new ProfiledPIDController(
-                Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
-        thetaController.enableContinuousInput(-Math.PI, Math.PI);
+        TrajectoryGenerator.generateTrajectory(
+            // Start at node, put code to place cone before this
+            new Pose2d(0, 0, new Rotation2d(0)),
+            // move over charging station, moving 190in putting us in front of cone by a bit
+            List.of(),//new Translation2d(2.95, 0)
+            // drive onto charging station, reaching the theoretical center
+            new Pose2d(1.5, 0, new Rotation2d(0)),
+            config
+            );
+    var thetaController =
+        new ProfiledPIDController(
+            Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
+    thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-        SwerveControllerCommand swerveControllerCommand =
+    
+    SwerveControllerCommand swerveControllerCommand =
             new SwerveControllerCommand(
                 exampleTrajectory5,
                 s_Swerve::getPose,
@@ -82,14 +84,21 @@ private int runonce = 0;
                 thetaController,
                 s_Swerve::setModuleStates,
                 s_Swerve);
+    
         if(runonce == 0){
+         
+        // An example trajectory to follow.  All units in meters.
+       
         s_Swerve.resetOdometry(exampleTrajectory5.getInitialPose());
         runonce = 1;
-        
+        swerveControllerCommand.schedule();
+        } /* 
+        while(isFinished() == false){
+          looper = s_Swerve.getPose().getX();
+          SmartDashboard.putNumber("LooperGetXValue", looper);
+
         }
-        swerveControllerCommand.execute();
-       
-        looper = looper + 1;
+        */
         SmartDashboard.putNumber("timer3", m2_timer.get());
         
   }
@@ -103,11 +112,17 @@ private int runonce = 0;
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+
     SmartDashboard.putNumber("timer2", m2_timer.get());
-    if(time_to_wait <= m2_timer.get()){
+    SmartDashboard.putNumber("SwerveX", s_Swerve.getPose().getX());
+
+    if(looper >= .45){
       return true;
     }
-    return false;
+    else{
+      return false;
+    }
     
+   
   }
 }
