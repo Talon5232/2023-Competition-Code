@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.subsystems.*;
 
-public class Move1 extends CommandBase {
+public class AutoLevelCommand extends CommandBase {
 private double looper;
   private final Timer m2_timer = new Timer();
   private double time_to_wait = 5;
@@ -37,7 +37,7 @@ private int runonce = 0;
   /*
    * Creates a new IntakeDumpCommand.
    */
-  public Move1(Swerve s_Swerve){
+  public AutoLevelCommand(Swerve s_Swerve){
     this.s_Swerve= s_Swerve;
     addRequirements(s_Swerve);
   }

@@ -9,8 +9,8 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class intakeSub extends SubsystemBase {
-    private boolean keepIntakeOn = false;
-    private boolean keepOutakeOn = false; 
+    private int keepIntakeOn = 0;
+    private int keepOutakeOn = 0; 
     private final TalonSRX intakeMotor;
     public intakeSub(){
         setName("Intake");
@@ -22,38 +22,47 @@ public class intakeSub extends SubsystemBase {
 
     public void intakein(){
         intakeMotor.set(TalonSRXControlMode.PercentOutput, 1);
-        
+        keepIntakeOn = 2;
+        keepOutakeOn = 2;
     }
     public void intakeout(){
         intakeMotor.set(TalonSRXControlMode.PercentOutput, -1);
+        keepIntakeOn = 2;
+        keepOutakeOn = 2;
        
     }
     public void intakeStop(){
         intakeMotor.set(TalonSRXControlMode.PercentOutput, 0);
+        keepIntakeOn = 2;
+        keepOutakeOn = 2;
 
     }
     public void AutoIntakeIn(){
-        keepIntakeOn = true;
+        keepIntakeOn = 1;
     }
     public void AutoIntakeOut(){
-        keepOutakeOn = true;
+        keepOutakeOn = 1;
     }
     public void AutoIntakeOff(){
-        keepIntakeOn = false;
-        keepOutakeOn = false;
+        keepIntakeOn = 0;
+        keepOutakeOn = 0;
     }
 
 @Override
 public void periodic(){
-    if(keepIntakeOn == true)
+
+    if(keepIntakeOn == 1)
     {
         intakeMotor.set(TalonSRXControlMode.PercentOutput, 1);
     }
-    if(keepOutakeOn == true){
+    if(keepOutakeOn == 1){
         intakeMotor.set(TalonSRXControlMode.PercentOutput, -1);
     }
-    if(keepIntakeOn == false){
+    if(keepIntakeOn == 0){
         intakeMotor.set(TalonSRXControlMode.PercentOutput, 0);
+    }
+    if(keepIntakeOn == 2){
+
     }
 }
 }

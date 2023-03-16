@@ -17,6 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
 public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
@@ -78,8 +79,8 @@ public class Swerve extends SubsystemBase {
         return swerveOdometry.getPoseMeters();
     }
 
-    public void resetOdometry(Pose2d pose) {
-        swerveOdometry.resetPosition(getYaw(), getModulePositions(), pose);
+    public void resetOdometry(Pose2d pose2d) {
+        swerveOdometry.resetPosition(getYaw(), getModulePositions(), pose2d);
     }
 
     public SwerveModuleState[] getModuleStates(){

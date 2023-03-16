@@ -92,7 +92,7 @@ public class RobotContainer {
     autoChooser.addOption("BalanceAuto", new BalanceAuto(s_Swerve));
     autoChooser.addOption("NoAuto", new NoAuto(s_Swerve));
     autoChooser.addOption("VeryShortAuto", new VeryShortAuto(s_Swerve));
-    autoChooser.addOption("DropAuto", new DropAuto(s_Swerve, m_arm, m_lift));
+    autoChooser.addOption("DropAuto", new DropAuto(s_Swerve, m_arm, m_lift, m_Intake));
    // SmartDashboard.putData("Autonomous Chooser", autoChooser);
     Shuffleboard.getTab("user tab").add(autoChooser);
     

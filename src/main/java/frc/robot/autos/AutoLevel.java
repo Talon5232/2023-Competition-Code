@@ -18,9 +18,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-public class DropAuto extends SequentialCommandGroup {
+public class AutoLevel extends SequentialCommandGroup {
     
-    public DropAuto(Swerve s_Swerve, armSub m_arm, liftSub m_lift){
+    public AutoLevel(Swerve s_Swerve, armSub m_arm, liftSub m_lift){
         TrajectoryConfig config = 
     new TrajectoryConfig(
             Constants.AutoConstants.kMaxSpeedMetersPerSecond,
