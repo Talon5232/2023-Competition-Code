@@ -98,10 +98,10 @@ public class RobotContainer {
 
         );
         //autoChooser = new SendableChooser<Command>();
-    autoChooser.setDefaultOption("LongAuto", new LongAuto(s_Swerve));
+    autoChooser.setDefaultOption("NoAuto", new NoAuto(s_Swerve));
     autoChooser.addOption("ShortAuto", new ShortAuto(s_Swerve));
     autoChooser.addOption("BalanceAuto", new BalanceAuto(s_Swerve));
-    autoChooser.addOption("NoAuto", new NoAuto(s_Swerve));
+    autoChooser.addOption("LongAuto", new LongAuto(s_Swerve));
     autoChooser.addOption("VeryShortAuto", new VeryShortAuto(s_Swerve));
     autoChooser.addOption("DropAuto", new DropAuto(s_Swerve, m_arm, m_lift, m_Intake));
    // SmartDashboard.putData("Autonomous Chooser", autoChooser);
