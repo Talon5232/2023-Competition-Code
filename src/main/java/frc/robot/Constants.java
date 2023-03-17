@@ -151,7 +151,9 @@ public final class Constants {
     //Backup Module offset= (find this)    
     //Backup Module CAN ID = Identify this
     }
-
+    public static final class PWMPorts {
+        public static final int kBlinkin = 0;
+    }
     public static final class AutoConstants { 
         public static final double kMaxSpeedMetersPerSecond = 1.5;
         public static final double kMaxAccelerationMetersPerSecondSquared = .3;

@@ -13,9 +13,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.PWMPorts;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.Constants.PWMPorts;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -24,6 +27,7 @@ import frc.robot.subsystems.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
     /* Controllers */
     private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
@@ -37,7 +41,9 @@ public class RobotContainer {
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
     
-    
+    private final JoystickButton Abutton = new JoystickButton(driver, XboxController.Button.kA.value);
+    private final JoystickButton Bbutton = new JoystickButton(driver, XboxController.Button.kB.value);
+    private final JoystickButton Xbutton = new JoystickButton(driver, XboxController.Button.kX.value);
     
 
     /* Driver Buttons */
@@ -69,6 +75,7 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     private final intakeSub m_Intake = new intakeSub();
     private final Flipper Flipper = new Flipper();
+    private final blinkin blinkin = new blinkin();
 
     
   
@@ -91,10 +98,10 @@ public class RobotContainer {
 
         );
         //autoChooser = new SendableChooser<Command>();
-    autoChooser.setDefaultOption("LongAuto", new LongAuto(s_Swerve));
+    autoChooser.setDefaultOption("NoAuto", new NoAuto(s_Swerve));
     autoChooser.addOption("ShortAuto", new ShortAuto(s_Swerve));
     autoChooser.addOption("BalanceAuto", new BalanceAuto(s_Swerve));
-    autoChooser.addOption("NoAuto", new NoAuto(s_Swerve));
+    autoChooser.addOption("LongAuto", new LongAuto(s_Swerve));
     autoChooser.addOption("VeryShortAuto", new VeryShortAuto(s_Swerve));
     autoChooser.addOption("DropAuto", new DropAuto(s_Swerve, m_arm, m_lift, m_Intake));
    // SmartDashboard.putData("Autonomous Chooser", autoChooser);
@@ -138,14 +145,13 @@ public class RobotContainer {
       //  button9.whileTrue(new InstantCommand(() -> m_lift.liftMiddle())).whileFalse(new InstantCommand(() -> m_lift.liftStop()));
         trigger.whileTrue(new InstantCommand(() -> m_Intake.intakein())).whileFalse(new InstantCommand(() -> m_Intake.intakeStop()));
         button2.whileTrue(new InstantCommand(() -> m_Intake.intakeout())).whileFalse(new InstantCommand(() -> m_Intake.intakeStop()));
-
-       
+       button3.whileTrue(new InstantCommand(() -> blinkin.givecone())).whileFalse(new InstantCommand(() -> blinkin.lightsNormal()));
         
         
 
 
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        
+
     }
 
     /**

@@ -14,7 +14,7 @@ public class Flipper {
     public Flipper(){
         FlipperMotor = new TalonSRX(99);
             //NEED DEVICED ID
-    }
+    }   
     
 
 
