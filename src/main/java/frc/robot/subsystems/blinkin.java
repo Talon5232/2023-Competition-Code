@@ -24,13 +24,20 @@ public class blinkin extends SubsystemBase {
 	 * if the robot is not in hatMode and in normal drive, the LED turns solid white (0.93)
 	 */
 	public static void lightsNormal() {
-		blinkin.set(0.01);
+        boolean isRed = NetworkTableInstance.getDefault().getTable("FMSInfo").getEntry("IsRedAlliance").getBoolean(true);
+        if (isRed == true){
+          blinkin.set(-0.01);
+          System.out.println("led RED");
+        } else {
+          blinkin.set(0.19);
+          System.out.println("led BLUE");
 	}
-	
+}
 	/**
 	 * if the robot detects the cube, the LED blinks gold (-0.07)
 	 */
-	public void lightsHasCube() {
-		blinkin.set(-0.07); 
+	public void givecone() {
+		blinkin.set(-.07); 
+        
 	}
 }

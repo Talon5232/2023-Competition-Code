@@ -75,6 +75,7 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     private final intakeSub m_Intake = new intakeSub();
     private final Flipper Flipper = new Flipper();
+    private final blinkin blinkin = new blinkin();
 
     
   
@@ -144,7 +145,7 @@ public class RobotContainer {
       //  button9.whileTrue(new InstantCommand(() -> m_lift.liftMiddle())).whileFalse(new InstantCommand(() -> m_lift.liftStop()));
         trigger.whileTrue(new InstantCommand(() -> m_Intake.intakein())).whileFalse(new InstantCommand(() -> m_Intake.intakeStop()));
         button2.whileTrue(new InstantCommand(() -> m_Intake.intakeout())).whileFalse(new InstantCommand(() -> m_Intake.intakeStop()));
-       
+       button3.whileTrue(new InstantCommand(() -> blinkin.givecone())).whileFalse(new InstantCommand(() -> blinkin.lightsNormal()));
         
         
 

@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.autos.*;
 import frc.robot.subsystems.*;
-
+import frc.robot.subsystems.blinkin;
 import frc.robot.autos.ShortAuto;
 
 /**
@@ -42,7 +42,6 @@ public class Robot extends TimedRobot {
 
  // private static final String ShortAuto = "ShortAuto";
  // private static final String LongAuto = "LongAuto";
- 
 
  
   //private String m_autoSelected;
@@ -64,7 +63,6 @@ public class Robot extends TimedRobot {
     AnalogInput ultraSonic = new AnalogInput(0);
     AddressableLEDBuffer m_ledBuffer = new AddressableLEDBuffer(60);
     m_led.setLength(m_ledBuffer.getLength());
-		blinkin.lightsNormal();
     // Set the data
     m_led.setData(m_ledBuffer);
     m_led.start();
