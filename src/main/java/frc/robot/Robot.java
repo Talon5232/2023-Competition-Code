@@ -64,7 +64,7 @@ public class Robot extends TimedRobot {
     AnalogInput ultraSonic = new AnalogInput(0);
     AddressableLEDBuffer m_ledBuffer = new AddressableLEDBuffer(60);
     m_led.setLength(m_ledBuffer.getLength());
-
+		blinkin.lightsNormal();
     // Set the data
     m_led.setData(m_ledBuffer);
     m_led.start();
