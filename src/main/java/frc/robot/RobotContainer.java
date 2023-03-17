@@ -50,6 +50,8 @@ public class RobotContainer {
     private final JoystickButton button15 = new JoystickButton(Thrustmaster, 15);
     private final JoystickButton button16 = new JoystickButton(Thrustmaster, 16);
     private final JoystickButton rightBummper = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+    private final JoystickButton button4 = new JoystickButton(Thrustmaster, 4);
+    private final JoystickButton button3 = new JoystickButton(Thrustmaster, 3);
 
     private final JoystickButton trigger = new JoystickButton(Thrustmaster, 1);
     private final JoystickButton backButton = new JoystickButton(driver, XboxController.Button.kBack.value);
@@ -66,6 +68,8 @@ public class RobotContainer {
     private final liftSub m_lift = new liftSub();
     private final Swerve s_Swerve = new Swerve();
     private final intakeSub m_Intake = new intakeSub();
+    private final Flipper Flipper = new Flipper();
+
     
   
 
@@ -124,6 +128,8 @@ public class RobotContainer {
         button8.whileTrue(new InstantCommand(() -> m_lift.liftDownManual())).whileFalse(new InstantCommand(() -> m_lift.liftDownManualStop()));
         button6.whileTrue(new InstantCommand(() -> m_arm.armUpManual())).whileFalse(new InstantCommand(() -> m_arm.armUpManualStop()));
         button9.whileTrue(new InstantCommand(() -> m_arm.armDownManual())).whileFalse(new InstantCommand(() -> m_arm.armDownManualStop()));;
+        button3.whileTrue(new InstantCommand(() -> Flipper.Flipperin())).whileFalse(new InstantCommand(() -> Flipper.FlipperStop()));
+        button4.whileTrue(new InstantCommand(() -> Flipper.Flipperout())).whileFalse(new InstantCommand(() -> Flipper.FlipperStop()));
 
 
        // backButton.whileTrue(new InstantCommand(() -> m_arm.armMovement(double setpoint + .025)));
