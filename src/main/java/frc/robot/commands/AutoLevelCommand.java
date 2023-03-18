@@ -59,7 +59,7 @@ private BooleanSupplier robotCentricSup;
   public void execute() {
     
       
-        if(s_Swerve.gyro.getPitch() >= 10){
+        if(s_Swerve.gyro.getPitch() >= 6){
           GoToX = GoToX + .001;
         s_Swerve.drive(new Translation2d(GoToX,0), 
         0, 
@@ -67,7 +67,7 @@ private BooleanSupplier robotCentricSup;
         true);
         }
         
-        else if(s_Swerve.gyro.getPitch() <= -10){
+        else if(s_Swerve.gyro.getPitch() <= -6){
           GoToX = GoToX - .001;
         s_Swerve.drive(new Translation2d(GoToX,0), 
         0, 
