@@ -14,11 +14,13 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import java.sql.Time;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 
 import javax.imageio.plugins.tiff.ExifGPSTagSet;
 
@@ -33,6 +35,8 @@ private double looper;
   private double time_to_wait = 5;
 private Swerve s_Swerve; 
 private int runonce = 0;
+private double GoToX;
+private BooleanSupplier robotCentricSup;
 
   /*
    * Creates a new IntakeDumpCommand.
@@ -40,6 +44,7 @@ private int runonce = 0;
   public AutoLevelCommand(Swerve s_Swerve){
     this.s_Swerve= s_Swerve;
     addRequirements(s_Swerve);
+    this.robotCentricSup = robotCentricSup;
   }
 
   // Called when the command is initially scheduled.
@@ -53,54 +58,32 @@ private int runonce = 0;
   @Override
   public void execute() {
     
-    TrajectoryConfig config = 
-    new TrajectoryConfig(
-            Constants.AutoConstants.kMaxSpeedMetersPerSecond,
-            Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-        .setKinematics(Constants.Swerve.swerveKinematics);
-        Trajectory exampleTrajectory5 =
-        TrajectoryGenerator.generateTrajectory(
-            // Start at node, put code to place cone before this
-            new Pose2d(0, 0, new Rotation2d(0)),
-            // move over charging station, moving 190in putting us in front of cone by a bit
-            List.of(),//new Translation2d(2.95, 0)
-            // drive onto charging station, reaching the theoretical center
-            new Pose2d(1.5, 0, new Rotation2d(0)),
-            config
-            );
-    var thetaController =
-        new ProfiledPIDController(
-            Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
-    thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
-    
-    SwerveControllerCommand swerveControllerCommand =
-            new SwerveControllerCommand(
-                exampleTrajectory5,
-                s_Swerve::getPose,
-                Constants.Swerve.swerveKinematics,
-                new PIDController(Constants.AutoConstants.kPXController, 0, 0),
-                new PIDController(Constants.AutoConstants.kPYController, 0, 0),
-                thetaController,
-                s_Swerve::setModuleStates,
-                s_Swerve);
-    
-        if(runonce == 0){
-         
-        // An example trajectory to follow.  All units in meters.
-       
-        s_Swerve.resetOdometry(exampleTrajectory5.getInitialPose());
-        runonce = 1;
-        swerveControllerCommand.schedule();
-        } /* 
-        while(isFinished() == false){
-          looper = s_Swerve.getPose().getX();
-          SmartDashboard.putNumber("LooperGetXValue", looper);
-
+      
+        if(s_Swerve.gyro.getPitch() >= 10){
+          GoToX = GoToX + .001;
+        s_Swerve.drive(new Translation2d(GoToX,0), 
+        0, 
+        !robotCentricSup.getAsBoolean(), 
+        true);
         }
-        */
-        SmartDashboard.putNumber("timer3", m2_timer.get());
         
+        else if(s_Swerve.gyro.getPitch() <= -10){
+          GoToX = GoToX - .001;
+        s_Swerve.drive(new Translation2d(GoToX,0), 
+        0, 
+        !robotCentricSup.getAsBoolean(), 
+        true);
+        }
+
+        else{
+          s_Swerve.drive(new Translation2d(GoToX,0), 
+        0, 
+        !robotCentricSup.getAsBoolean(), 
+        true);
+        //Change
+        }
+        SmartDashboard.putNumber("GotoX", GoToX);
+
   }
 
   // Called once the command ends or is interrupted.
