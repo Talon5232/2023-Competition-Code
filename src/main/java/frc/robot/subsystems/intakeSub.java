@@ -13,7 +13,8 @@ public class intakeSub extends SubsystemBase {
             
     }
     
-
+public static final int intakeinContinuouscurrentlimit = 25;
+public static final int OutakeContinuousCurrentLimit = 25;
 
     public void intakein(){
         intakeMotor.set(TalonSRXControlMode.PercentOutput, 0.7);
