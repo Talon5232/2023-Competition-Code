@@ -83,7 +83,7 @@ private BooleanSupplier robotCentricSup;
         //Change
         }
         SmartDashboard.putNumber("GotoX", GoToX);
-
+        execute();
   }
 
   // Called once the command ends or is interrupted.

@@ -103,7 +103,11 @@ public class RobotContainer {
     autoChooser.addOption("BalanceAuto", new BalanceAuto(s_Swerve));
     autoChooser.addOption("LongAuto", new LongAuto(s_Swerve));
     autoChooser.addOption("VeryShortAuto", new VeryShortAuto(s_Swerve));
-    autoChooser.addOption("DropAuto", new DropAuto(s_Swerve, m_arm, m_lift, m_Intake));
+    //autoChooser.addOption("DropAuto", new DropAuto(s_Swerve, m_arm, m_lift, m_Intake));
+   //d autoChooser.addOption("AutoLevel", new AutoLevel(s_Swerve, m_arm, m_lift));
+    autoChooser.addOption("DropPathPlanner", new PlannerDrop(s_Swerve, m_lift, m_Intake, m_arm));
+    autoChooser.addOption("Planner2Drop", new TwoDropAuto(s_Swerve, m_lift, m_Intake, m_arm));
+
    // SmartDashboard.putData("Autonomous Chooser", autoChooser);
     Shuffleboard.getTab("user tab").add(autoChooser);
     
@@ -143,9 +147,9 @@ public class RobotContainer {
       //  button8.whileTrue(new InstantCommand(() -> m_lift.liftDown())).whileFalse(new InstantCommand(() -> m_lift.liftStop()));
        // button7.whileTrue(new InstantCommand(() -> m_lift.liftUp())).whileFalse(new InstantCommand(() -> m_lift.liftStop()));
       //  button9.whileTrue(new InstantCommand(() -> m_lift.liftMiddle())).whileFalse(new InstantCommand(() -> m_lift.liftStop()));
-        trigger.whileTrue(new InstantCommand(() -> m_Intake.intakein())).whileFalse(new InstantCommand(() -> m_Intake.intakeStop()));
-        button2.whileTrue(new InstantCommand(() -> m_Intake.intakeout())).whileFalse(new InstantCommand(() -> m_Intake.intakeStop()));
-       button3.whileTrue(new InstantCommand(() -> blinkin.givecone())).whileFalse(new InstantCommand(() -> blinkin.lightsNormal()));
+        trigger.whileTrue(new InstantCommand(() -> m_Intake.intakeout())).whileFalse(new InstantCommand(() -> m_Intake.intakeStop()));
+        button2.whileTrue(new InstantCommand(() -> m_Intake.intakein())).whileFalse(new InstantCommand(() -> m_Intake.intakeStop()));
+       button3.whileTrue(new InstantCommand(() -> blinkin.givecone())).whileFalse(new InstantCommand(() -> frc.robot.subsystems.blinkin.lightsNormal()));
         
         
 

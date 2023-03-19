@@ -19,8 +19,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 public class AutoLevel extends SequentialCommandGroup {
-    
+
     public AutoLevel(Swerve s_Swerve, armSub m_arm, liftSub m_lift){
+        
         TrajectoryConfig config = 
     new TrajectoryConfig(
             Constants.AutoConstants.kMaxSpeedMetersPerSecond,
@@ -74,17 +75,9 @@ public class AutoLevel extends SequentialCommandGroup {
     
 
         addCommands(
-       
-        new littleUponLift(m_lift), 
-       // new InstantCommand(() -> m_arm.armUp()), 
-       // new InstantCommand(() -> m_lift.liftUp()),
-       // new InstantCommand(() -> m_lift.liftDown()),
-        new WaitCommand(3), 
-        swerveControllerCommand,
-        new InstantCommand(() -> m_lift.liftMiddle()), 
-        new WaitCommand(5),
-        swerveControllerCommand2, 
-        new InstantCommand(() -> m_lift.liftUp()));
+           
+            //new AutoLevelCommand(s_Swerve)
+        );
         
     }
 }

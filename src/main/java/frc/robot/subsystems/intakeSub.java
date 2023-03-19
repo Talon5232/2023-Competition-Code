@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
@@ -21,12 +22,12 @@ public class intakeSub extends SubsystemBase {
 
 
     public void intakein(){
-        intakeMotor.set(TalonSRXControlMode.PercentOutput, 1);
+        intakeMotor.set(TalonSRXControlMode.PercentOutput, -1);
         keepIntakeOn = 2;
         keepOutakeOn = 2;
     }
     public void intakeout(){
-        intakeMotor.set(TalonSRXControlMode.PercentOutput, -1);
+        intakeMotor.set(TalonSRXControlMode.PercentOutput, 1);
         keepIntakeOn = 2;
         keepOutakeOn = 2;
        
@@ -41,7 +42,7 @@ public class intakeSub extends SubsystemBase {
         keepIntakeOn = 1;
     }
     public void AutoIntakeOut(){
-        keepOutakeOn = 1;
+        keepOutakeOn = 3;
     }
     public void AutoIntakeOff(){
         keepIntakeOn = 0;
@@ -53,12 +54,12 @@ public void periodic(){
 
     if(keepIntakeOn == 1)
     {
-        intakeMotor.set(TalonSRXControlMode.PercentOutput, 1);
-    }
-    if(keepOutakeOn == 1){
         intakeMotor.set(TalonSRXControlMode.PercentOutput, -1);
     }
-    if(keepIntakeOn == 0){
+    if(keepOutakeOn == 3){
+        intakeMotor.set(TalonSRXControlMode.PercentOutput, 1);
+    }
+    if(keepIntakeOn == 0 && keepOutakeOn == 0){
         intakeMotor.set(TalonSRXControlMode.PercentOutput, 0);
     }
     if(keepIntakeOn == 2){
