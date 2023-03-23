@@ -35,22 +35,26 @@ public TwoDropAuto(frc.robot.subsystems.Swerve s_Swerve, liftSub m_lift, intakeS
     this.m_arm = m_arm;
     this.m_IntakeSub = m_IntakeSub;
     this.m_lift = m_lift;
-List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("2Drop", new PathConstraints(1, .5));
+List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("2Drop", new PathConstraints(3, 1));
 
 // This is just an example event map. It would be better to have a constant, global event map
 // in your code that will be used by all path following commands.
 HashMap<String, Command> eventMap = new HashMap<>();
+eventMap.put("ResetOdometry", new InstantCommand(() -> s_Swerve.zeroGyro()));
 eventMap.put("LittleUpOnLift", new littleUponLift(m_lift));
 eventMap.put("UpOnArm", new InstantCommand(() -> m_arm.armUp()));
 eventMap.put("UpOnLift", new InstantCommand(() -> m_lift.liftUp()));
 eventMap.put("Outake", new InstantCommand(() -> m_intake.AutoIntakeOut()));
-eventMap.put("Wait1", new WaitCommand(2));
+eventMap.put("Wait1", new WaitCommand(.5));
 eventMap.put("StopOutake", new InstantCommand(() -> m_intake.AutoIntakeOff()));
 eventMap.put("DownOnLift", new InstantCommand(() -> m_lift.liftDown()));
 eventMap.put("DownOnArm", new InstantCommand(() -> m_arm.armDown()));
 eventMap.put("Intake", new InstantCommand(() -> m_intake.AutoIntakeIn()));
 eventMap.put("ArmVeryDown", new InstantCommand(() -> m_arm.armVeryDown()));
 eventMap.put("Wait2", new WaitCommand(1));
+eventMap.put("MiddleOnLift", new InstantCommand(() -> m_lift.liftMiddle()));
+eventMap.put("MiddleOnArm", new InstantCommand(() -> m_arm.armMiddle()));
+eventMap.put("ArmAuto", new InstantCommand(() -> m_arm.armAuto()));
 
 
 
@@ -69,8 +73,8 @@ SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
     s_Swerve::getPose, // Pose2d supplier
     s_Swerve::resetOdometry,
     Constants.Swerve.swerveKinematics,
-    new PIDConstants(5, 0.0, 0.0), // PI constants to correct for translation error (used to create the X and Y PID controllers)
-    new PIDConstants(0.5, 0.0, 0.0), // PID constants to correct for rotation error (used to create the rotation controller)
+    new PIDConstants(5, 0.0, .0), // PI constants to correct for translation error (used to create the X and Y PID controllers)
+    new PIDConstants(4.5, 0.0, .0), // PID constants to correct for rotation error (used to create the rotation controller)
     s_Swerve::setModuleStates, // Module states consumer used to output to the drive subsystem
     eventMap,
     true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true

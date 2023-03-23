@@ -55,8 +55,11 @@ public class armSub extends SubsystemBase {
     public void armDown(){
        setpoint = -7;
     }
+    public void armAuto(){
+        setpoint = -9;
+    }
     public void armVeryDown(){
-        setpoint = -5;
+        setpoint = -4;
     }
     public void armUpManual(){
         ManualUp = true;
