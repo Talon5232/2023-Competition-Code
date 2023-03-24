@@ -137,5 +137,20 @@
       }
     }
   ],
-  "markers": []
+  "markers": [
+    {
+      "position": 0.7854545454545334,
+      "names": [
+        "DownOnArm",
+        "DownOnLift"
+      ]
+    },
+    {
+      "position": 3.025454545454474,
+      "names": [
+        "UpOnArm",
+        "UpOnLift"
+      ]
+    }
+  ]
 }
