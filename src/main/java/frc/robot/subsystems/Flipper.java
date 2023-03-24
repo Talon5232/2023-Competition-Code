@@ -12,7 +12,7 @@ public class Flipper {
     private int keepFlipperOn = 0; 
     private final TalonSRX FlipperMotor;
     public Flipper(){
-        FlipperMotor = new TalonSRX(99);
+        FlipperMotor = new TalonSRX(0);
             //NEED DEVICED ID
     }   
     
