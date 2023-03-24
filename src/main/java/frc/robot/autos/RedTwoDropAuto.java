@@ -24,18 +24,18 @@ import frc.robot.Constants.*;
 import frc.robot.Constants.Swerve;
 import frc.robot.commands.littleUponLift;
 
-public class LongTwoDropAuto extends SequentialCommandGroup {
+public class RedTwoDropAuto extends SequentialCommandGroup {
     private armSub m_arm; 
     private liftSub m_lift; 
     private intakeSub m_IntakeSub; 
     // This will load the file "FullAuto.path" and generate it with a max velocity of 4 m/s and a max acceleration of 3 m/s^2
 // for every path in the group
 
-public LongTwoDropAuto(frc.robot.subsystems.Swerve s_Swerve, liftSub m_lift, intakeSub m_intake, armSub m_arm){
+public RedTwoDropAuto(frc.robot.subsystems.Swerve s_Swerve, liftSub m_lift, intakeSub m_intake, armSub m_arm){
     this.m_arm = m_arm;
     this.m_IntakeSub = m_IntakeSub;
     this.m_lift = m_lift;
-List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("2DropOpposite", new PathConstraints(3, 1));
+List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("Red2Drop", new PathConstraints(3, 1));
 
 // This is just an example event map. It would be better to have a constant, global event map
 // in your code that will be used by all path following commands.

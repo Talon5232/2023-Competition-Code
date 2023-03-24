@@ -25,7 +25,7 @@ public class liftSub extends SubsystemBase {
    public liftSub(){
     setName("Lift");
     //right motor
-        liftMotor1 = new CANSparkMax(55, MotorType.kBrushless);
+        liftMotor1 = new CANSparkMax(57, MotorType.kBrushless);
         //left motor
       //  liftMotor2 = new CANSparkMax(56, MotorType.kBrushless);
 
@@ -47,7 +47,7 @@ public class liftSub extends SubsystemBase {
     //   liftMotor2.set(-.3);
     }
     public void liftLittleUp(){
-        setpoint = 16;
+        setpoint = 22;
     }
     public void liftUpManual(){
         ManualUp = true;

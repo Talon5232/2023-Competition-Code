@@ -33,6 +33,7 @@ import frc.robot.autos.ShortAuto;
  */
 public class Robot extends TimedRobot {
   //SendableChooser<Command> autoChooser;
+  private final Vison m_Vison = new Vison();
   Command autonomousCommand;
 // private final Swerve s_Swerve = new Swerve();
  // private final ShortAuto a_ShortAuto = new ShortAuto(s_Swerve);
@@ -107,6 +108,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    m_Vison.periodic();
     
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
