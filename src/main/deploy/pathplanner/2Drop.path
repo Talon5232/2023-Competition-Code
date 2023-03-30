@@ -55,15 +55,15 @@
     {
       "anchorPoint": {
         "x": 6.57,
-        "y": 4.6
+        "y": 4.57
       },
       "prevControl": {
         "x": 6.195227498551838,
-        "y": 4.6
+        "y": 4.57
       },
       "nextControl": {
         "x": 6.709118350436066,
-        "y": 4.6
+        "y": 4.57
       },
       "holonomicAngle": 0.0,
       "isReversal": false,
@@ -112,11 +112,11 @@
     },
     {
       "anchorPoint": {
-        "x": 1.94,
+        "x": 1.87,
         "y": 5.116144174596042
       },
       "prevControl": {
-        "x": 1.8478043904272963,
+        "x": 1.7778043904272964,
         "y": 5.116144174596042
       },
       "nextControl": null,
@@ -127,7 +127,6 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "Outake",
           "Wait2",
           "StopOutake"
         ],

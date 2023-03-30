@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Vison extends SubsystemBase {
   private double x_, y_, angle_, target_area_;
   private boolean has_target_;
+  private double[] arr = new double[3];
   /** Creates a new Vison. */
   private final NetworkTable m_limelight = NetworkTableInstance.getDefault().getTable("limelight");
 
@@ -31,7 +32,13 @@ public class Vison extends SubsystemBase {
   }
 
   public double[] getVisionDoubles(){
-    return new double[]{0};
+    this.arr[0] = this.x_;
+    this.arr[1] = this.y_;
+    this.arr[2] = this.target_area_;
+    return this.arr;
   } 
+
+
+
 
 }

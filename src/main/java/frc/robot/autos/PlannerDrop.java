@@ -45,8 +45,11 @@ eventMap.put("LittleUpOnLift", new littleUponLift(m_lift));
 eventMap.put("UpOnArm", new InstantCommand(() -> m_arm.armUp()));
 eventMap.put("UpOnLift", new InstantCommand(() -> m_lift.liftUp()));
 eventMap.put("Outake", new InstantCommand(() -> m_intake.AutoIntakeOut()));
+eventMap.put("Intake", new InstantCommand(()-> m_intake.AutoIntakeIn()));
 eventMap.put("Wait1", new WaitCommand(2));
 eventMap.put("StopOutake", new InstantCommand(() -> m_intake.AutoIntakeOff()));
+eventMap.put("DownOnLift", new InstantCommand(() -> m_lift.liftDown()));
+eventMap.put("DownOnArm", new InstantCommand(() -> m_arm.armDown()));
 
 
 
@@ -63,7 +66,7 @@ SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
     s_Swerve::resetOdometry,
     Constants.Swerve.swerveKinematics,
     new PIDConstants(5, 0.0, 0.0), // PI constants to correct for translation error (used to create the X and Y PID controllers)
-    new PIDConstants(0.5, 0.0, 0.0), // PID constants to correct for rotation error (used to create the rotation controller)
+    new PIDConstants(4.5, 0.0, 0.0), // PID constants to correct for rotation error (used to create the rotation controller)
     s_Swerve::setModuleStates, // Module states consumer used to output to the drive subsystem
     eventMap,
     true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true

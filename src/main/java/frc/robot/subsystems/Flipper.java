@@ -19,11 +19,11 @@ public class Flipper {
 
 
     public void Flipperin(){
-        FlipperMotor.set(TalonSRXControlMode.PercentOutput, .3);
+        FlipperMotor.set(TalonSRXControlMode.PercentOutput, .6);
         
     }
     public void Flipperout(){
-        FlipperMotor.set(TalonSRXControlMode.PercentOutput, -.3);
+        FlipperMotor.set(TalonSRXControlMode.PercentOutput, -.6);
         keepFlipperOn = 2;
         keepFlipperOn = 2;
        

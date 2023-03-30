@@ -2,13 +2,13 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 14.259254638670486,
-        "y": 5.012914060977371
+        "x": 14.139708963178608,
+        "y": 4.990176476079449
       },
       "prevControl": null,
       "nextControl": {
-        "x": 14.627388118750504,
-        "y": 5.025831025190705
+        "x": 14.151128131316089,
+        "y": 4.990176476079449
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -19,25 +19,26 @@
         "names": [
           "LittleUpOnLift",
           "UpOnArm",
-          "UpOnLift"
+          "UpOnLift",
+          "Intake"
         ],
         "executionBehavior": "sequential",
-        "waitBehavior": "none",
-        "waitTime": 0
+        "waitBehavior": "after",
+        "waitTime": 0.75
       }
     },
     {
       "anchorPoint": {
-        "x": 14.94610086441416,
-        "y": 5.0214136534314635
+        "x": 14.64,
+        "y": 4.990176476079449
       },
       "prevControl": {
-        "x": 14.221366684803725,
-        "y": 5.020655026933227
+        "x": 13.988706866843273,
+        "y": 4.990176476079449
       },
       "nextControl": {
-        "x": 14.221366684803725,
-        "y": 5.020655026933227
+        "x": 13.988706866843273,
+        "y": 4.990176476079449
       },
       "holonomicAngle": 0,
       "isReversal": true,
@@ -46,6 +47,7 @@
       "isStopPoint": true,
       "stopEvent": {
         "names": [
+          "StopOutake",
           "Outake",
           "Wait1",
           "StopOutake"
@@ -57,15 +59,65 @@
     },
     {
       "anchorPoint": {
-        "x": 12.0,
-        "y": 5.0
+        "x": 12.895019636193119,
+        "y": 4.99
       },
       "prevControl": {
-        "x": 13.106050256815026,
-        "y": 5.000424483002577
+        "x": 13.431720538654755,
+        "y": 4.978580831862518
+      },
+      "nextControl": {
+        "x": 12.272789606316403,
+        "y": 5.003238936805888
+      },
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 11.947228680782148,
+        "y": 4.99
+      },
+      "prevControl": {
+        "x": 12.472510415106301,
+        "y": 4.978580831862518
+      },
+      "nextControl": {
+        "x": 11.325004838039181,
+        "y": 5.003526605277021
+      },
+      "holonomicAngle": null,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 10.7,
+        "y": 4.99
+      },
+      "prevControl": {
+        "x": 11.806050338269648,
+        "y": 4.99
       },
       "nextControl": null,
-      "holonomicAngle": 0,
+      "holonomicAngle": 180.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -78,8 +130,22 @@
       }
     }
   ],
-  "maxVelocity": null,
-  "maxAcceleration": null,
+  "maxVelocity": 1.0,
+  "maxAcceleration": 0.5,
   "isReversed": false,
-  "markers": []
+  "markers": [
+    {
+      "position": 1.3236363636362067,
+      "names": [
+        "DownOnArm",
+        "DownOnLift"
+      ]
+    },
+    {
+      "position": 0.14545454545455366,
+      "names": [
+        "StopOutake"
+      ]
+    }
+  ]
 }

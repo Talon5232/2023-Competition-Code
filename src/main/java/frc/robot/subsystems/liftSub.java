@@ -69,10 +69,10 @@ public class liftSub extends SubsystemBase {
     @Override
 public void periodic(){
     if(ManualUp == true){
-        setpoint = setpoint + 0.2;
+        setpoint = setpoint + 0.4;
     }
     if(ManualDown == true){
-        setpoint = setpoint - 0.2;
+        setpoint = setpoint - 0.4;
     }
 
    // liftMotor2.getEncoder().setPosition(0);

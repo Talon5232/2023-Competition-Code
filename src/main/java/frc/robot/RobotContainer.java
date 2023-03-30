@@ -108,7 +108,7 @@ public class RobotContainer {
     autoChooser.addOption("DropPathPlanner", new PlannerDrop(s_Swerve, m_lift, m_Intake, m_arm));
     autoChooser.addOption("Planner2Drop", new TwoDropAuto(s_Swerve, m_lift, m_Intake, m_arm));
     autoChooser.addOption("OppPlanner2Drop", new LongTwoDropAuto(s_Swerve,m_lift,m_Intake,m_arm));
-
+    autoChooser.addOption("RedPlanner2Drop", new RedTwoDropAuto(s_Swerve, m_lift, m_Intake, m_arm));
    // SmartDashboard.putData("Autonomous Chooser", autoChooser);
     Shuffleboard.getTab("user tab").add(autoChooser);
     
@@ -150,7 +150,7 @@ public class RobotContainer {
       //  button9.whileTrue(new InstantCommand(() -> m_lift.liftMiddle())).whileFalse(new InstantCommand(() -> m_lift.liftStop()));
         trigger.whileTrue(new InstantCommand(() -> m_Intake.intakeout())).whileFalse(new InstantCommand(() -> m_Intake.intakeStop()));
         button2.whileTrue(new InstantCommand(() -> m_Intake.intakein())).whileFalse(new InstantCommand(() -> m_Intake.intakeStop()));
-       button3.whileTrue(new InstantCommand(() -> blinkin.givecone())).whileFalse(new InstantCommand(() -> frc.robot.subsystems.blinkin.lightsNormal()));
+       //button3.whileTrue(new InstantCommand(() -> blinkin.givecone())).whileFalse(new InstantCommand(() -> frc.robot.subsystems.blinkin.lightsNormal()));
         
         
 

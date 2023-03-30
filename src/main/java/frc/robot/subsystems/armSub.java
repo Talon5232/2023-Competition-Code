@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class armSub extends SubsystemBase {
-    double kP = .05;
-    double kD = .035;
+    double kP = .03;
+    double kD = .01;
     double error;
     double lastError;
     double currentPosition;
@@ -47,13 +47,13 @@ public class armSub extends SubsystemBase {
         */
     }
     public void armUp(){
-        setpoint = -14;
+        setpoint = -82;
     }
     public void armMiddle(){
-        setpoint = -12;
+        setpoint = -69;
     }
     public void armDown(){
-       setpoint = -7;
+       setpoint = -36;
     }
     public void armAuto(){
         setpoint = -7;
@@ -79,16 +79,16 @@ public class armSub extends SubsystemBase {
 public void periodic(){
 
     if(ManualDown == true){
-        setpoint = setpoint + .04;
+        setpoint = setpoint + .3;
     }
     if(ManualUp == true){
-        setpoint = setpoint - .04;
+        setpoint = setpoint - .3;
     }
-    if(setpoint >= -.5){
-        setpoint = -.5;
+    if(setpoint >= 0){
+        setpoint = 0;
     }
-    if(setpoint <= -30){
-        setpoint = -30;
+    if(setpoint <= -3000){
+        setpoint = -3000;
     }
     currentPosition = armEncoder;
     //Porportional Math
@@ -97,11 +97,11 @@ public void periodic(){
     derivitive = error - lastError;
     lastError = error;
     correction = (error * kP) + (derivitive * kD);
-    if(correction >= .4){
-        correction = .4;
+    if(correction >= .8){
+        correction = .8;
     }
-    if(correction <= -.4){
-        correction = -.4;
+    if(correction <= -.8){
+        correction = -.8;
     }
     armMotor.set(correction);
 
@@ -111,6 +111,7 @@ public void periodic(){
    // SmartDashboard.putNumber("correctoin", correction);
     armEncoder = armMotor.getEncoder().getPosition();
     SmartDashboard.putNumber("ArmEncoder", armEncoder);
+    SmartDashboard.putNumber("ArmCorrection", correction);
     //SmartDashboard.putNumber("test", test);
     SmartDashboard.updateValues();
 
