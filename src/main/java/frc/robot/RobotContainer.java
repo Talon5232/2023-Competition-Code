@@ -108,7 +108,6 @@ public class RobotContainer {
     autoChooser.addOption("DropPathPlanner", new PlannerDrop(s_Swerve, m_lift, m_Intake, m_arm));
     autoChooser.addOption("Planner2Drop", new TwoDropAuto(s_Swerve, m_lift, m_Intake, m_arm));
     autoChooser.addOption("OppPlanner2Drop", new LongTwoDropAuto(s_Swerve,m_lift,m_Intake,m_arm));
-    autoChooser.addOption("RedPlanner2Drop", new RedTwoDropAuto(s_Swerve, m_lift, m_Intake, m_arm));
    // SmartDashboard.putData("Autonomous Chooser", autoChooser);
     Shuffleboard.getTab("user tab").add(autoChooser);
     

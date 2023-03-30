@@ -73,8 +73,8 @@ SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
     s_Swerve::getPose, // Pose2d supplier
     s_Swerve::resetOdometry,
     Constants.Swerve.swerveKinematics,
-    new PIDConstants(5, 0.0, .0), // PI constants to correct for translation error (used to create the X and Y PID controllers)
-    new PIDConstants(4.5, 0.0, .0), // PID constants to correct for rotation error (used to create the rotation controller)
+    new PIDConstants(5, 0.0, 0.0), // PI constants to correct for translation error (used to create the X and Y PID controllers)
+    new PIDConstants(4.5, 0.0, 0.0), // PID constants to correct for rotation error (used to create the rotation controller)
     s_Swerve::setModuleStates, // Module states consumer used to output to the drive subsystem
     eventMap,
     true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
