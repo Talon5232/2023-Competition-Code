@@ -20,6 +20,12 @@ public final class Constants {
     public static class FieldConstants {
         public static final double length = Units.feetToMeters(54);
         public static final double width = Units.feetToMeters(27);
+
+        public static final double FLOOR_CONE_HEIGHT = Units.feetToMeters(1.5);
+        public static final double PLAYER_STATION_CONE_HEIGHT = Units.feetToMeters(5);
+        public static final double LOW_APRIL_TAG = Units.feetToMeters(1.92);
+        public static final double LOW_REFLECTIVE_TAPE = Units.feetToMeters(2);
+
     }
     public static class VisionConstants {
         public static final Transform3d robotToCam =
@@ -30,7 +36,12 @@ public final class Constants {
                                 0)); // Cam mounted facing forward, half a meter forward of center, half a meter up
         // from center.
         public static final String cameraName = "camera";
+        public static final double kCameraHeight = Units.inchesToMeters(30.5);
+        public static final double kCameraRotation = 0;
+        
     }    
+
+
     public static final double stickDeadband = 0.1;
 
     public static final class Swerve {

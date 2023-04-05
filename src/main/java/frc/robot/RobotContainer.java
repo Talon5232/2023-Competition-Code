@@ -76,6 +76,7 @@ public class RobotContainer {
     private final intakeSub m_Intake = new intakeSub();
     private final Flipper Flipper = new Flipper();
     private final blinkin blinkin = new blinkin();
+    private final Vision m_vision = new Vision();
 
     
   
