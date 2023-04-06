@@ -157,5 +157,33 @@ public class Vision extends SubsystemBase {
   }
 
 }
-
+/* 
+ * IMO you and Noah should pull up onshape and build all the important field elements in FieldConstants -- stuff you dont want to run into during auto
+ *      Putting offsets there
+ *  You should find exact measurements -- for red side should be mirroed just 16.5-x for said red
+ *  Charge Station estimation blue (meters)
+ *                        y 4.25
+ *                x 2.6m        5.2m
+ *    x: 2.6 -> 5.2 //////////////
+ *    y: 4.25       /            /
+ *                  /            /
+ *                  /            /
+ *                  /            /
+ *                  /            /
+ *                  /            /
+ *                  //////////////
+ *                                y 1.25                 
+ * 
+ * 
+ *  If you dont want to use Swerve's drive method for movement and want to stick with path planner for all auto check out
+ *  https://github.com/mjansen4857/pathplanner/wiki/PathPlannerLib:-Java-Usage "On-the-fly-generation"
+ *  Otherwise Swerve.drive() or trajecGen like you originally used. 
+ * 
+ *  https://firstfrc.blob.core.windows.net/frc2023/FieldAssets/2023LayoutMarkingDiagram.pdf 
+ *  https://firstfrc.blob.core.windows.net/frc2023/FieldAssets/2023FieldDrawings-CHARGEDUPSpecific.pdf 
+ *  https://www.chiefdelphi.com/t/dynamic-on-the-fly-path-generation-in-teleop-video/423818 More of a summer project but A* is very much something that will be used in Comp Sci
+ *    Id implement the A* star in something like python first to see how it works then translate it to Java if you guys ever get to this point.
+ *    Never thought about it but using A* for auto is kinda genius -- but also major sweat lord moments( in the case of custom implementation) and so many things to improve before then
+ * 
+ */
 // #endregion
