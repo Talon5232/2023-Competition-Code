@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-enum ObjectToTarget{
+enum ObjectToTarget {
   NONE,
   FLOOR_CONE,
   SUBSTATION_CONE,
@@ -22,7 +22,7 @@ enum ObjectToTarget{
 
 public class Vision extends SubsystemBase {
   private double x_, y_, target_area_, pipeline_ = 0;
-  //private ObjectToTarget object;
+  // private ObjectToTarget object;
 
   private boolean has_target_;
   /** Creates a new Vison. */
@@ -38,7 +38,7 @@ public class Vision extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  //#region upadters
+  // #region upadters
   public void updateVisionData() {
     this.x_ = this.m_limelight.getEntry("tx").getDouble(0);
     this.y_ = this.m_limelight.getEntry("ty").getDouble(0);
@@ -58,7 +58,7 @@ public class Vision extends SubsystemBase {
   public void updatePipeline() {
     this.m_limelight.getEntry("pipeline").setNumber(this.pipeline_);
   }
-//#endregionS
+  // #endregionS
 
   // #region Get's
   public double getPipeline() {
@@ -80,32 +80,33 @@ public class Vision extends SubsystemBase {
   public boolean getTargets() {
     return this.has_target_;
   }
-  private double getObjectHeight(ObjectToTarget object){
-    switch(object){
-      case APRIL_TAG:{
+
+  private double getObjectHeight(ObjectToTarget object) {
+    switch (object) {
+      case APRIL_TAG: {
         setPipeline(0);
-        //LED OFF FOR APRIL TAGS 
-      return Constants.FieldConstants.LOW_APRIL_TAG;
+        // LED OFF FOR APRIL TAGS
+        return Constants.FieldConstants.LOW_APRIL_TAG;
       }
-      case FLOOR_CONE:{
+      case FLOOR_CONE: {
         setPipeline(1);
         return Constants.FieldConstants.FLOOR_CONE_HEIGHT;
       }
-      case REFLECTIVE_TAPE:{
+      case REFLECTIVE_TAPE: {
         setPipeline(2);
         return Constants.FieldConstants.LOW_REFLECTIVE_TAPE;
       }
-      case SUBSTATION_CONE:{
+      case SUBSTATION_CONE: {
         setPipeline(1);
         return Constants.FieldConstants.PLAYER_STATION_CONE_HEIGHT;
       }
-    default: {
-      System.out.println("Ummm Ethan FIX");
-      return (0);
+      default: {
+        System.out.println("Ummm Ethan FIX");
+        return (0);
+      }
     }
-    }
-    };
-  
+  };
+
   // #endregion
 
   // #region Set's
@@ -117,38 +118,44 @@ public class Vision extends SubsystemBase {
 
   // #endregion
 
-  //#region Builders/Generators
-public double generateDistanceXToObject(ObjectToTarget objectToTarget){
-  if(objectToTarget != ObjectToTarget.NONE){
-    SmartDashboard.putNumber("HeightOb", getObjectHeight(objectToTarget));
-    SmartDashboard.putNumber("kCameraHeight", Constants.VisionConstants.kCameraHeight);
-    SmartDashboard.putNumber("CameraRoations", Constants.VisionConstants.kCameraRotation);
-    SmartDashboard.putNumber("GetYCamera", getY());
-    SmartDashboard.putNumber("tan(Y)", Math.tan(Units.degreesToRadians(getY())));
+  // #region Builders/Generators
+  public double generateDistanceXToObject(ObjectToTarget objectToTarget) {
+    if (objectToTarget != ObjectToTarget.NONE) {
+      SmartDashboard.putNumber("HeightOb", getObjectHeight(objectToTarget));
+      SmartDashboard.putNumber("kCameraHeight", Constants.VisionConstants.kCameraHeight);
+      SmartDashboard.putNumber("CameraRoations", Constants.VisionConstants.kCameraRotation);
+      SmartDashboard.putNumber("GetYCamera", getY());
+      SmartDashboard.putNumber("tan(Y)", Math.tan(Units.degreesToRadians(getY())));
 
-    return (Math.abs((getObjectHeight(objectToTarget) - Constants.VisionConstants.kCameraHeight))/(Math.tan(Constants.VisionConstants.kCameraRotation + Units.degreesToRadians(getY()))));
+      return (Math.abs((getObjectHeight(objectToTarget) - Constants.VisionConstants.kCameraHeight))
+          / (Math.tan(Constants.VisionConstants.kCameraRotation + Units.degreesToRadians(getY()))));
+    }
+
+    else {
+      return 0;
+    }
   }
 
-  else{
-    return 5;
+  public double generateDistanceYToObject(ObjectToTarget objectToTarget) {
+    if (objectToTarget != ObjectToTarget.NONE) {
+      return ((Math.tan(Units.degreesToRadians(getX()))) * generateDistanceXToObject(objectToTarget));
+    } else {
+      return 0;
+    }
   }
+
+  /*
+   * Low Cones, April-Tags, and Reflective Tape we can virtually be right next to
+   *  Substation cones our closest measurement may be up to 7 feet away. Does the want to do something about this? 
+   * #TODO: Add offsets -- x for arm -- y for camera (This can also be done in limelightlocal)
+   * #TODO: Adding get-set for objects might be easier for you to work with!
+   * #TODO: Late night me thinks resetOdo may be your ticket to starting field relative
+   * #TODO: Usage in Teleop? <-- Driveteam question
+   */
+  public Translation2d generate2dPositionToObject(ObjectToTarget objectToTarget) {
+    return new Translation2d(generateDistanceXToObject(objectToTarget), generateDistanceYToObject(objectToTarget));
+  }
+
 }
- public double generateDistanceYToObject(ObjectToTarget objectToTarget){
-  if(objectToTarget != ObjectToTarget.NONE){
-    return ((Math.tan(Units.degreesToRadians(getX()))) * generateDistanceXToObject(objectToTarget));
- }
- else{
-  return 5;
-}
- }
-public Translation2d generate2dPositionToObject(ObjectToTarget objectToTarget){
-  return new Translation2d(generateDistanceXToObject(objectToTarget), generateDistanceYToObject(objectToTarget));
-}
 
- } 
-
-
-
-  //#endregion
-
-
+// #endregion

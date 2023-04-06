@@ -21,9 +21,10 @@ public final class Constants {
         public static final double length = Units.feetToMeters(54);
         public static final double width = Units.feetToMeters(27);
 
+        //#TODO: Task someone with double checking these values. On the field and our "Practice field"
         public static final double FLOOR_CONE_HEIGHT = Units.feetToMeters(1.5);
         public static final double PLAYER_STATION_CONE_HEIGHT = Units.feetToMeters(5);
-        public static final double LOW_APRIL_TAG = Units.feetToMeters(1.92);
+        public static final double LOW_APRIL_TAG = Units.feetToMeters(2);
         public static final double LOW_REFLECTIVE_TAPE = Units.feetToMeters(2);
 
     }
