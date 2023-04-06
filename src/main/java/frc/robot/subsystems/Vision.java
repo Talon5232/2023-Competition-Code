@@ -147,7 +147,7 @@ public class Vision extends SubsystemBase {
   /*
    * Low Cones, April-Tags, and Reflective Tape we can virtually be right next to
    *  Substation cones our closest measurement may be up to 7 feet away. Does the want to do something about this? 
-   * #TODO: Add offsets -- x for arm -- y for camera (This can also be done in limelightlocal)
+   * #TODO: Add offsets -- x for arm -- y for camera (This can also be done in limelightlocal) -- and  ANY OTHER offsets you may need.
    * #TODO: Adding get-set for objects might be easier for you to work with!
    * #TODO: Late night me thinks resetOdo may be your ticket to starting field relative
    * #TODO: Usage in Teleop? <-- Driveteam question
