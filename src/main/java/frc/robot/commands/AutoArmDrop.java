@@ -7,13 +7,11 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
-import java.sql.Time;
-
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.armSub;
+import frc.robot.subsystems.intakeSub;
+import frc.robot.subsystems.liftSub;
 
 public class AutoArmDrop extends SequentialCommandGroup {
   private boolean endcommand = false;

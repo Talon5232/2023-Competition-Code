@@ -36,7 +36,7 @@ public final class Constants {
                                 0)); // Cam mounted facing forward, half a meter forward of center, half a meter up
         // from center.
         public static final String cameraName = "camera";
-        public static final double kCameraHeight = Units.inchesToMeters(30.5);
+        public static final double kCameraHeight = Units.inchesToMeters(27.5);
         public static final double kCameraRotation = 0;
         
     }    

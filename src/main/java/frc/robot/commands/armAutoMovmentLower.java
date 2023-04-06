@@ -7,12 +7,9 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-
-import java.sql.Time;
-
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.armSub;
 
 public class armAutoMovmentLower extends CommandBase {
   private boolean endcommand = false;

@@ -4,20 +4,27 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.PWMPorts;
-import frc.robot.autos.*;
-import frc.robot.commands.*;
-import frc.robot.subsystems.*;
-import frc.robot.Constants.PWMPorts;
+import frc.robot.autos.BalanceAuto;
+import frc.robot.autos.LongAuto;
+import frc.robot.autos.LongTwoDropAuto;
+import frc.robot.autos.NoAuto;
+import frc.robot.autos.PlannerDrop;
+import frc.robot.autos.ShortAuto;
+import frc.robot.autos.TwoDropAuto;
+import frc.robot.autos.VeryShortAuto;
+import frc.robot.commands.TeleopSwerve;
+import frc.robot.subsystems.Flipper;
+import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.armSub;
+import frc.robot.subsystems.blinkin;
+import frc.robot.subsystems.intakeSub;
+import frc.robot.subsystems.liftSub;
 
 
 /**
