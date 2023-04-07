@@ -47,8 +47,11 @@ public class Vision extends SubsystemBase {
   }
 
   public void upadateSmartDashBoard() {
-    SmartDashboard.putNumber("X offset", this.x_);
-    SmartDashboard.putNumber("Y Offset", this.y_);
+    SmartDashboard.putNumber("X offset", getX());
+    
+    SmartDashboard.putNumber("Y Offset", getY());
+    SmartDashboard.putNumber("X Actual", this.x_);
+
     SmartDashboard.putBoolean("Has Target", this.has_target_);
     SmartDashboard.putNumber("Target Area", this.target_area_);
     SmartDashboard.putNumber("DistanceXToObject", generateDistanceXToObject(ObjectToTarget.APRIL_TAG));
@@ -66,11 +69,18 @@ public class Vision extends SubsystemBase {
   }
 
   public double getX() {
-    return this.x_;
+    if(this.x_ >= 0){
+      return this.x_+4.63;
+    }
+    else{
+      return this.x_-1.5;
+
+    }
+    
   }
 
   public double getY() {
-    return this.y_;
+    return Math.abs(this.y_) - 3;
   }
 
   public double getArea() {

@@ -24,7 +24,7 @@ public final class Constants {
         //#TODO: Task someone with double checking these values. On the field and our "Practice field"
         public static final double FLOOR_CONE_HEIGHT = Units.feetToMeters(1.5);
         public static final double PLAYER_STATION_CONE_HEIGHT = Units.feetToMeters(5);
-        public static final double LOW_APRIL_TAG = Units.feetToMeters(2);
+        public static final double LOW_APRIL_TAG = Units.feetToMeters(1.5);
         public static final double LOW_REFLECTIVE_TAPE = Units.feetToMeters(2);
 
     }
@@ -137,7 +137,7 @@ public final class Constants {
             public static final int driveMotorID = 2;
             public static final int angleMotorID = 6;
             public static final int canCoderID = 14;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(298.439);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(96.32);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
