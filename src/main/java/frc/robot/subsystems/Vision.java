@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.BooleanEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,18 +23,20 @@ enum ObjectToTarget {
 
 public class Vision extends SubsystemBase {
   private double x_, y_, target_area_, pipeline_ = 0;
-  // private ObjectToTarget object;
-
+  private ObjectToTarget ObjectTarget = ObjectToTarget.NONE;
+  
   private boolean has_target_;
   /** Creates a new Vison. */
   private final NetworkTable m_limelight = NetworkTableInstance.getDefault().getTable("limelight");
 
   @Override
   public void periodic() {
+    setObject(ObjectTarget.APRIL_TAG);
     updateVisionData();
-    getObjectHeight(ObjectToTarget.APRIL_TAG);
+    getObjectHeight(getObject());
     upadateSmartDashBoard();
     updatePipeline();
+    m_limelight.getEntry("CamMode").setNumber(0);
 
     // This method will be called once per scheduler run
   }
@@ -49,13 +52,13 @@ public class Vision extends SubsystemBase {
   public void upadateSmartDashBoard() {
     SmartDashboard.putNumber("X offset", getX());
     
-    SmartDashboard.putNumber("Y Offset", getY());
+    SmartDashboard.putNumber("Y Offset", getY(getObject()));
     SmartDashboard.putNumber("X Actual", this.x_);
 
     SmartDashboard.putBoolean("Has Target", this.has_target_);
     SmartDashboard.putNumber("Target Area", this.target_area_);
-    SmartDashboard.putNumber("DistanceXToObject", generateDistanceXToObject(ObjectToTarget.APRIL_TAG));
-    SmartDashboard.putNumber("DistnaceYToTarget", generateDistanceYToObject(ObjectToTarget.APRIL_TAG));
+    SmartDashboard.putNumber("DistanceXToObject", generateDistanceXToObject(getObject()));
+    SmartDashboard.putNumber("DistnaceYToTarget", generateDistanceYToObject(getObject()));
   }
 
   public void updatePipeline() {
@@ -64,23 +67,44 @@ public class Vision extends SubsystemBase {
   // #endregionS
 
   // #region Get's
+  public ObjectToTarget getObject(){
+    return /* */this.ObjectTarget;
+  }
   public double getPipeline() {
     return this.pipeline_;
   }
 
   public double getX() {
     if(this.x_ >= 0){
-      return this.x_+4.63;
+      return this.x_+2.725;
     }
     else{
-      return this.x_-1.5;
-
+      return this.x_-2.725;
     }
     
   }
 
-  public double getY() {
-    return Math.abs(this.y_) - 3;
+  public double getY(ObjectToTarget object) {
+    switch (object){
+      case APRIL_TAG: {
+        return Math.abs(this.y_)-2.6;
+      }
+      case REFLECTIVE_TAPE: {
+        return Math.abs(this.y_) -4;
+      }
+      case FLOOR_CONE:{
+        return Math.abs(this.y_) -4;
+      }
+      case SUBSTATION_CONE: {
+        return Math.abs(this.y_) -4;
+      }
+      default: {
+        System.out.println("Ummm Ethan FIX");
+        return (0);
+      }
+
+    }
+   
   }
 
   public double getArea() {
@@ -96,18 +120,26 @@ public class Vision extends SubsystemBase {
       case APRIL_TAG: {
         setPipeline(0);
         // LED OFF FOR APRIL TAGS
+        //m_limelight.getEntry("ledMode").setNumber(1);
+
         return Constants.FieldConstants.LOW_APRIL_TAG;
       }
       case FLOOR_CONE: {
-        setPipeline(1);
-        return Constants.FieldConstants.FLOOR_CONE_HEIGHT;
+        setPipeline(2);
+      //  m_limelight.getEntry("ledMode").setNumber(1);
+        
+        return Constants.FieldConstants.FLOOR_CONE_HEIGHT;       
+
       }
       case REFLECTIVE_TAPE: {
-        setPipeline(2);
+        setPipeline(1);
+      //  m_limelight.getEntry("ledMode").setNumber(3);
         return Constants.FieldConstants.LOW_REFLECTIVE_TAPE;
       }
       case SUBSTATION_CONE: {
-        setPipeline(1);
+        setPipeline(2);
+      //  m_limelight.getEntry("ledMode").setNumber(1);
+
         return Constants.FieldConstants.PLAYER_STATION_CONE_HEIGHT;
       }
       default: {
@@ -119,7 +151,10 @@ public class Vision extends SubsystemBase {
 
   // #endregion
 
-  // #region Set's
+  // #region Set'
+  public void setObject(ObjectToTarget object){
+    this.ObjectTarget = object;
+  }
   public void setPipeline(int pipe) {
     // if(pipe >= 0 && pipe <= 9){}
     this.pipeline_ = pipe;
@@ -134,11 +169,11 @@ public class Vision extends SubsystemBase {
       SmartDashboard.putNumber("HeightOb", getObjectHeight(objectToTarget));
       SmartDashboard.putNumber("kCameraHeight", Constants.VisionConstants.kCameraHeight);
       SmartDashboard.putNumber("CameraRoations", Constants.VisionConstants.kCameraRotation);
-      SmartDashboard.putNumber("GetYCamera", getY());
-      SmartDashboard.putNumber("tan(Y)", Math.tan(Units.degreesToRadians(getY())));
+      SmartDashboard.putNumber("GetYCamera", getY(ObjectToTarget.REFLECTIVE_TAPE));
+      SmartDashboard.putNumber("tan(Y)", Math.tan(Units.degreesToRadians(getY(ObjectToTarget.REFLECTIVE_TAPE))));
 
       return (Math.abs((getObjectHeight(objectToTarget) - Constants.VisionConstants.kCameraHeight))
-          / (Math.tan(Constants.VisionConstants.kCameraRotation + Units.degreesToRadians(getY()))));
+          / (Math.tan(Constants.VisionConstants.kCameraRotation + Units.degreesToRadians(getY(objectToTarget)))));
     }
 
     else {
