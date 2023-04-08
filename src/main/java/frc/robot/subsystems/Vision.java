@@ -13,17 +13,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-enum ObjectToTarget {
-  NONE,
-  FLOOR_CONE,
-  SUBSTATION_CONE,
-  REFLECTIVE_TAPE,
-  APRIL_TAG
-}
+
 
 public class Vision extends SubsystemBase {
+  public enum ObjectToTarget {
+    NONE,
+    FLOOR_CONE,
+    SUBSTATION_CONE,
+    REFLECTIVE_TAPE,
+    APRIL_TAG
+  }
   private double x_, y_, target_area_, pipeline_ = 0;
-  private ObjectToTarget ObjectTarget = ObjectToTarget.NONE;
+   ObjectToTarget ObjectTarget = ObjectToTarget.NONE;
   
   private boolean has_target_;
   /** Creates a new Vison. */
