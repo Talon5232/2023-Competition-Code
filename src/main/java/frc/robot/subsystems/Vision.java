@@ -6,33 +6,37 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.BooleanEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-
-
 public class Vision extends SubsystemBase {
   public enum ObjectToTarget {
-    NONE,
-    FLOOR_CONE,
-    SUBSTATION_CONE,
-    REFLECTIVE_TAPE,
-    APRIL_TAG
+    NONE(0),
+    FLOOR_CONE(24),
+    SUBSTATION_CONE(100),
+    REFLECTIVE_TAPE(30),
+    APRIL_TAG(18);
+
+    ObjectToTarget(double distance){
+      this.distanceI = distance;
+    }
+    public final double distanceI;
+
   }
+
   private double x_, y_, target_area_, pipeline_ = 0;
-   ObjectToTarget ObjectTarget = ObjectToTarget.NONE;
-  
+  ObjectToTarget ObjectTarget = ObjectToTarget.NONE;
+
   private boolean has_target_;
   /** Creates a new Vison. */
   private final NetworkTable m_limelight = NetworkTableInstance.getDefault().getTable("limelight");
 
   @Override
   public void periodic() {
-    setObject(ObjectTarget.APRIL_TAG);
+    setObject(ObjectToTarget.APRIL_TAG);
     updateVisionData();
     getObjectHeight(getObject());
     upadateSmartDashBoard();
@@ -52,7 +56,7 @@ public class Vision extends SubsystemBase {
 
   public void upadateSmartDashBoard() {
     SmartDashboard.putNumber("X offset", getX());
-    
+
     SmartDashboard.putNumber("Y Offset", getY(getObject()));
     SmartDashboard.putNumber("X Actual", this.x_);
 
@@ -68,36 +72,36 @@ public class Vision extends SubsystemBase {
   // #endregionS
 
   // #region Get's
-  public ObjectToTarget getObject(){
+  public ObjectToTarget getObject() {
     return /* */this.ObjectTarget;
   }
+
   public double getPipeline() {
     return this.pipeline_;
   }
 
   public double getX() {
-    if(this.x_ >= 0){
-      return this.x_+2.725;
+    if (this.x_ >= 0) {
+      return this.x_ + 2.725;
+    } else {
+      return this.x_ - 2.725;
     }
-    else{
-      return this.x_-2.725;
-    }
-    
+
   }
 
   public double getY(ObjectToTarget object) {
-    switch (object){
+    switch (object) {
       case APRIL_TAG: {
-        return Math.abs(this.y_)-2.6;
+        return Math.abs(this.y_) - 2.6;
       }
       case REFLECTIVE_TAPE: {
-        return Math.abs(this.y_) -4;
+        return Math.abs(this.y_) - 4;
       }
-      case FLOOR_CONE:{
-        return Math.abs(this.y_) -4;
+      case FLOOR_CONE: {
+        return Math.abs(this.y_) - 4;
       }
       case SUBSTATION_CONE: {
-        return Math.abs(this.y_) -4;
+        return Math.abs(this.y_) - 4;
       }
       default: {
         System.out.println("Ummm Ethan FIX");
@@ -105,7 +109,7 @@ public class Vision extends SubsystemBase {
       }
 
     }
-   
+
   }
 
   public double getArea() {
@@ -120,27 +124,19 @@ public class Vision extends SubsystemBase {
     switch (object) {
       case APRIL_TAG: {
         setPipeline(0);
-        // LED OFF FOR APRIL TAGS
-        //m_limelight.getEntry("ledMode").setNumber(1);
-
         return Constants.FieldConstants.LOW_APRIL_TAG;
       }
       case FLOOR_CONE: {
         setPipeline(2);
-      //  m_limelight.getEntry("ledMode").setNumber(1);
-        
-        return Constants.FieldConstants.FLOOR_CONE_HEIGHT;       
+        return Constants.FieldConstants.FLOOR_CONE_HEIGHT;
 
       }
       case REFLECTIVE_TAPE: {
         setPipeline(1);
-      //  m_limelight.getEntry("ledMode").setNumber(3);
         return Constants.FieldConstants.LOW_REFLECTIVE_TAPE;
       }
       case SUBSTATION_CONE: {
         setPipeline(2);
-      //  m_limelight.getEntry("ledMode").setNumber(1);
-
         return Constants.FieldConstants.PLAYER_STATION_CONE_HEIGHT;
       }
       default: {
@@ -153,9 +149,10 @@ public class Vision extends SubsystemBase {
   // #endregion
 
   // #region Set'
-  public void setObject(ObjectToTarget object){
+  public void setObject(ObjectToTarget object) {
     this.ObjectTarget = object;
   }
+
   public void setPipeline(int pipe) {
     // if(pipe >= 0 && pipe <= 9){}
     this.pipeline_ = pipe;
@@ -192,10 +189,13 @@ public class Vision extends SubsystemBase {
 
   /*
    * Low Cones, April-Tags, and Reflective Tape we can virtually be right next to
-   *  Substation cones our closest measurement may be up to 7 feet away. Does the want to do something about this? 
-   * #TODO: Add offsets -- x for arm -- y for camera (This can also be done in limelightlocal) -- and  ANY OTHER offsets you may need.
+   * Substation cones our closest measurement may be up to 7 feet away. Does the
+   * want to do something about this?
+   * #TODO: Add offsets -- x for arm -- y for camera (This can also be done in
+   * limelightlocal) -- and ANY OTHER offsets you may need.
    * #TODO: Adding get-set for objects might be easier for you to work with!
-   * #TODO: Late night me thinks resetOdo may be your ticket to starting field relative
+   * #TODO: Late night me thinks resetOdo may be your ticket to starting field
+   * relative
    * #TODO: Usage in Teleop? <-- Driveteam question
    */
   public Translation2d generate2dPositionToObject(ObjectToTarget objectToTarget) {
@@ -203,33 +203,44 @@ public class Vision extends SubsystemBase {
   }
 
 }
-/* 
- * IMO you and Noah should pull up onshape and build all the important field elements in FieldConstants -- stuff you dont want to run into during auto
- *      Putting offsets there
- *  You should find exact measurements -- for red side should be mirroed just 16.5-x for said red
- *  Charge Station estimation blue (meters)
- *                        y 4.25
- *                x 2.6m        5.2m
- *    x: 2.6 -> 5.2 //////////////
- *    y: 4.25       /            /
- *                  /            /
- *                  /            /
- *                  /            /
- *                  /            /
- *                  /            /
- *                  //////////////
- *                                y 1.25                 
+/*
+ * IMO you and Noah should pull up onshape and build all the important field
+ * elements in FieldConstants -- stuff you dont want to run into during auto
+ * Putting offsets there
+ * You should find exact measurements -- for red side should be mirroed just
+ * 16.5-x for said red
+ * Charge Station estimation blue (meters)
+ * y 4.25
+ * x 2.6m 5.2m
+ * x: 2.6 -> 5.2 //////////////
+ * y: 4.25 / /
+ * / /
+ * / /
+ * / /
+ * / /
+ * / /
+ * //////////////
+ * y 1.25
  * 
  * 
- *  If you dont want to use Swerve's drive method for movement and want to stick with path planner for all auto check out
- *  https://github.com/mjansen4857/pathplanner/wiki/PathPlannerLib:-Java-Usage "On-the-fly-generation"
- *  Otherwise Swerve.drive() or trajecGen like you originally used. 
+ * If you dont want to use Swerve's drive method for movement and want to stick
+ * with path planner for all auto check out
+ * https://github.com/mjansen4857/pathplanner/wiki/PathPlannerLib:-Java-Usage
+ * "On-the-fly-generation"
+ * Otherwise Swerve.drive() or trajecGen like you originally used.
  * 
- *  https://firstfrc.blob.core.windows.net/frc2023/FieldAssets/2023LayoutMarkingDiagram.pdf 
- *  https://firstfrc.blob.core.windows.net/frc2023/FieldAssets/2023FieldDrawings-CHARGEDUPSpecific.pdf 
- *  https://www.chiefdelphi.com/t/dynamic-on-the-fly-path-generation-in-teleop-video/423818 More of a summer project but A* is very much something that will be used in Comp Sci
- *    Id implement the A* star in something like python first to see how it works then translate it to Java if you guys ever get to this point.
- *    Never thought about it but using A* for auto is kinda genius -- but also major sweat lord moments( in the case of custom implementation) and so many things to improve before then
+ * https://firstfrc.blob.core.windows.net/frc2023/FieldAssets/
+ * 2023LayoutMarkingDiagram.pdf
+ * https://firstfrc.blob.core.windows.net/frc2023/FieldAssets/2023FieldDrawings-
+ * CHARGEDUPSpecific.pdf
+ * https://www.chiefdelphi.com/t/dynamic-on-the-fly-path-generation-in-teleop-
+ * video/423818 More of a summer project but A* is very much something that will
+ * be used in Comp Sci
+ * Id implement the A* star in something like python first to see how it works
+ * then translate it to Java if you guys ever get to this point.
+ * Never thought about it but using A* for auto is kinda genius -- but also
+ * major sweat lord moments( in the case of custom implementation) and so many
+ * things to improve before then
  * 
  */
 // #endregion

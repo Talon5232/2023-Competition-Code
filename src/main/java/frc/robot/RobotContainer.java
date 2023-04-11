@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -182,5 +183,14 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
         return autoChooser.getSelected();
+    }
+
+    /**
+     * Use this to update pose to april tag at start
+     * 
+     * @param pose Pass start pose from camera
+     */
+    public void exampleResetOdo(Pose2d pose){
+        s_Swerve.resetOdometry(pose);
     }
 }
