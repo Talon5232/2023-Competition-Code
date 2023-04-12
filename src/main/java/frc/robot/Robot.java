@@ -114,13 +114,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    
+    m_robotContainer.resetOdo();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
-   // s_swerve.resetOdometry(new Pose2d(new Translation2d(m_Vision.generateDistanceXToObject(ObjectToTarget.APRIL_TAG), m_Vision.generateDistanceYToObject(ObjectToTarget.APRIL_TAG)), new Rotation2d(0)));
+    
     // m_autoSelected = m_chooser.getSelected();
     // System.out.println("Auto Selected: " + m_autoSelected);
   }

@@ -1,5 +1,6 @@
 package frc.robot.autos;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import com.pathplanner.lib.commands.FollowPathWithEvents;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -23,6 +25,7 @@ import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.armSub;
 import frc.robot.subsystems.intakeSub;
 import frc.robot.subsystems.liftSub;
+import frc.robot.subsystems.Vision.ObjectToTarget;
 
 public class GenerateTrajAuto extends SequentialCommandGroup {
     
@@ -42,22 +45,23 @@ public GenerateTrajAuto(frc.robot.subsystems.Swerve s_Swerve, liftSub m_lift, in
 
 // This is just an example event map. It would be better to have a constant, global event map
 // in your code that will be used by all path following commands.
-/* 
+
 HashMap<String, Command> eventMap = new HashMap<>();
-eventMap.put("LittleUpOnLift", new littleUponLift(m_lift));
-eventMap.put("UpOnArm", new InstantCommand(() -> m_arm.armUp()));
-eventMap.put("UpOnLift", new InstantCommand(() -> m_lift.liftUp()));
-eventMap.put("Outake", new InstantCommand(() -> m_intake.AutoIntakeOut()));
-eventMap.put("Wait1", new WaitCommand(1));
-eventMap.put("StopOutake", new InstantCommand(() -> m_intake.AutoIntakeOff()));
-eventMap.put("DownOnLift", new InstantCommand(() -> m_lift.liftDown()));
-eventMap.put("DownOnArm", new InstantCommand(() -> m_arm.armDown()));
-eventMap.put("Intake", new InstantCommand(() -> m_intake.AutoIntakeIn()));
-eventMap.put("ArmVeryDown", new InstantCommand(() -> m_arm.armVeryDown()));
-eventMap.put("AutoArm", new InstantCommand(()-> m_arm.armAuto()));
 
-eventMap.put("Wait2", new WaitCommand(1));
+// eventMap.put("ResetOdo", new InstantCommand(() ->s_Swerve.resetOdometry(new Pose2d(new Translation2d(m_vision.generateDistanceXToObject(ObjectToTarget.APRIL_TAG), m_vision.generateDistanceYToObject(ObjectToTarget.APRIL_TAG)), new Rotation2d(0)))));
+// eventMap.put("LittleUpOnLift", new littleUponLift(m_lift));
+// eventMap.put("UpOnArm", new InstantCommand(() -> m_arm.armUp()));
+// eventMap.put("UpOnLift", new InstantCommand(() -> m_lift.liftUp()));
+// eventMap.put("Outake", new InstantCommand(() -> m_intake.AutoIntakeOut()));
+// eventMap.put("Wait1", new WaitCommand(1));
+// eventMap.put("StopOutake", new InstantCommand(() -> m_intake.AutoIntakeOff()));
+// eventMap.put("DownOnLift", new InstantCommand(() -> m_lift.liftDown()));
+// eventMap.put("DownOnArm", new InstantCommand(() -> m_arm.armDown()));
+// eventMap.put("Intake", new InstantCommand(() -> m_intake.AutoIntakeIn()));
+// eventMap.put("ArmVeryDown", new InstantCommand(() -> m_arm.armVeryDown()));
+// eventMap.put("AutoArm", new InstantCommand(()-> m_arm.armAuto()));
 
+// eventMap.put("Wait2", new WaitCommand(1));
 
 
 
@@ -84,16 +88,20 @@ SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
     s_Swerve // The drive subsystem. Used to properly set the requirements of path following commands
 );
 PathPlannerTrajectory traj3 = PathPlanner.generatePath(
-    new PathConstraints(.75, 1), 
-    new PathPoint(new Translation2d(s_Swerve.getPose().getX(), s_Swerve.getPose().getY()), s_Swerve.getYaw()), // position, heading
-    new PathPoint(new Translation2d(.5, .5), Rotation2d.fromDegrees(0)) // position, heading
-);
+    new PathConstraints(.25, .25),
+    new PathPoint(new Translation2d(s_Swerve.getPose().getX(), s_Swerve.getPose().getY()), new Rotation2d(0)), // position, heading
+    new PathPoint(new Translation2d(Math.abs(m_vision.generateDistanceXToObject(ObjectToTarget.APRIL_TAG)) - .3, m_vision.generateDistanceYToObject(ObjectToTarget.APRIL_TAG)+.5), new Rotation2d(0))) // position, heading
 
-Command fullAuto = autoBuilder.fullAuto(traj3);
+    ;
+//FollowPathWithEvents command = new FollowPathWithEvents(getPath, null, eventMap
+
+
+
+Command fullAuto = autoBuilder.followPath(traj3);
 addCommands(
-    fullAuto
-);
-*/
+   fullAuto,
+   new InstantCommand(() -> s_Swerve.drive(new Translation2d(0,0), 0, false, false)));
+
 }
 
 }

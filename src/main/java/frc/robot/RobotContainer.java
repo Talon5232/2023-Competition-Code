@@ -1,5 +1,8 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -25,6 +28,7 @@ import frc.robot.subsystems.armSub;
 import frc.robot.subsystems.blinkin;
 import frc.robot.subsystems.intakeSub;
 import frc.robot.subsystems.liftSub;
+import frc.robot.subsystems.Vision.ObjectToTarget;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -183,4 +187,8 @@ public class RobotContainer {
         // An ExampleCommand will run in autonomous
         return autoChooser.getSelected();
     }
+    public void resetOdo(){
+  // s_Swerve.resetOdometry(new Pose2d(new Translation2d(m_vision.generateDistanceXToObject(ObjectToTarget.APRIL_TAG), m_vision.generateDistanceYToObject(ObjectToTarget.APRIL_TAG)), new Rotation2d(0)));
+
+}
 }
