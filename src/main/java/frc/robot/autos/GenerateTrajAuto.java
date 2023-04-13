@@ -1,6 +1,10 @@
+
+ 
+
 package frc.robot.autos;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,20 +18,32 @@ import com.pathplanner.lib.commands.FollowPathWithEvents;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.littleUponLift;
+import frc.robot.subsystems.armSub;
+import frc.robot.subsystems.intakeSub;
+import frc.robot.subsystems.liftSub;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
+import frc.robot.commands.*;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.armSub;
 import frc.robot.subsystems.intakeSub;
+
 import frc.robot.subsystems.liftSub;
 import frc.robot.subsystems.Vision.ObjectToTarget;
 
@@ -35,13 +51,18 @@ public class GenerateTrajAuto extends SequentialCommandGroup {
 
     private armSub m_arm;
     private liftSub m_lift;
-    private intakeSub m_IntakeSub;
+    private intakeSub m_Intake;
     private Vision m_vision;
+    List<PathPlannerTrajectory> totalPaths = new ArrayList<>();
+
+
+    SequentialCommandGroup seq = new SequentialCommandGroup();
+    SequentialCommandGroup followPath = new SequentialCommandGroup();
 
     public GenerateTrajAuto(frc.robot.subsystems.Swerve s_Swerve, liftSub m_lift, intakeSub m_intake, armSub m_arm,
             Vision m_vision) {
         this.m_arm = m_arm;
-        this.m_IntakeSub = m_IntakeSub;
+        this.m_Intake = m_Intake;
         this.m_lift = m_lift;
         this.m_vision = m_vision;
         // List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("2Drop",
@@ -86,11 +107,16 @@ public class GenerateTrajAuto extends SequentialCommandGroup {
                 new PathPoint(new Translation2d(s_Swerve.getPose().getX(), s_Swerve.getPose().getY()),
                         new Rotation2d(0)), // position, heading
                 new PathPoint(
-                        new Translation2d(Math.abs(m_vision.generateDistanceXToObject(ObjectToTarget.APRIL_TAG)) - .3,
-                                m_vision.generateDistanceYToObject(ObjectToTarget.APRIL_TAG) + .5),
-                        new Rotation2d(0)));
-
-        PPSwerveControllerCommand pP = new PPSwerveControllerCommand(
+                        new Translation2d(Math.abs(m_vision.generateDistanceXToObject(ObjectToTarget.APRIL_TAG)) - 1,
+                               m_vision.generateDistanceYToObject(ObjectToTarget.APRIL_TAG)-0),
+                       new Rotation2d(0)));
+        SmartDashboard.putNumber("AutoDistance", m_vision.generateDistanceXToObject(ObjectToTarget.APRIL_TAG));
+                //new Translation2d(.2, 0), new Rotation2d(0)));
+                seq.addCommands(
+                    new InstantCommand(() -> m_intake.AutoIntakeOut()).withTimeout(4)
+                );
+                
+                PPSwerveControllerCommand pP = new PPSwerveControllerCommand(
                 traj3,
                 s_Swerve::getPose,
                 Constants.Swerve.swerveKinematics,
@@ -100,12 +126,23 @@ public class GenerateTrajAuto extends SequentialCommandGroup {
                 s_Swerve::setModuleStates,
                 true,
                 s_Swerve);
-
+    
+            
         // Command fullAuto = autoBuilder.followPath(traj3);
+
+
         addCommands(
-                pP
-                );
+          new InstantCommand(() -> s_Swerve.resetOdometry(new Pose2d(new Translation2d(0,0), new Rotation2d(0)))),
+         new TrajTest(s_Swerve, m_lift, m_Intake, m_arm, m_vision, m_vision.generateDistanceXToObject(ObjectToTarget.APRIL_TAG), m_vision.generateDistanceYToObject(ObjectToTarget.APRIL_TAG)),
+          seq
+        );
+        
 
     }
+
+    private PPSwerveControllerCommand getCommand(){
+        return new PPSwerveControllerCommand(null, null, null, null, null, null, null);
+    }
+
 
 }

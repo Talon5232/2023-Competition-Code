@@ -12,7 +12,7 @@ public class intakeSub extends SubsystemBase {
 
     public intakeSub() {
         setName("Intake");
-        intakeMotor = new TalonSRX(10);
+        intakeMotor = new TalonSRX(0);
 
     }
 

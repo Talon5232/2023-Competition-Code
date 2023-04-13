@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.BalanceAuto;
+import frc.robot.autos.GenTraj2;
 import frc.robot.autos.GenerateTrajAuto;
 import frc.robot.autos.LongAuto;
 import frc.robot.autos.LongTwoDropAuto;
@@ -66,6 +67,7 @@ public class RobotContainer {
     private final JoystickButton button14 = new JoystickButton(Thrustmaster, 14);
     private final JoystickButton button15 = new JoystickButton(Thrustmaster, 15);
     private final JoystickButton button16 = new JoystickButton(Thrustmaster, 16);
+    private final JoystickButton button13 = new JoystickButton(Thrustmaster, 13);
     private final JoystickButton rightBummper = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton button4 = new JoystickButton(Thrustmaster, 4);
     private final JoystickButton button3 = new JoystickButton(Thrustmaster, 3);
@@ -104,6 +106,7 @@ public class RobotContainer {
 
         );
         // autoChooser = new SendableChooser<Command>();
+
         autoChooser.setDefaultOption("NoAuto", new NoAuto(s_Swerve));
         autoChooser.addOption("ShortAuto", new ShortAuto(s_Swerve));
         autoChooser.addOption("BalanceAuto", new BalanceAuto(s_Swerve));
@@ -116,6 +119,7 @@ public class RobotContainer {
         autoChooser.addOption("Planner2Drop", new TwoDropAuto(s_Swerve, m_lift, m_Intake, m_arm));
         autoChooser.addOption("OppPlanner2Drop", new LongTwoDropAuto(s_Swerve, m_lift, m_Intake, m_arm));
         autoChooser.addOption("GenerateTrajJauto", new GenerateTrajAuto(s_Swerve, m_lift, m_Intake, m_arm, m_vision));
+        autoChooser.addOption("{E{EA{}}}", new GenTraj2(s_Swerve, m_lift, m_Intake, m_arm, m_vision));
         // SmartDashboard.putData("Autonomous Chooser", autoChooser);
         Shuffleboard.getTab("user tab").add(autoChooser);
 
@@ -141,6 +145,7 @@ public class RobotContainer {
         button15.whileTrue(new InstantCommand(() -> m_arm.armMiddle()));
         button15.whileTrue(new InstantCommand(() -> m_lift.liftMiddle()));
         // Down
+        button13.whileTrue(new InstantCommand(() -> m_arm.armDrive()));
         button14.whileTrue(new InstantCommand(() -> m_arm.armDown()));
         button14.whileTrue(new InstantCommand(() -> m_lift.liftDown()));
         button7.whileTrue(new InstantCommand(() -> m_lift.liftUpManual()))

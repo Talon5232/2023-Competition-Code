@@ -48,6 +48,9 @@ public class Vision extends SubsystemBase {
     this.y_ = this.m_limelight.getEntry("ty").getDouble(0);
     this.target_area_ = this.m_limelight.getEntry("ta").getDouble(0);
     this.has_target_ = this.m_limelight.getEntry("tv").getBoolean(false);
+    generateDistanceXToObject(getObject());
+    generateDistanceYToObject(getObject());
+
   }
 
   public void upadateSmartDashBoard() {

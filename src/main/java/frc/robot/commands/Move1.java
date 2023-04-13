@@ -88,6 +88,7 @@ private int runonce = 0;
         s_Swerve.resetOdometry(exampleTrajectory5.getInitialPose());
         runonce = 1;
         swerveControllerCommand.schedule();
+        
         } /* 
         while(isFinished() == false){
           looper = s_Swerve.getPose().getX();
