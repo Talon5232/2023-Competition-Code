@@ -32,7 +32,7 @@ public class Vision extends SubsystemBase {
 
   @Override
   public void periodic() {
-    setObject(ObjectTarget.APRIL_TAG);
+   // setObject(ObjectTarget.APRIL_TAG);
     updateVisionData();
     getObjectHeight(getObject());
     upadateSmartDashBoard();
@@ -88,6 +88,10 @@ public class Vision extends SubsystemBase {
     
   }
 
+  public double getXRaw(){
+    return this.x_;
+  }
+
   public double getY(ObjectToTarget object) {
     switch (object){
       case APRIL_TAG: {
@@ -120,6 +124,7 @@ public class Vision extends SubsystemBase {
   }
 
   private double getObjectHeight(ObjectToTarget object) {
+    setObject(object);
     switch (object) {
       case APRIL_TAG: {
         setPipeline(0);
@@ -202,7 +207,31 @@ public class Vision extends SubsystemBase {
    * #TODO: Usage in Teleop? <-- Driveteam question
    */
   public Translation2d generate2dPositionToObject(ObjectToTarget objectToTarget) {
-    return new Translation2d(generateDistanceXToObject(objectToTarget), generateDistanceYToObject(objectToTarget));
+    switch (objectToTarget) {
+      case APRIL_TAG: {
+        //Infront of the drop area
+        return new Translation2d(generateDistanceXToObject(objectToTarget)-.3, generateDistanceYToObject(objectToTarget));
+      }
+      case FLOOR_CONE: {
+       
+        //Grabbing floor cone drive
+        return  new Translation2d(generateDistanceXToObject(objectToTarget), generateDistanceYToObject(objectToTarget));    
+
+      }
+      case REFLECTIVE_TAPE: {
+       
+        return  new Translation2d(generateDistanceXToObject(objectToTarget), generateDistanceYToObject(objectToTarget));
+      }
+      case SUBSTATION_CONE: {
+
+        return  new Translation2d(generateDistanceXToObject(objectToTarget), generateDistanceYToObject(objectToTarget));
+      }
+      default: {
+        System.out.println("Ummm Ethan FIX");
+        return new Translation2d(0,0);
+      }
+    }
+
   }
 
 }

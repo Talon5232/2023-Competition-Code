@@ -52,6 +52,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    m_Vision.setObject(ObjectToTarget.APRIL_TAG);
     CameraServer.startAutomaticCapture();
     ctreConfigs = new CTREConfigs();
     m_robotContainer = new RobotContainer();

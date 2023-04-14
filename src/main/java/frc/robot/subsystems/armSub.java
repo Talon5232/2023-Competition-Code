@@ -43,7 +43,7 @@ public class armSub extends SubsystemBase {
         */
     }
     public void armUp(){
-        setpoint = -82;
+        setpoint = -76;
     }
     public void armMiddle(){
         setpoint = -69;
@@ -96,12 +96,13 @@ public void periodic(){
     derivitive = error - lastError;
     lastError = error;
     correction = (error * kP) + (derivitive * kD);
-    if(correction >= .8){
-        correction = .8;
+    if(correction >= 1){
+        correction = 1;
     }
-    if(correction <= -.8){
-        correction = -.8;
+    if(correction <= -1){
+        correction = -1;
     }
+    
     armMotor.set(correction);
 
 

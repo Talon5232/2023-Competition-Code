@@ -21,6 +21,9 @@ import frc.robot.autos.PlannerDrop;
 import frc.robot.autos.ShortAuto;
 import frc.robot.autos.TwoDropAuto;
 import frc.robot.autos.VeryShortAuto;
+import frc.robot.autos.TestAutos.DriveSequential;
+import frc.robot.autos.TestAutos.DriveTo;
+import frc.robot.autos.TestAutos.DriveToAndAlign;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.Flipper;
 import frc.robot.subsystems.Swerve;
@@ -63,6 +66,8 @@ public class RobotContainer {
     private final JoystickButton button8 = new JoystickButton(Thrustmaster, 8);
     private final JoystickButton button7 = new JoystickButton(Thrustmaster, 7);
     private final JoystickButton button2 = new JoystickButton(Thrustmaster, 2);
+        //123456789
+    private final JoystickButton button10 = new JoystickButton(Thrustmaster, 10);
 
     private final JoystickButton button14 = new JoystickButton(Thrustmaster, 14);
     private final JoystickButton button15 = new JoystickButton(Thrustmaster, 15);
@@ -72,6 +77,7 @@ public class RobotContainer {
     private final JoystickButton button4 = new JoystickButton(Thrustmaster, 4);
     private final JoystickButton button3 = new JoystickButton(Thrustmaster, 3);
 
+    private final JoystickButton button5 = new JoystickButton(Thrustmaster, 5);
     private final JoystickButton trigger = new JoystickButton(Thrustmaster, 1);
     private final JoystickButton backButton = new JoystickButton(driver, XboxController.Button.kBack.value);
 
@@ -120,6 +126,8 @@ public class RobotContainer {
         autoChooser.addOption("OppPlanner2Drop", new LongTwoDropAuto(s_Swerve, m_lift, m_Intake, m_arm));
         autoChooser.addOption("GenerateTrajJauto", new GenerateTrajAuto(s_Swerve, m_lift, m_Intake, m_arm, m_vision));
         autoChooser.addOption("{E{EA{}}}", new GenTraj2(s_Swerve, m_lift, m_Intake, m_arm, m_vision));
+        autoChooser.addOption("DriveSequential", new DriveSequential(s_Swerve, m_vision));
+        autoChooser.addOption("TheGodAuto", new DriveToAndAlign(s_Swerve, m_vision, s_Swerve::getPose, new Pose2d(new Translation2d(.5,.5), new Rotation2d(0)), ObjectToTarget.NONE));
         // SmartDashboard.putData("Autonomous Chooser", autoChooser);
         Shuffleboard.getTab("user tab").add(autoChooser);
 
@@ -178,8 +186,10 @@ public class RobotContainer {
         // button3.whileTrue(new InstantCommand(() ->
         // blinkin.givecone())).whileFalse(new InstantCommand(() ->
         // frc.robot.subsystems.blinkin.lightsNormal()));
-
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+
+        //Test Buttons
+        
 
     }
 
