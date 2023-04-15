@@ -42,24 +42,38 @@ public class DriveSequential extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      //Reset ODO and begin looking for floor cone
       new InstantCommand(() -> m_Swerve.zeroGyro()),
       new InstantCommand(() -> m_Swerve.zeroPosition(new Pose2d(new Translation2d(0, 0), new Rotation2d(0)), 0)),
       new InstantCommand(() -> m_Vision.setObject(ObjectToTarget.FLOOR_CONE)),
-     // new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(m_Vision.generateDistanceXToObject(ObjectToTarget.APRIL_TAG)-.4,m_Vision.generateDistanceYToObject(ObjectToTarget.APRIL_TAG)), new Rotation2d(0)), ObjectToTarget.NONE)
+      //Drop Cone into low goal
       new InstantCommand(() -> m_intake.AutoIntakeIn()),
       new WaitCommand(1),
       new InstantCommand(() -> m_intake.AutoIntakeOff()),
       new InstantCommand(() -> m_lift.liftLittleUp()),
       new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(-3,-.15), new Rotation2d(Math.PI)), ObjectToTarget.NONE, 0, 0, false),
+      //Move lift and arm into intake position
       new InstantCommand(() -> m_arm.armDown()),
       new InstantCommand(() -> m_lift.liftDown()),
 
-     // new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(0,0), new Rotation2d(Math.PI)), ObjectToTarget.FLOOR_CONE, 0, 0)
+     //GO TO Cone Posiiton to grab
       new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(-4,0), new Rotation2d(Math.PI)), ObjectToTarget.FLOOR_CONE, .4, .2, true),
+      //Intake procedure of ground cone
+
       new InstantCommand(() -> m_arm.armAuto()),
       new InstantCommand(() -> m_intake.AutoIntakeIn()),
       new WaitCommand(2),
-      new InstantCommand(() -> m_intake.AutoIntakeOff())
+      new InstantCommand(() -> m_intake.AutoIntakeOff()),
+      //Turn and line up to scan april tag
+      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(-1,-.1), new Rotation2d(0)), ObjectToTarget.NONE, 0, 0, false),
+      //Raise arm and lift
+      new InstantCommand(() -> m_lift.liftUp()),
+      new InstantCommand(() -> m_arm.armUp()),
+      //GO TO Drop Poisiton
+      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(0,0), new Rotation2d(0)), ObjectToTarget.APRIL_TAG, 1, .1, false)
+
+
+      
 
 
 
