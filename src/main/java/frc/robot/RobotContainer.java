@@ -28,6 +28,7 @@ import frc.robot.subsystems.armSub;
 import frc.robot.subsystems.blinkin;
 import frc.robot.subsystems.intakeSub;
 import frc.robot.subsystems.liftSub;
+import frc.robot.subsystems.Vision.ObjectToTarget;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -56,12 +57,17 @@ public class RobotContainer {
     private final JoystickButton Bbutton = new JoystickButton(driver, XboxController.Button.kB.value);
     private final JoystickButton Xbutton = new JoystickButton(driver, XboxController.Button.kX.value);
 
+
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton button8 = new JoystickButton(Thrustmaster, 8);
     private final JoystickButton button7 = new JoystickButton(Thrustmaster, 7);
     private final JoystickButton button2 = new JoystickButton(Thrustmaster, 2);
         //123456789
+        private final JoystickButton button11 = new JoystickButton(Thrustmaster, 11);
+        private final JoystickButton button12 = new JoystickButton(Thrustmaster, 12);
+
+    
     private final JoystickButton button10 = new JoystickButton(Thrustmaster, 10);
 
     private final JoystickButton button14 = new JoystickButton(Thrustmaster, 14);
@@ -121,7 +127,7 @@ public class RobotContainer {
         autoChooser.addOption("DropPathPlanner", new PlannerDrop(s_Swerve, m_lift, m_Intake, m_arm));
         autoChooser.addOption("Planner2Drop", new TwoDropAuto(s_Swerve, m_lift, m_Intake, m_arm));
         autoChooser.addOption("OppPlanner2Drop", new LongTwoDropAuto(s_Swerve, m_lift, m_Intake, m_arm));
-        autoChooser.addOption("DriveSequential", new DriveSequential(s_Swerve, m_vision, m_Intake));
+        autoChooser.addOption("DriveSequential", new DriveSequential(s_Swerve, m_vision, m_Intake, m_lift, m_arm));
         // SmartDashboard.putData("Autonomous Chooser", autoChooser);
         Shuffleboard.getTab("user tab").add(autoChooser);
 
@@ -163,6 +169,10 @@ public class RobotContainer {
                 .whileFalse(new InstantCommand(() -> Flipper.FlipperStop()));
         button4.whileTrue(new InstantCommand(() -> Flipper.Flipperout()))
                 .whileFalse(new InstantCommand(() -> Flipper.FlipperStop()));
+        button12.whileTrue(new InstantCommand(()->m_vision.setObject(ObjectToTarget.APRIL_TAG)));
+        button11.whileTrue(new InstantCommand(()->m_vision.setObject(ObjectToTarget.FLOOR_CONE)));
+        button5.whileTrue(new InstantCommand(() -> m_vision.setObject(ObjectToTarget.SUBSTATION_CONE)));
+
 
         // backButton.whileTrue(new InstantCommand(() -> m_arm.armMovement(double
         // setpoint + .025)));

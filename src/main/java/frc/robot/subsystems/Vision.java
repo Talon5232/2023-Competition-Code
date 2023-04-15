@@ -34,6 +34,8 @@ public class Vision extends SubsystemBase {
     updateVisionData();
     upadateSmartDashBoard();
     updatePipeline();
+    generateDistanceXToObject();
+    generateDistanceYToObject();
     // m_limelight.getEntry("CamMode").setNumber(0);
 
   }
@@ -134,10 +136,10 @@ public class Vision extends SubsystemBase {
         return Math.abs(this.y_);
       }
       case FLOOR_CONE: {
-        return Math.abs(this.y_) + 2.5;
+        return Math.abs(this.y_) -2.5 /*1.3*/;
       }
       case SUBSTATION_CONE: {
-        return Math.abs(this.y_) - 4;
+        return Math.abs(this.y_) +1.3;
       }
       default: {
         System.out.println("Defaulting in Vision.Gety");

@@ -43,7 +43,7 @@ public class armSub extends SubsystemBase {
         */
     }
     public void armUp(){
-        setpoint = -76;
+        setpoint = -71;
     }
     public void armMiddle(){
         setpoint = -64;
@@ -55,7 +55,7 @@ public class armSub extends SubsystemBase {
         setpoint = -5;
     }
     public void armAuto(){
-        setpoint = -7;
+        setpoint = -20;
 
     }
     public void armVeryDown(){

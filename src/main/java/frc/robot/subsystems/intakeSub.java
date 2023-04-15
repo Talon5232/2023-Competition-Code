@@ -20,13 +20,13 @@ public class intakeSub extends SubsystemBase {
     public static final int OutakeContinuousCurrentLimit = 25;
 
     public void intakein() {
-        intakeMotor.set(TalonSRXControlMode.PercentOutput, -0.7);
+        intakeMotor.set(TalonSRXControlMode.PercentOutput, 0.7);
         keepIntakeOn = 2;
         keepOutakeOn = 2;
     }
 
     public void intakeout() {
-        intakeMotor.set(TalonSRXControlMode.PercentOutput, 0.7);
+        intakeMotor.set(TalonSRXControlMode.PercentOutput, -0.7);
         keepIntakeOn = 2;
         keepOutakeOn = 2;
 
@@ -56,10 +56,10 @@ public class intakeSub extends SubsystemBase {
     public void periodic() {
 
         if (keepIntakeOn == 1) {
-            intakeMotor.set(TalonSRXControlMode.PercentOutput, -0.7);
+            intakeMotor.set(TalonSRXControlMode.PercentOutput, 0.7);
         }
         if (keepOutakeOn == 1) {
-            intakeMotor.set(TalonSRXControlMode.PercentOutput, 0.7);
+            intakeMotor.set(TalonSRXControlMode.PercentOutput, -0.7);
         }
         if (keepIntakeOn == 0 && keepOutakeOn == 0) {
             intakeMotor.set(TalonSRXControlMode.PercentOutput, 0.00);
