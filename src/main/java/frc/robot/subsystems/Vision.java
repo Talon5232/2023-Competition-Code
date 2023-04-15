@@ -14,8 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-
-
 public class Vision extends SubsystemBase {
   public enum ObjectToTarget {
     NONE,
@@ -25,23 +23,21 @@ public class Vision extends SubsystemBase {
     APRIL_TAG;
 
   }
+
   private double x_, y_, target_area_, pipeline_ = 0;
   private ObjectToTarget ObjectTarget = ObjectToTarget.FLOOR_CONE;
-  
+
   private boolean has_target_;
   /** Creates a new Vison. */
   private final NetworkTable m_limelight = NetworkTableInstance.getDefault().getTable("limelight");
 
   @Override
   public void periodic() {
-   // setObject(ObjectTarget.APRIL_TAG);
     updateVisionData();
- //   getObjectHeight();
     upadateSmartDashBoard();
     updatePipeline();
-   // m_limelight.getEntry("CamMode").setNumber(0);
+    // m_limelight.getEntry("CamMode").setNumber(0);
 
-    // This method will be called once per scheduler run
   }
 
   // #region upadters
@@ -50,17 +46,13 @@ public class Vision extends SubsystemBase {
     this.y_ = this.m_limelight.getEntry("ty").getDouble(0);
     this.target_area_ = this.m_limelight.getEntry("ta").getDouble(0);
     this.has_target_ = this.m_limelight.getEntry("tv").getBoolean(false);
-  //  generateDistanceXToObject();
-   // generateDistanceYToObject();
 
   }
 
   public void upadateSmartDashBoard() {
     SmartDashboard.putNumber("X offset", getX());
-    
     SmartDashboard.putNumber("Y Offset", getY());
     SmartDashboard.putNumber("X Actual", this.x_);
-
     SmartDashboard.putBoolean("Has Target", this.has_target_);
     SmartDashboard.putNumber("Target Area", this.target_area_);
     SmartDashboard.putNumber("DistanceXToObject", generateDistanceXToObject());
@@ -68,71 +60,93 @@ public class Vision extends SubsystemBase {
   }
 
   public void updatePipeline() {
-    this.m_limelight.getEntry("pipeline").setNumber(this.pipeline_);
+    switch (this.ObjectTarget) {
+      case APRIL_TAG: {
+        this.m_limelight.getEntry("pipeline").setNumber(0);
+      }
+        break;
+      case FLOOR_CONE: {
+        this.m_limelight.getEntry("pipeline").setNumber(2);
+      }
+        break;
+      case REFLECTIVE_TAPE: {
+        this.m_limelight.getEntry("pipeline").setNumber(1);
+      }
+        break;
+      case SUBSTATION_CONE: {
+        this.m_limelight.getEntry("pipeline").setNumber(2);
+      }
+        break;
+      default: {
+        this.m_limelight.getEntry("pipeline").setNumber(0);
+        System.out.println("Object is none in Vision.updatePipeline");
+      }
+        break;
+
+    }
   }
   // #endregionS
 
   // #region Get's
-  public ObjectToTarget getObject(){
+  public ObjectToTarget getObject() {
     return this.ObjectTarget;
   }
+
   public double getPipeline() {
     return this.pipeline_;
   }
 
   public double getX() {
-    switch (this.ObjectTarget){
+    switch (this.ObjectTarget) {
       case APRIL_TAG: {
-        if(this.x_ >= 0){
-          return this.x_+2.725;
-        }
-        else{
-          return this.x_-2.725;
+        if (this.x_ >= 0) {
+          return this.x_ + 2.725;
+        } else {
+          return this.x_ - 2.725;
         }
       }
       case REFLECTIVE_TAPE: {
-        return Math.abs(this.x_) -4;
+        return Math.abs(this.x_) - 4;
       }
-      case FLOOR_CONE:{
-        return Math.abs(this.x_) -4;
+      case FLOOR_CONE: {
+        return Math.abs(this.x_) - 4;
       }
       case SUBSTATION_CONE: {
-        return Math.abs(this.x_) -4;
+        return Math.abs(this.x_) - 4;
       }
       default: {
-        System.out.println("Ummm Ethan FIX789");
+        System.out.println("Defaulting in Vision.GetX");
         return (0);
       }
     }
-    
-    
+
   }
 
-  public double getXRaw(){
+  public double getXRaw() {
     return this.x_;
   }
 
   public double getY() {
-    switch (this.ObjectTarget){
+    switch (this.ObjectTarget) {
       case APRIL_TAG: {
-        return Math.abs(this.y_)-2.6;
+        return Math.abs(this.y_) - 2.6;
       }
       case REFLECTIVE_TAPE: {
         return Math.abs(this.y_);
       }
-      case FLOOR_CONE:{
-        return Math.abs(this.y_) +2.5;
+      case FLOOR_CONE: {
+        return Math.abs(this.y_) + 2.5;
       }
       case SUBSTATION_CONE: {
-        return Math.abs(this.y_) -4;
+        return Math.abs(this.y_) - 4;
       }
       default: {
-        System.out.println("Ummm Ethan FIX42");
+        System.out.println("Defaulting in Vision.Gety");
         return (0);
       }
 
     }
-   
+
   }
 
   public double getArea() {
@@ -146,32 +160,20 @@ public class Vision extends SubsystemBase {
   private double getObjectHeight() {
     switch (this.ObjectTarget) {
       case APRIL_TAG: {
-        setPipeline(0);
-        // LED OFF FOR APRIL TAGS
-        //m_limelight.getEntry("ledMode").setNumber(1);
-
         return Constants.FieldConstants.LOW_APRIL_TAG;
       }
       case FLOOR_CONE: {
-        setPipeline(2);
-      //  m_limelight.getEntry("ledMode").setNumber(1);
-        
-        return Constants.FieldConstants.FLOOR_CONE_HEIGHT;       
+        return Constants.FieldConstants.FLOOR_CONE_HEIGHT;
 
       }
       case REFLECTIVE_TAPE: {
-        setPipeline(1);
-      //  m_limelight.getEntry("ledMode").setNumber(3);
         return Constants.FieldConstants.LOW_REFLECTIVE_TAPE;
       }
       case SUBSTATION_CONE: {
-        setPipeline(2);
-      //  m_limelight.getEntry("ledMode").setNumber(1);
-
         return Constants.FieldConstants.PLAYER_STATION_CONE_HEIGHT;
       }
       default: {
-        System.out.println("Ummm Ethan FIX424");
+        System.out.println("Defaulting in Vision.getObjectHeight");
         return (0);
       }
     }
@@ -180,13 +182,13 @@ public class Vision extends SubsystemBase {
   // #endregion
 
   // #region Set'
-  public void setObject(ObjectToTarget object){
+  public void setObject(ObjectToTarget object) {
     this.ObjectTarget = object;
   }
+
   public void setPipeline(int pipe) {
-    // if(pipe >= 0 && pipe <= 9){}
     this.pipeline_ = pipe;
-    this.m_limelight.getEntry("pipeline").setNumber(pipe);
+    this.m_limelight.getEntry("pipeline").setNumber(pipeline_);
   }
 
   // #endregion
@@ -219,68 +221,82 @@ public class Vision extends SubsystemBase {
 
   /*
    * Low Cones, April-Tags, and Reflective Tape we can virtually be right next to
-   *  Substation cones our closest measurement may be up to 7 feet away. Does the want to do something about this? 
-   * #TODO: Add offsets -- x for arm -- y for camera (This can also be done in limelightlocal) -- and  ANY OTHER offsets you may need.
+   * Substation cones our closest measurement may be up to 7 feet away. Does the
+   * want to do something about this?
+   * #TODO: Add offsets -- x for arm -- y for camera (This can also be done in
+   * limelightlocal) -- and ANY OTHER offsets you may need.
    * #TODO: Adding get-set for objects might be easier for you to work with!
-   * #TODO: Late night me thinks resetOdo may be your ticket to starting field relative
+   * #TODO: Late night me thinks resetOdo may be your ticket to starting field
+   * relative
    * #TODO: Usage in Teleop? <-- Driveteam question
    */
   public Translation2d generate2dPositionToObject() {
     switch (this.ObjectTarget) {
       case APRIL_TAG: {
-        //Infront of the drop area
+        // Infront of the drop area
         return new Translation2d(generateDistanceXToObject(), generateDistanceYToObject());
       }
       case FLOOR_CONE: {
-       
-        //Grabbing floor cone drive
-        return  new Translation2d(generateDistanceXToObject(), generateDistanceYToObject());    
+
+        // Grabbing floor cone drive
+        return new Translation2d(generateDistanceXToObject(), generateDistanceYToObject());
 
       }
       case REFLECTIVE_TAPE: {
-       
-        return  new Translation2d(generateDistanceXToObject(), generateDistanceYToObject());
+
+        return new Translation2d(generateDistanceXToObject(), generateDistanceYToObject());
       }
       case SUBSTATION_CONE: {
 
-        return  new Translation2d(generateDistanceXToObject(), generateDistanceYToObject());
+        return new Translation2d(generateDistanceXToObject(), generateDistanceYToObject());
       }
       default: {
-        System.out.println("Ummm Ethan FIX");
-        return new Translation2d(0,0);
+        System.out.println("Defaulting in Vision.gen2DPos");
+        return new Translation2d(0, 0);
       }
     }
 
   }
 
 }
-/* 
- * IMO you and Noah should pull up onshape and build all the important field elements in FieldConstants -- stuff you dont want to run into during auto
- *      Putting offsets there
- *  You should find exact measurements -- for red side should be mirroed just 16.5-x for said red
- *  Charge Station estimation blue (meters)
- *                        y 4.25
- *                x 2.6m        5.2m
- *    x: 2.6 -> 5.2 //////////////
- *    y: 4.25       /            /
- *                  /            /
- *                  /            /
- *                  /            /
- *                  /            /
- *                  /            /
- *                  //////////////
- *                                y 1.25                 
+/*
+ * IMO you and Noah should pull up onshape and build all the important field
+ * elements in FieldConstants -- stuff you dont want to run into during auto
+ * Putting offsets there
+ * You should find exact measurements -- for red side should be mirroed just
+ * 16.5-x for said red
+ * Charge Station estimation blue (meters)
+ * y 4.25
+ * x 2.6m 5.2m
+ * x: 2.6 -> 5.2 //////////////
+ * y: 4.25 / /
+ * / /
+ * / /
+ * / /
+ * / /
+ * / /
+ * //////////////
+ * y 1.25
  * 
  * 
- *  If you dont want to use Swerve's drive method for movement and want to stick with path planner for all auto check out
- *  https://github.com/mjansen4857/pathplanner/wiki/PathPlannerLib:-Java-Usage "On-the-fly-generation"
- *  Otherwise Swerve.drive() or trajecGen like you originally used. 
+ * If you dont want to use Swerve's drive method for movement and want to stick
+ * with path planner for all auto check out
+ * https://github.com/mjansen4857/pathplanner/wiki/PathPlannerLib:-Java-Usage
+ * "On-the-fly-generation"
+ * Otherwise Swerve.drive() or trajecGen like you originally used.
  * 
- *  https://firstfrc.blob.core.windows.net/frc2023/FieldAssets/2023LayoutMarkingDiagram.pdf 
- *  https://firstfrc.blob.core.windows.net/frc2023/FieldAssets/2023FieldDrawings-CHARGEDUPSpecific.pdf 
- *  https://www.chiefdelphi.com/t/dynamic-on-the-fly-path-generation-in-teleop-video/423818 More of a summer project but A* is very much something that will be used in Comp Sci
- *    Id implement the A* star in something like python first to see how it works then translate it to Java if you guys ever get to this point.
- *    Never thought about it but using A* for auto is kinda genius -- but also major sweat lord moments( in the case of custom implementation) and so many things to improve before then
+ * https://firstfrc.blob.core.windows.net/frc2023/FieldAssets/
+ * 2023LayoutMarkingDiagram.pdf
+ * https://firstfrc.blob.core.windows.net/frc2023/FieldAssets/2023FieldDrawings-
+ * CHARGEDUPSpecific.pdf
+ * https://www.chiefdelphi.com/t/dynamic-on-the-fly-path-generation-in-teleop-
+ * video/423818 More of a summer project but A* is very much something that will
+ * be used in Comp Sci
+ * Id implement the A* star in something like python first to see how it works
+ * then translate it to Java if you guys ever get to this point.
+ * Never thought about it but using A* for auto is kinda genius -- but also
+ * major sweat lord moments( in the case of custom implementation) and so many
+ * things to improve before then
  * 
  */
 // #endregion
