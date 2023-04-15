@@ -4,10 +4,8 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.BooleanEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,7 +26,7 @@ public class Vision extends SubsystemBase {
   private ObjectToTarget ObjectTarget = ObjectToTarget.FLOOR_CONE;
 
   private boolean has_target_;
-  /** Creates a new Vison. */
+  /** Creates a new Vision. */
   private final NetworkTable m_limelight = NetworkTableInstance.getDefault().getTable("limelight");
 
   @Override
@@ -40,7 +38,7 @@ public class Vision extends SubsystemBase {
 
   }
 
-  // #region upadters
+  // #region updaters
   public void updateVisionData() {
     this.x_ = this.m_limelight.getEntry("tx").getDouble(0);
     this.y_ = this.m_limelight.getEntry("ty").getDouble(0);
@@ -57,6 +55,7 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("Target Area", this.target_area_);
     SmartDashboard.putNumber("DistanceXToObject", generateDistanceXToObject());
     SmartDashboard.putNumber("DistnaceYToTarget", generateDistanceYToObject());
+    SmartDashboard.putString("Object Tracking", getObject().toString());
   }
 
   public void updatePipeline() {
@@ -184,9 +183,10 @@ public class Vision extends SubsystemBase {
   // #region Set'
   public void setObject(ObjectToTarget object) {
     this.ObjectTarget = object;
+    updatePipeline();
   }
 
-  public void setPipeline(int pipe) {
+  private void setPipeline(int pipe) {
     this.pipeline_ = pipe;
     this.m_limelight.getEntry("pipeline").setNumber(pipeline_);
   }
