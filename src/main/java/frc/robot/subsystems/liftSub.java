@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class liftSub extends SubsystemBase {
-    double kP = .055;
-    double kD = .035;
+    double kP = .045;
+    double kD = .025;
     double error;
     double lastError;
     double currentPosition;

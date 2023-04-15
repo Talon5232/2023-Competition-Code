@@ -5,8 +5,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class armSub extends SubsystemBase {
-    double kP = .04;
-    double kD = .025;
+    double kP = .02;
+    double kD = .02;
     double error;
     double lastError;
     double currentPosition;
@@ -46,7 +46,7 @@ public class armSub extends SubsystemBase {
         setpoint = -76;
     }
     public void armMiddle(){
-        setpoint = -69;
+        setpoint = -64;
     }
     public void armDown(){
        setpoint = -36;

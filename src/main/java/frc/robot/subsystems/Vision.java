@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.BooleanEntry;
@@ -21,10 +22,11 @@ public class Vision extends SubsystemBase {
     FLOOR_CONE,
     SUBSTATION_CONE,
     REFLECTIVE_TAPE,
-    APRIL_TAG
+    APRIL_TAG;
+
   }
   private double x_, y_, target_area_, pipeline_ = 0;
-   ObjectToTarget ObjectTarget = ObjectToTarget.NONE;
+  private ObjectToTarget ObjectTarget = ObjectToTarget.FLOOR_CONE;
   
   private boolean has_target_;
   /** Creates a new Vison. */
@@ -34,10 +36,10 @@ public class Vision extends SubsystemBase {
   public void periodic() {
    // setObject(ObjectTarget.APRIL_TAG);
     updateVisionData();
-    getObjectHeight(getObject());
+ //   getObjectHeight();
     upadateSmartDashBoard();
     updatePipeline();
-    m_limelight.getEntry("CamMode").setNumber(0);
+   // m_limelight.getEntry("CamMode").setNumber(0);
 
     // This method will be called once per scheduler run
   }
@@ -48,21 +50,21 @@ public class Vision extends SubsystemBase {
     this.y_ = this.m_limelight.getEntry("ty").getDouble(0);
     this.target_area_ = this.m_limelight.getEntry("ta").getDouble(0);
     this.has_target_ = this.m_limelight.getEntry("tv").getBoolean(false);
-    generateDistanceXToObject(getObject());
-    generateDistanceYToObject(getObject());
+  //  generateDistanceXToObject();
+   // generateDistanceYToObject();
 
   }
 
   public void upadateSmartDashBoard() {
     SmartDashboard.putNumber("X offset", getX());
     
-    SmartDashboard.putNumber("Y Offset", getY(getObject()));
+    SmartDashboard.putNumber("Y Offset", getY());
     SmartDashboard.putNumber("X Actual", this.x_);
 
     SmartDashboard.putBoolean("Has Target", this.has_target_);
     SmartDashboard.putNumber("Target Area", this.target_area_);
-    SmartDashboard.putNumber("DistanceXToObject", generateDistanceXToObject(getObject()));
-    SmartDashboard.putNumber("DistnaceYToTarget", generateDistanceYToObject(getObject()));
+    SmartDashboard.putNumber("DistanceXToObject", generateDistanceXToObject());
+    SmartDashboard.putNumber("DistnaceYToTarget", generateDistanceYToObject());
   }
 
   public void updatePipeline() {
@@ -72,19 +74,37 @@ public class Vision extends SubsystemBase {
 
   // #region Get's
   public ObjectToTarget getObject(){
-    return /* */this.ObjectTarget;
+    return this.ObjectTarget;
   }
   public double getPipeline() {
     return this.pipeline_;
   }
 
   public double getX() {
-    if(this.x_ >= 0){
-      return this.x_+2.725;
+    switch (this.ObjectTarget){
+      case APRIL_TAG: {
+        if(this.x_ >= 0){
+          return this.x_+2.725;
+        }
+        else{
+          return this.x_-2.725;
+        }
+      }
+      case REFLECTIVE_TAPE: {
+        return Math.abs(this.x_) -4;
+      }
+      case FLOOR_CONE:{
+        return Math.abs(this.x_) -4;
+      }
+      case SUBSTATION_CONE: {
+        return Math.abs(this.x_) -4;
+      }
+      default: {
+        System.out.println("Ummm Ethan FIX789");
+        return (0);
+      }
     }
-    else{
-      return this.x_-2.725;
-    }
+    
     
   }
 
@@ -92,22 +112,22 @@ public class Vision extends SubsystemBase {
     return this.x_;
   }
 
-  public double getY(ObjectToTarget object) {
-    switch (object){
+  public double getY() {
+    switch (this.ObjectTarget){
       case APRIL_TAG: {
         return Math.abs(this.y_)-2.6;
       }
       case REFLECTIVE_TAPE: {
-        return Math.abs(this.y_) -4;
+        return Math.abs(this.y_);
       }
       case FLOOR_CONE:{
-        return Math.abs(this.y_) -4;
+        return Math.abs(this.y_) +2.5;
       }
       case SUBSTATION_CONE: {
         return Math.abs(this.y_) -4;
       }
       default: {
-        System.out.println("Ummm Ethan FIX");
+        System.out.println("Ummm Ethan FIX42");
         return (0);
       }
 
@@ -123,9 +143,8 @@ public class Vision extends SubsystemBase {
     return this.has_target_;
   }
 
-  private double getObjectHeight(ObjectToTarget object) {
-    setObject(object);
-    switch (object) {
+  private double getObjectHeight() {
+    switch (this.ObjectTarget) {
       case APRIL_TAG: {
         setPipeline(0);
         // LED OFF FOR APRIL TAGS
@@ -152,7 +171,7 @@ public class Vision extends SubsystemBase {
         return Constants.FieldConstants.PLAYER_STATION_CONE_HEIGHT;
       }
       default: {
-        System.out.println("Ummm Ethan FIX");
+        System.out.println("Ummm Ethan FIX424");
         return (0);
       }
     }
@@ -173,16 +192,16 @@ public class Vision extends SubsystemBase {
   // #endregion
 
   // #region Builders/Generators
-  public double generateDistanceXToObject(ObjectToTarget objectToTarget) {
-    if (objectToTarget != ObjectToTarget.NONE) {
-      SmartDashboard.putNumber("HeightOb", getObjectHeight(objectToTarget));
+  public double generateDistanceXToObject() {
+    if (this.ObjectTarget != ObjectToTarget.NONE) {
+      SmartDashboard.putNumber("HeightOb", getObjectHeight());
       SmartDashboard.putNumber("kCameraHeight", Constants.VisionConstants.kCameraHeight);
       SmartDashboard.putNumber("CameraRoations", Constants.VisionConstants.kCameraRotation);
-      SmartDashboard.putNumber("GetYCamera", getY(ObjectToTarget.REFLECTIVE_TAPE));
-      SmartDashboard.putNumber("tan(Y)", Math.tan(Units.degreesToRadians(getY(ObjectToTarget.REFLECTIVE_TAPE))));
+      SmartDashboard.putNumber("GetYCamera", getY());
+      SmartDashboard.putNumber("tan(Y)", Math.tan(Units.degreesToRadians(getY())));
 
-      return (Math.abs((getObjectHeight(objectToTarget) - Constants.VisionConstants.kCameraHeight))
-          / (Math.tan(Constants.VisionConstants.kCameraRotation + Units.degreesToRadians(getY(objectToTarget)))));
+      return (Math.abs((getObjectHeight() - Constants.VisionConstants.kCameraHeight))
+          / (Math.tan(Constants.VisionConstants.kCameraRotation + Units.degreesToRadians(getY()))));
     }
 
     else {
@@ -190,9 +209,9 @@ public class Vision extends SubsystemBase {
     }
   }
 
-  public double generateDistanceYToObject(ObjectToTarget objectToTarget) {
-    if (objectToTarget != ObjectToTarget.NONE) {
-      return ((Math.tan(Units.degreesToRadians(getX()))) * generateDistanceXToObject(objectToTarget));
+  public double generateDistanceYToObject() {
+    if (this.ObjectTarget != ObjectToTarget.NONE) {
+      return ((Math.tan(Units.degreesToRadians(getX()))) * generateDistanceXToObject());
     } else {
       return 0;
     }
@@ -206,25 +225,25 @@ public class Vision extends SubsystemBase {
    * #TODO: Late night me thinks resetOdo may be your ticket to starting field relative
    * #TODO: Usage in Teleop? <-- Driveteam question
    */
-  public Translation2d generate2dPositionToObject(ObjectToTarget objectToTarget) {
-    switch (objectToTarget) {
+  public Translation2d generate2dPositionToObject() {
+    switch (this.ObjectTarget) {
       case APRIL_TAG: {
         //Infront of the drop area
-        return new Translation2d(generateDistanceXToObject(objectToTarget)-.3, generateDistanceYToObject(objectToTarget));
+        return new Translation2d(generateDistanceXToObject(), generateDistanceYToObject());
       }
       case FLOOR_CONE: {
        
         //Grabbing floor cone drive
-        return  new Translation2d(generateDistanceXToObject(objectToTarget), generateDistanceYToObject(objectToTarget));    
+        return  new Translation2d(generateDistanceXToObject(), generateDistanceYToObject());    
 
       }
       case REFLECTIVE_TAPE: {
        
-        return  new Translation2d(generateDistanceXToObject(objectToTarget), generateDistanceYToObject(objectToTarget));
+        return  new Translation2d(generateDistanceXToObject(), generateDistanceYToObject());
       }
       case SUBSTATION_CONE: {
 
-        return  new Translation2d(generateDistanceXToObject(objectToTarget), generateDistanceYToObject(objectToTarget));
+        return  new Translation2d(generateDistanceXToObject(), generateDistanceYToObject());
       }
       default: {
         System.out.println("Ummm Ethan FIX");

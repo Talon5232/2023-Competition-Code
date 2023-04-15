@@ -12,8 +12,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.BalanceAuto;
-import frc.robot.autos.GenTraj2;
-import frc.robot.autos.GenerateTrajAuto;
 import frc.robot.autos.LongAuto;
 import frc.robot.autos.LongTwoDropAuto;
 import frc.robot.autos.NoAuto;
@@ -124,10 +122,7 @@ public class RobotContainer {
         autoChooser.addOption("DropPathPlanner", new PlannerDrop(s_Swerve, m_lift, m_Intake, m_arm));
         autoChooser.addOption("Planner2Drop", new TwoDropAuto(s_Swerve, m_lift, m_Intake, m_arm));
         autoChooser.addOption("OppPlanner2Drop", new LongTwoDropAuto(s_Swerve, m_lift, m_Intake, m_arm));
-        autoChooser.addOption("GenerateTrajJauto", new GenerateTrajAuto(s_Swerve, m_lift, m_Intake, m_arm, m_vision));
-        autoChooser.addOption("{E{EA{}}}", new GenTraj2(s_Swerve, m_lift, m_Intake, m_arm, m_vision));
-        autoChooser.addOption("DriveSequential", new DriveSequential(s_Swerve, m_vision));
-        autoChooser.addOption("TheGodAuto", new DriveToAndAlign(s_Swerve, m_vision, s_Swerve::getPose, new Pose2d(new Translation2d(.5,.5), new Rotation2d(0)), ObjectToTarget.NONE));
+        autoChooser.addOption("DriveSequential", new DriveSequential(s_Swerve, m_vision, m_Intake));
         // SmartDashboard.putData("Autonomous Chooser", autoChooser);
         Shuffleboard.getTab("user tab").add(autoChooser);
 

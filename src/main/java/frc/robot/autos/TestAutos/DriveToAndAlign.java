@@ -43,15 +43,21 @@ public class DriveToAndAlign extends CommandBase {
 
   private final Swerve m_Swerve;
   private final Vision m_Vision;
+  private final double XOffset;
+  private final double YOffset;
   private final Supplier<Pose2d> m_providedPose;
   private final Pose2d m_goalPose;
+  private boolean firstcycle = false;
   private final ObjectToTarget m_ObjectToTarget;
-  public DriveToAndAlign(Swerve swerve, Vision vision, Supplier<Pose2d> pose, Pose2d goalPose, ObjectToTarget object) {
+  public DriveToAndAlign(Swerve swerve, Vision vision, Supplier<Pose2d> pose, Pose2d goalPose, ObjectToTarget object, double XOffset, double YOffset) {
     this.m_Swerve = swerve;
     this.m_Vision = vision;
     this.m_providedPose = pose;
     this.m_goalPose = goalPose;
+    this.XOffset = XOffset;
+    this.YOffset = YOffset;
     this.m_ObjectToTarget = object;
+    
 
     addRequirements(swerve);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -61,27 +67,46 @@ public class DriveToAndAlign extends CommandBase {
   @Override
   public void initialize() {
   resetController();
-  xController.setGoal(m_goalPose.getX());
-  yController.setGoal(m_goalPose.getY());
-  thetaController.setGoal((m_goalPose.getRotation().getRadians()));
+  if(m_ObjectToTarget == ObjectToTarget.NONE){
+    xController.setGoal(m_goalPose.getX());
+    yController.setGoal(m_goalPose.getY());
+    thetaController.setGoal((m_goalPose.getRotation().getRadians()));
+  } else {
+    m_Vision.setObject(m_ObjectToTarget);
+  }
+  
+  firstcycle = false;
   
   } 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    
     var robotPose = m_providedPose.get();
-    if(m_ObjectToTarget != ObjectToTarget.NONE){
-      robotPose = new Pose2d(m_Vision.generate2dPositionToObject(m_ObjectToTarget), new Rotation2d(0));
+    if(robotPose.getRotation().getDegrees() >= 90 || robotPose.getRotation().getDegrees() <= 90){
+      boolean backwards = true;
     }
+    if(firstcycle == false){
+    if(m_ObjectToTarget != ObjectToTarget.NONE){
+      if(m_Vision.generateDistanceXToObject() >= -5){
+        xController.setGoal((m_Vision.generateDistanceXToObject())-XOffset);
+        yController.setGoal((-m_Vision.generateDistanceYToObject())-YOffset);
+        thetaController.setGoal((m_goalPose.getRotation().getRadians()));
+        firstcycle = true;
+        }
+    }
+  }
 
     var xSpeed = xController.calculate(robotPose.getX());
     var ySpeed = yController.calculate(robotPose.getY());
     var thetaSpeed  = thetaController.calculate(robotPose.getRotation().getRadians());
 
-    m_Swerve.drive(new Translation2d(xSpeed, ySpeed), thetaSpeed, false, false);
+    m_Swerve.drive(new Translation2d(xSpeed, ySpeed), thetaSpeed, true, false);
     SmartDashboard.putNumber("xSpeed", xSpeed);
     SmartDashboard.putNumber("ySpeed", ySpeed);
     SmartDashboard.putNumber("thetaSpeed", thetaSpeed);
+    SmartDashboard.putNumber("StartX", robotPose.getX());
+  //  SmartDashboard.putNumber("XGoal", (m_Vision.generateDistanceXToObject(m_ObjectToTarget))-XOffset);
 
   }
 
@@ -105,7 +130,9 @@ public class DriveToAndAlign extends CommandBase {
     thetaController.reset(providedPose.getRotation().getRadians());
   }
 
-  private boolean goalReached(){
+   boolean goalReached(){
+
+    
     return (xController.atGoal() && yController.atGoal() && thetaController.atGoal());
   }
 
