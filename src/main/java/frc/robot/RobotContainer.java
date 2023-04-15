@@ -1,8 +1,11 @@
 package frc.robot;
 
+import com.ctre.phoenix.sensors.Pigeon2;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -103,6 +106,8 @@ public class RobotContainer {
                         () -> robotCentric.getAsBoolean())
 
         );
+
+
         // autoChooser = new SendableChooser<Command>();
 
         autoChooser.setDefaultOption("NoAuto", new NoAuto(s_Swerve));
@@ -176,6 +181,8 @@ public class RobotContainer {
         // blinkin.givecone())).whileFalse(new InstantCommand(() ->
         // frc.robot.subsystems.blinkin.lightsNormal()));
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+        Abutton.onTrue(new InstantCommand(() -> s_Swerve.Gyro180()));
+
 
         //Test Buttons
         
