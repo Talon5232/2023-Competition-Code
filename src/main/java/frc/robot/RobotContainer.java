@@ -181,7 +181,7 @@ public class RobotContainer {
         // blinkin.givecone())).whileFalse(new InstantCommand(() ->
         // frc.robot.subsystems.blinkin.lightsNormal()));
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        Abutton.onTrue(new InstantCommand(() -> s_Swerve.Gyro180()));
+       // Abutton.onTrue(new InstantCommand(() -> s_Swerve.Gyro180()));
 
 
         //Test Buttons
@@ -201,6 +201,10 @@ public class RobotContainer {
     
     public Vision getVisionInstance(){
         return m_vision;
+    }
+
+    public void setGyroOnInit(){
+        s_Swerve.setGyroYaw(180);
     }
 
 
