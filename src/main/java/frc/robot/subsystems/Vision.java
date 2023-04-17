@@ -14,6 +14,7 @@ import frc.robot.Constants;
 
 public class Vision extends SubsystemBase {
   public enum ObjectToTarget {
+<<<<<<< Updated upstream
     NONE(0),
     FLOOR_CONE(24),
     SUBSTATION_CONE(100),
@@ -25,6 +26,13 @@ public class Vision extends SubsystemBase {
     }
     public final double distanceI;
 
+=======
+    NONE,
+    FLOOR_CONE,
+    SUBSTATION_CONE,
+    REFLECTIVE_TAPE,
+    APRIL_TAG;
+>>>>>>> Stashed changes
   }
 
   private double x_, y_, target_area_, pipeline_ = 0;
@@ -40,8 +48,13 @@ public class Vision extends SubsystemBase {
     updateVisionData();
     getObjectHeight(getObject());
     upadateSmartDashBoard();
+<<<<<<< Updated upstream
     updatePipeline();
     m_limelight.getEntry("CamMode").setNumber(0);
+=======
+    updatePipeline(); // Maybe should remove from periodic -- no reason it needs to update this often!
+    // m_limelight.getEntry("CamMode").setNumber(0);
+>>>>>>> Stashed changes
 
     // This method will be called once per scheduler run
   }
@@ -55,9 +68,14 @@ public class Vision extends SubsystemBase {
   }
 
   public void upadateSmartDashBoard() {
+<<<<<<< Updated upstream
     SmartDashboard.putNumber("X offset", getX());
 
     SmartDashboard.putNumber("Y Offset", getY(getObject()));
+=======
+    SmartDashboard.putNumber("X offset", getX()); // This could result in a problem during testing
+    SmartDashboard.putNumber("Y Offset", getY());
+>>>>>>> Stashed changes
     SmartDashboard.putNumber("X Actual", this.x_);
 
     SmartDashboard.putBoolean("Has Target", this.has_target_);
