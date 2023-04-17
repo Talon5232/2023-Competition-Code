@@ -65,12 +65,15 @@ public class DriveSequential extends SequentialCommandGroup {
       new WaitCommand(2),
       new InstantCommand(() -> m_intake.AutoIntakeOff()),
       //Turn and line up to scan april tag
-      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(-1,-.1), new Rotation2d(0)), ObjectToTarget.NONE, 0, 0, false),
+      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(-1,-.2), new Rotation2d(0)), ObjectToTarget.NONE, 0, 0, false),
       //Raise arm and lift
       new InstantCommand(() -> m_lift.liftUp()),
       new InstantCommand(() -> m_arm.armUp()),
       //GO TO Drop Poisiton
-      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(0,0), new Rotation2d(0)), ObjectToTarget.APRIL_TAG, 1, .1, false)
+      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(0,0), new Rotation2d(0)), ObjectToTarget.APRIL_TAG, -.2275, .195, false),
+      new InstantCommand(() -> m_intake.AutoIntakeOut()),
+      new WaitCommand(1),
+      new InstantCommand(() -> m_arm.AutoArmUp())
 
 
       

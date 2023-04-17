@@ -130,7 +130,7 @@ public class Vision extends SubsystemBase {
   public double getY() {
     switch (this.ObjectTarget) {
       case APRIL_TAG: {
-        return Math.abs(this.y_) - 2.6;
+        return Math.abs(this.y_);
       }
       case REFLECTIVE_TAPE: {
         return Math.abs(this.y_);
