@@ -24,7 +24,6 @@ import frc.robot.subsystems.Factory;
 import frc.robot.subsystems.Swerve;
 
 import frc.robot.subsystems.Vision;
-import frc.robot.subsystems.WaypointActions;
 import frc.robot.subsystems.Vision.ObjectToTarget;
 
 public class DriveToAndAlign extends CommandBase {
@@ -196,7 +195,7 @@ public class DriveToAndAlign extends CommandBase {
     // LinkedList<Pose2d> test = new LinkedList<>();
     // Pose2d targetPose = new Pose2d(new Translation2d(3, 3), new Rotation2d(0));
     
-    Factory testFactory = new Factory(test, test, new LinkedList<WaypointActions>(0, new Move1()));
+    Factory testFactory = new Factory(test, test, );
 
 
 

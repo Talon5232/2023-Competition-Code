@@ -24,7 +24,11 @@ public class Factory {
     }
 
     public void fillEmptyNodes(){
-        
+
+    }
+
+    public WaypointActions createWaypointAction(int x, Command c){
+        return WaypointActions(x, c);
     }
 
 
