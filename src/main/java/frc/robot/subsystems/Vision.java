@@ -14,25 +14,11 @@ import frc.robot.Constants;
 
 public class Vision extends SubsystemBase {
   public enum ObjectToTarget {
-<<<<<<< Updated upstream
-    NONE(0),
-    FLOOR_CONE(24),
-    SUBSTATION_CONE(100),
-    REFLECTIVE_TAPE(30),
-    APRIL_TAG(18);
-
-    ObjectToTarget(double distance){
-      this.distanceI = distance;
-    }
-    public final double distanceI;
-
-=======
     NONE,
     FLOOR_CONE,
     SUBSTATION_CONE,
     REFLECTIVE_TAPE,
     APRIL_TAG;
->>>>>>> Stashed changes
   }
 
   private double x_, y_, target_area_, pipeline_ = 0;
@@ -44,17 +30,12 @@ public class Vision extends SubsystemBase {
 
   @Override
   public void periodic() {
-    setObject(ObjectToTarget.APRIL_TAG);
+    //setObject(ObjectToTarget.APRIL_TAG);
     updateVisionData();
-    getObjectHeight(getObject());
+    getObjectHeight();
     upadateSmartDashBoard();
-<<<<<<< Updated upstream
-    updatePipeline();
-    m_limelight.getEntry("CamMode").setNumber(0);
-=======
     updatePipeline(); // Maybe should remove from periodic -- no reason it needs to update this often!
     // m_limelight.getEntry("CamMode").setNumber(0);
->>>>>>> Stashed changes
 
     // This method will be called once per scheduler run
   }
@@ -68,20 +49,14 @@ public class Vision extends SubsystemBase {
   }
 
   public void upadateSmartDashBoard() {
-<<<<<<< Updated upstream
-    SmartDashboard.putNumber("X offset", getX());
-
-    SmartDashboard.putNumber("Y Offset", getY(getObject()));
-=======
     SmartDashboard.putNumber("X offset", getX()); // This could result in a problem during testing
     SmartDashboard.putNumber("Y Offset", getY());
->>>>>>> Stashed changes
     SmartDashboard.putNumber("X Actual", this.x_);
 
     SmartDashboard.putBoolean("Has Target", this.has_target_);
     SmartDashboard.putNumber("Target Area", this.target_area_);
-    SmartDashboard.putNumber("DistanceXToObject", generateDistanceXToObject(getObject()));
-    SmartDashboard.putNumber("DistnaceYToTarget", generateDistanceYToObject(getObject()));
+    SmartDashboard.putNumber("DistanceXToObject", generateDistanceXToObject());
+    SmartDashboard.putNumber("DistnaceYToTarget", generateDistanceYToObject());
   }
 
   public void updatePipeline() {
@@ -107,8 +82,8 @@ public class Vision extends SubsystemBase {
 
   }
 
-  public double getY(ObjectToTarget object) {
-    switch (object) {
+  public double getY() {
+    switch (this.ObjectTarget) {
       case APRIL_TAG: {
         return Math.abs(this.y_) - 2.6;
       }
@@ -138,8 +113,8 @@ public class Vision extends SubsystemBase {
     return this.has_target_;
   }
 
-  private double getObjectHeight(ObjectToTarget object) {
-    switch (object) {
+  private double getObjectHeight() {
+    switch (this.ObjectTarget) {
       case APRIL_TAG: {
         setPipeline(0);
         return Constants.FieldConstants.LOW_APRIL_TAG;
@@ -180,16 +155,17 @@ public class Vision extends SubsystemBase {
   // #endregion
 
   // #region Builders/Generators
-  public double generateDistanceXToObject(ObjectToTarget objectToTarget) {
-    if (objectToTarget != ObjectToTarget.NONE) {
-      SmartDashboard.putNumber("HeightOb", getObjectHeight(objectToTarget));
+  public double generateDistanceXToObject() {
+    
+    if (this.ObjectTarget != ObjectToTarget.NONE) {
+      SmartDashboard.putNumber("HeightOb", getObjectHeight());
       SmartDashboard.putNumber("kCameraHeight", Constants.VisionConstants.kCameraHeight);
       SmartDashboard.putNumber("CameraRoations", Constants.VisionConstants.kCameraRotation);
-      SmartDashboard.putNumber("GetYCamera", getY(ObjectToTarget.REFLECTIVE_TAPE));
-      SmartDashboard.putNumber("tan(Y)", Math.tan(Units.degreesToRadians(getY(ObjectToTarget.REFLECTIVE_TAPE))));
+      SmartDashboard.putNumber("GetYCamera", getY());
+      SmartDashboard.putNumber("tan(Y)", Math.tan(Units.degreesToRadians(getY())));
 
-      return (Math.abs((getObjectHeight(objectToTarget) - Constants.VisionConstants.kCameraHeight))
-          / (Math.tan(Constants.VisionConstants.kCameraRotation + Units.degreesToRadians(getY(objectToTarget)))));
+      return (Math.abs((getObjectHeight() - Constants.VisionConstants.kCameraHeight))
+          / (Math.tan(Constants.VisionConstants.kCameraRotation + Units.degreesToRadians(getY()))));
     }
 
     else {
@@ -197,9 +173,9 @@ public class Vision extends SubsystemBase {
     }
   }
 
-  public double generateDistanceYToObject(ObjectToTarget objectToTarget) {
-    if (objectToTarget != ObjectToTarget.NONE) {
-      return ((Math.tan(Units.degreesToRadians(getX()))) * generateDistanceXToObject(objectToTarget));
+  public double generateDistanceYToObject() {
+    if (this.ObjectTarget != ObjectToTarget.NONE) {
+      return ((Math.tan(Units.degreesToRadians(getX()))) * generateDistanceXToObject());
     } else {
       return 0;
     }
@@ -216,8 +192,8 @@ public class Vision extends SubsystemBase {
    * relative
    * #TODO: Usage in Teleop? <-- Driveteam question
    */
-  public Translation2d generate2dPositionToObject(ObjectToTarget objectToTarget) {
-    return new Translation2d(generateDistanceXToObject(objectToTarget), generateDistanceYToObject(objectToTarget));
+  public Translation2d generate2dPositionToObject() {
+    return new Translation2d(generateDistanceXToObject(), generateDistanceYToObject());
   }
 
 }
