@@ -22,7 +22,7 @@ public class Vision extends SubsystemBase {
 
   }
 
-  private double x_, y_, target_area_, pipeline_ = 0;
+  private double x_, y_, target_area_, pipeline_,ConeX,ConeY = 0;
   private ObjectToTarget ObjectTarget = ObjectToTarget.FLOOR_CONE;
 
   private boolean has_target_;
@@ -154,6 +154,14 @@ public class Vision extends SubsystemBase {
     return this.target_area_;
   }
 
+  public double getConeX(){
+    return this.ConeX;
+  }
+  public double getConeY(){
+    return this.ConeY;
+  }
+
+
   public boolean getTargets() {
     return this.has_target_;
   }
@@ -191,6 +199,14 @@ public class Vision extends SubsystemBase {
   private void setPipeline(int pipe) {
     this.pipeline_ = pipe;
     this.m_limelight.getEntry("pipeline").setNumber(pipeline_);
+  }
+
+  public void setConeX(double coneX){
+    this.ConeX = coneX; 
+  }
+
+  public void setConeY(double coneY){
+   this.ConeY = coneY;
   }
 
   // #endregion

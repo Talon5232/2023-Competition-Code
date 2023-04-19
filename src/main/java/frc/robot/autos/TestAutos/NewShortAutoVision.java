@@ -23,7 +23,7 @@ import frc.robot.subsystems.Vision.ObjectToTarget;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class DriveSequential extends SequentialCommandGroup {
+public class NewShortAutoVision extends SequentialCommandGroup {
   private final Swerve m_Swerve;
   private final Vision m_Vision;
   private final intakeSub m_intake;
@@ -32,7 +32,7 @@ public class DriveSequential extends SequentialCommandGroup {
   //private final ObjectToTarget m_ObjectToTarget;
 
   /** Creates a new DriveSequential. */
-  public DriveSequential(Swerve swerve, Vision vision, intakeSub intake, liftSub lift, armSub arm) {
+  public NewShortAutoVision(Swerve swerve, Vision vision, intakeSub intake, liftSub lift, armSub arm) {
     this.m_Swerve = swerve;
     this.m_intake = intake;
     this.m_lift = lift;
@@ -62,15 +62,18 @@ public class DriveSequential extends SequentialCommandGroup {
 
       new InstantCommand(() -> m_arm.armAuto()),
       new InstantCommand(() -> m_intake.AutoIntakeIn()),
-      new WaitCommand(2),
+      new WaitCommand(1),
       new InstantCommand(() -> m_intake.AutoIntakeOff()),
-      //Turn and line up to scan april tag
-      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(-1,-.2), new Rotation2d(0)), ObjectToTarget.NONE, 0, 0, false),
+      //Thanks Herstad for teaching me this
+      new InstantCommand(() -> m_Vision.setConeX(m_Swerve.getPose().getX())),
+      new InstantCommand(() -> m_Vision.setConeY(m_Swerve.getPose().getY())),
+    //Move to a closer position without hitting the charge station
+      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(m_Vision.getConeX()+3,m_Vision.getConeY()-.05), new Rotation2d(0)), ObjectToTarget.NONE, 0, 0, false),
       //Raise arm and lift
       new InstantCommand(() -> m_lift.liftUp()),
       new InstantCommand(() -> m_arm.armUp()),
-      //GO TO Drop Poisiton
-      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(0,0), new Rotation2d(0)), ObjectToTarget.APRIL_TAG, -.2275, .195, false),
+      //GO TO Drop Poisiton using cone position
+      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(m_Vision.getConeX()+3.5,m_Vision.getConeY()+0), new Rotation2d(0)), ObjectToTarget.NONE, 0, 0, false),
       new InstantCommand(() -> m_intake.AutoIntakeOut()),
       new WaitCommand(1),
       new InstantCommand(() -> m_arm.AutoArmUp())
