@@ -71,7 +71,7 @@ public class DriveSequential extends SequentialCommandGroup {
       new InstantCommand(() -> m_arm.armUp()),
       //GO TO Drop Poisiton
       new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(0,0), new Rotation2d(0)), ObjectToTarget.APRIL_TAG, -.2275, .195, false),
-      new InstantCommand(() -> m_intake.AutoIntakeOut()),
+      new InstantCommand(() -> m_intake.AutoIntakeOut()),// was .2 on y
       new WaitCommand(1),
       new InstantCommand(() -> m_arm.AutoArmUp())
 
