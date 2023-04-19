@@ -114,6 +114,9 @@ public class DriveToAndAlign extends CommandBase {
     }
   }
 
+  if(XOffset == 100){
+    AutoBalance(m_Swerve.getPitch());
+  }
 
     var xSpeed = xController.calculate(robotPose.getX());
     var ySpeed = yController.calculate(robotPose.getY());
@@ -147,6 +150,8 @@ public class DriveToAndAlign extends CommandBase {
     yController.reset(providedPose.getY());
     thetaController.reset(providedPose.getRotation().getRadians());
   }
+  
+
 
 
    boolean goalReached(){

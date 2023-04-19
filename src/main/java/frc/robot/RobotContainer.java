@@ -19,7 +19,7 @@ import frc.robot.autos.PlannerDrop;
 import frc.robot.autos.ShortAuto;
 import frc.robot.autos.TwoDropAuto;
 import frc.robot.autos.VeryShortAuto;
-import frc.robot.autos.TestAutos.DriveSequential;
+import frc.robot.autos.TestAutos.NewShortAutoVision;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.Flipper;
 import frc.robot.subsystems.Swerve;
@@ -127,7 +127,7 @@ public class RobotContainer {
         autoChooser.addOption("DropPathPlanner", new PlannerDrop(s_Swerve, m_lift, m_Intake, m_arm));
         autoChooser.addOption("Planner2Drop", new TwoDropAuto(s_Swerve, m_lift, m_Intake, m_arm));
         autoChooser.addOption("OppPlanner2Drop", new LongTwoDropAuto(s_Swerve, m_lift, m_Intake, m_arm));
-        autoChooser.addOption("DriveSequential", new DriveSequential(s_Swerve, m_vision, m_Intake, m_lift, m_arm));
+        autoChooser.addOption("DriveSequential", new NewShortAutoVision(s_Swerve, m_vision, m_Intake, m_lift, m_arm));
         // SmartDashboard.putData("Autonomous Chooser", autoChooser);
         Shuffleboard.getTab("user tab").add(autoChooser);
 
