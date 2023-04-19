@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDCommand;
@@ -26,16 +27,14 @@ public class DriveToAndAlign extends CommandBase {
   /** Creates a new DriveToAndAlign. */
   private final static double TRANSLATION_TOLERANCE = .02;
   private final static double THETA_TOLERANCE = Units.degreesToRadians(2);
-  
+
   private static final TrapezoidProfile.Constraints XY_CONSTRAINTS = new TrapezoidProfile.Constraints(
-    Constants.Swerve.maxSpeed,
-    Constants.Swerve.maxSpeed*.5
-  );
+      Constants.Swerve.maxSpeed,
+      Constants.Swerve.maxSpeed * .5);
 
   private static final TrapezoidProfile.Constraints THETA_CONSTRAINTS = new TrapezoidProfile.Constraints(
-    Constants.Swerve.maxAngularVelocity, 
-    Constants.Swerve.maxAngularVelocity*.3
-    );
+      Constants.Swerve.maxAngularVelocity,
+      Constants.Swerve.maxAngularVelocity * .3);
 
   private final ProfiledPIDController xController = new ProfiledPIDController(3, 0, 0, XY_CONSTRAINTS);
   private final ProfiledPIDController yController = new ProfiledPIDController(3, 0, 0, XY_CONSTRAINTS);
@@ -51,7 +50,9 @@ public class DriveToAndAlign extends CommandBase {
   private boolean backwards;
   private boolean firstcycle = false;
   private final ObjectToTarget m_ObjectToTarget;
-  public DriveToAndAlign(Swerve swerve, Vision vision, Supplier<Pose2d> pose, Pose2d goalPose, ObjectToTarget object, double XOffset, double YOffset, boolean backwards) {
+
+  public DriveToAndAlign(Swerve swerve, Vision vision, Supplier<Pose2d> pose, Pose2d goalPose, ObjectToTarget object,
+      double XOffset, double YOffset, boolean backwards) {
     this.m_Swerve = swerve;
     this.backwards = backwards;
     this.m_Vision = vision;
@@ -60,7 +61,6 @@ public class DriveToAndAlign extends CommandBase {
     this.XOffset = XOffset;
     this.YOffset = YOffset;
     this.m_ObjectToTarget = object;
-    
 
     addRequirements(swerve);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -69,22 +69,29 @@ public class DriveToAndAlign extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-  resetController();
-  if(m_ObjectToTarget == ObjectToTarget.NONE){
-    xController.setGoal(m_goalPose.getX());
-    yController.setGoal(m_goalPose.getY());
-    thetaController.setGoal((m_goalPose.getRotation().getRadians()));
-  } else {
-    m_Vision.setObject(m_ObjectToTarget);
+    resetController();
+    if (m_ObjectToTarget == ObjectToTarget.NONE) {
+      xController.setGoal(m_goalPose.getX());
+      if (DriverStation.getAlliance() == DriverStation.Alliance.Red) {
+        yController.setGoal(m_goalPose.getY());
+      } else {
+        yController.setGoal(-m_goalPose.getY());
+
+      }
+
+      thetaController.setGoal((m_goalPose.getRotation().getRadians()));
+    } else {
+      m_Vision.setObject(m_ObjectToTarget);
+    }
+    thetaController.enableContinuousInput(-Math.PI, Math.PI);
+    xController.setTolerance(TRANSLATION_TOLERANCE);
+    yController.setTolerance(TRANSLATION_TOLERANCE);
+    thetaController.setTolerance(THETA_TOLERANCE);
+
+    firstcycle = false;
+
   }
-  thetaController.enableContinuousInput(-Math.PI, Math.PI);
-  xController.setTolerance(TRANSLATION_TOLERANCE);
-  yController.setTolerance(TRANSLATION_TOLERANCE);
-  thetaController.setTolerance(THETA_TOLERANCE);
-  
-  firstcycle = false;
-  
-  } 
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
@@ -97,13 +104,24 @@ public class DriveToAndAlign extends CommandBase {
       if(m_Vision.generateDistanceXToObject() >= -5 && m_Vision.generateDistanceXToObject() != 0){
         if(backwards != true){
           xController.setGoal(((m_Vision.generateDistanceXToObject())-XOffset)+robotPose.getX());
+          if(DriverStation.getAlliance() == DriverStation.Alliance.Red){
           yController.setGoal(((-m_Vision.generateDistanceYToObject())-YOffset)+robotPose.getY());
+          }
+          else{
+            yController.setGoal(-(((()-m_Vision.generateDistanceYToObject())-YOffset)+robotPose.getY()));
+          }
           thetaController.setGoal((m_goalPose.getRotation().getRadians()));
           firstcycle = true;
         }
         else{
         xController.setGoal(((-m_Vision.generateDistanceXToObject())+XOffset)+robotPose.getX());
+        if(DriverStation.getAlliance() == DriverStation.Alliance.Red){
         yController.setGoal(((-m_Vision.generateDistanceYToObject())+YOffset)+robotPose.getY());
+        }
+        else{
+          yController.setGoal(-(((-m_Vision.generateDistanceYToObject())+YOffset)+robotPose.getY()));
+
+        }
         thetaController.setGoal((m_goalPose.getRotation().getRadians()));
         firstcycle = true;
         }
@@ -134,7 +152,7 @@ public class DriveToAndAlign extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-   
+
   }
 
   // Returns true when the command should end.
@@ -143,31 +161,25 @@ public class DriveToAndAlign extends CommandBase {
     return goalReached();
   }
 
- 
-  private void resetController(){
+  private void resetController() {
     var providedPose = m_providedPose.get();
     xController.reset(providedPose.getX());
     yController.reset(providedPose.getY());
     thetaController.reset(providedPose.getRotation().getRadians());
   }
-  
 
+  boolean goalReached() {
 
-
-   boolean goalReached(){
-
-    
     return (xController.atGoal() && yController.atGoal() && thetaController.atGoal());
   }
 
-  public void AutoBalance (double getPitch){
-    if(getPitch >= 4){
-  xSetpoint = xSetpoint +.01;   
- }
- else if(getPitch <= -4){
-  xSetpoint= xSetpoint - .01;
- }
- xController.setGoal(xSetpoint);
-  } 
+  public void AutoBalance(double getPitch) {
+    if (getPitch >= 4) {
+      xSetpoint = xSetpoint + .01;
+    } else if (getPitch <= -4) {
+      xSetpoint = xSetpoint - .01;
+    }
+    xController.setGoal(xSetpoint);
+  }
 
 }

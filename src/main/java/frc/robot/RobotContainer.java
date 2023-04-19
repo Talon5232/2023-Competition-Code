@@ -19,6 +19,8 @@ import frc.robot.autos.PlannerDrop;
 import frc.robot.autos.ShortAuto;
 import frc.robot.autos.TwoDropAuto;
 import frc.robot.autos.VeryShortAuto;
+import frc.robot.autos.TestAutos.AutoLevelAuto;
+import frc.robot.autos.TestAutos.LongNewAuto;
 import frc.robot.autos.TestAutos.NewShortAutoVision;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.Flipper;
@@ -124,10 +126,13 @@ public class RobotContainer {
         // autoChooser.addOption("DropAuto", new DropAuto(s_Swerve, m_arm, m_lift,
         // m_Intake));
         // d autoChooser.addOption("AutoLevel", new AutoLevel(s_Swerve, m_arm, m_lift));
-        autoChooser.addOption("DropPathPlanner", new PlannerDrop(s_Swerve, m_lift, m_Intake, m_arm));
-        autoChooser.addOption("Planner2Drop", new TwoDropAuto(s_Swerve, m_lift, m_Intake, m_arm));
-        autoChooser.addOption("OppPlanner2Drop", new LongTwoDropAuto(s_Swerve, m_lift, m_Intake, m_arm));
-        autoChooser.addOption("DriveSequential", new NewShortAutoVision(s_Swerve, m_vision, m_Intake, m_lift, m_arm));
+        //autoChooser.addOption("DropPathPlanner", new PlannerDrop(s_Swerve, m_lift, m_Intake, m_arm));
+        //autoChooser.addOption("Planner2Drop", new TwoDropAuto(s_Swerve, m_lift, m_Intake, m_arm));
+       // autoChooser.addOption("OppPlanner2Drop", new LongTwoDropAuto(s_Swerve, m_lift, m_Intake, m_arm));
+        autoChooser.addOption("NewShortAuto", new NewShortAutoVision(s_Swerve, m_vision, m_Intake, m_lift, m_arm));
+        autoChooser.addOption("NewLongAuto", new LongNewAuto(s_Swerve, m_vision, m_Intake, m_lift, m_arm));
+        autoChooser.addOption("AutoLevelAuto", new AutoLevelAuto(s_Swerve, m_vision, m_Intake, m_lift, m_arm));
+
         // SmartDashboard.putData("Autonomous Chooser", autoChooser);
         Shuffleboard.getTab("user tab").add(autoChooser);
 
@@ -172,6 +177,7 @@ public class RobotContainer {
         button12.whileTrue(new InstantCommand(()->m_vision.setObject(ObjectToTarget.APRIL_TAG)));
         button11.whileTrue(new InstantCommand(()->m_vision.setObject(ObjectToTarget.FLOOR_CONE)));
         button5.whileTrue(new InstantCommand(() -> m_vision.setObject(ObjectToTarget.SUBSTATION_CONE)));
+        Xbutton.whileTrue(new InstantCommand(() -> s_Swerve.oppositeGyro()));
 
 
         // backButton.whileTrue(new InstantCommand(() -> m_arm.armMovement(double
