@@ -29,7 +29,7 @@ public class NewShortAutoVision extends SequentialCommandGroup {
   private final intakeSub m_intake;
   private final liftSub m_lift;
   private final armSub m_arm;
-  //private final ObjectToTarget m_ObjectToTarget;
+  //private final ObjectToTarget m_ObjectToTarget;de
 
   /** Creates a new DriveSequential. */
   public NewShortAutoVision(Swerve swerve, Vision vision, intakeSub intake, liftSub lift, armSub arm) {
