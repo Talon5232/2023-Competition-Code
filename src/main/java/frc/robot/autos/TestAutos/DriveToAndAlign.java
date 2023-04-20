@@ -108,7 +108,7 @@ public class DriveToAndAlign extends CommandBase {
           yController.setGoal(((-m_Vision.generateDistanceYToObject())-YOffset)+robotPose.getY());
           }
           else{
-            yController.setGoal(-(((()-m_Vision.generateDistanceYToObject())-YOffset)+robotPose.getY()));
+            yController.setGoal(-((((-m_Vision.generateDistanceYToObject())-YOffset)+robotPose.getY())));
           }
           thetaController.setGoal((m_goalPose.getRotation().getRadians()));
           firstcycle = true;

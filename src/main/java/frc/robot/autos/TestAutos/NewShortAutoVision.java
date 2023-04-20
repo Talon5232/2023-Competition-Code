@@ -68,13 +68,13 @@ public class NewShortAutoVision extends SequentialCommandGroup {
       new InstantCommand(() -> m_Vision.setConeX(m_Swerve.getPose().getX())),
       new InstantCommand(() -> m_Vision.setConeY(m_Swerve.getPose().getY())),
     //Move to a closer position without hitting the charge station
-      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(m_Vision.getConeX()+3,m_Vision.getConeY()-.05), new Rotation2d(0)), ObjectToTarget.NONE, 0, 0, false),
+      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(m_Vision.getConeX()+4,m_Vision.getConeY()+.2), new Rotation2d(0)), ObjectToTarget.NONE, 0, 0, false),
       //Raise arm and lift
       new InstantCommand(() -> m_lift.liftUp()),
       new InstantCommand(() -> m_arm.armUp()),
-
       //GO TO Drop Poisiton using cone position
-      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(m_Vision.getConeX()+3.5,m_Vision.getConeY()+0), new Rotation2d(0)), ObjectToTarget.NONE, 0, 0, false),
+      //Ends up approximatly 13-14inches away from the drop position
+      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(m_Vision.getConeX()+5.39,m_Vision.getConeY()+.2), new Rotation2d(0)), ObjectToTarget.NONE, 0, 0, false),
       new InstantCommand(() -> m_intake.AutoIntakeOut()),
       new WaitCommand(1),
       new InstantCommand(() -> m_arm.AutoArmUp())
