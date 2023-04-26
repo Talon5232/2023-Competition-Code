@@ -29,8 +29,8 @@ public class DriveToAndAlign extends CommandBase {
   private final static double THETA_TOLERANCE = Units.degreesToRadians(2);
 
   private static final TrapezoidProfile.Constraints XY_CONSTRAINTS = new TrapezoidProfile.Constraints(
-      Constants.Swerve.maxSpeed,
-      Constants.Swerve.maxSpeed * .5);
+      Constants.Swerve.maxSpeed*.15,
+      Constants.Swerve.maxSpeed * .4);
 
   private static final TrapezoidProfile.Constraints THETA_CONSTRAINTS = new TrapezoidProfile.Constraints(
       Constants.Swerve.maxAngularVelocity,
@@ -108,7 +108,7 @@ public class DriveToAndAlign extends CommandBase {
           yController.setGoal(((-m_Vision.generateDistanceYToObject())-YOffset)+robotPose.getY());
           }
           else{
-            yController.setGoal(-((((-m_Vision.generateDistanceYToObject())-YOffset)+robotPose.getY())));
+            yController.setGoal(-((((m_Vision.generateDistanceYToObject())-YOffset)+robotPose.getY())));
           }
           thetaController.setGoal((m_goalPose.getRotation().getRadians()));
           firstcycle = true;
@@ -119,7 +119,7 @@ public class DriveToAndAlign extends CommandBase {
         yController.setGoal(((-m_Vision.generateDistanceYToObject())+YOffset)+robotPose.getY());
         }
         else{
-          yController.setGoal(-(((-m_Vision.generateDistanceYToObject())+YOffset)+robotPose.getY()));
+          yController.setGoal(-(((m_Vision.generateDistanceYToObject())+YOffset)+robotPose.getY()));
 
         }
         thetaController.setGoal((m_goalPose.getRotation().getRadians()));

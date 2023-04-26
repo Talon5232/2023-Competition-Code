@@ -23,16 +23,16 @@ import frc.robot.subsystems.Vision.ObjectToTarget;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class NewShortAutoVision extends SequentialCommandGroup {
+public class VisionLongAuto extends SequentialCommandGroup {
   private final Swerve m_Swerve;
   private final Vision m_Vision;
   private final intakeSub m_intake;
   private final liftSub m_lift;
   private final armSub m_arm;
-  //private final ObjectToTarget m_ObjectToTarget;de
+  //private final ObjectToTarget m_ObjectToTarget;
 
   /** Creates a new DriveSequential. */
-  public NewShortAutoVision(Swerve swerve, Vision vision, intakeSub intake, liftSub lift, armSub arm) {
+  public VisionLongAuto(Swerve swerve, Vision vision, intakeSub intake, liftSub lift, armSub arm) {
     this.m_Swerve = swerve;
     this.m_intake = intake;
     this.m_lift = lift;
@@ -50,34 +50,18 @@ public class NewShortAutoVision extends SequentialCommandGroup {
       new InstantCommand(() -> m_intake.AutoIntakeIn()),
       new WaitCommand(1),
       new InstantCommand(() -> m_intake.AutoIntakeOff()),
-      new InstantCommand(() -> m_lift.liftLittleUp()),
-      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(-3,-.15), new Rotation2d(Math.PI)), ObjectToTarget.NONE, 0, 0, false),
+      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(-4,0), new Rotation2d(0)), ObjectToTarget.NONE, 0, 0, false),
+      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(-4,0), new Rotation2d(Math.PI)), ObjectToTarget.NONE, 0, 0, false),
+      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(-5,0), new Rotation2d(Math.PI)), ObjectToTarget.FLOOR_CONE, .4, .2, true)
+      // new InstantCommand(() -> m_arm.armAuto()),
+      // new InstantCommand(() -> m_intake.AutoIntakeIn()),
+      // new WaitCommand(1),
+      // new InstantCommand(() -> m_intake.AutoIntakeOff())
+
+
+
       //Move lift and arm into intake position
-      new InstantCommand(() -> m_arm.armDown()),
-      new InstantCommand(() -> m_lift.liftDown()),
-
-     //GO TO Cone Posiiton to grab
-      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(-4.1,-.52), new Rotation2d(Math.PI)), ObjectToTarget.FLOOR_CONE, .5, .2, true),
-      //Intake procedure of ground cone
-
-      new InstantCommand(() -> m_arm.armAuto()),
-      new InstantCommand(() -> m_intake.AutoIntakeIn()),
-      new WaitCommand(1),
-      new InstantCommand(() -> m_intake.AutoIntakeOff()),
-      //Thanks Herstad for teaching me this
-      new InstantCommand(() -> m_Vision.setConeX(m_Swerve.getPose().getX())),
-      new InstantCommand(() -> m_Vision.setConeY(m_Swerve.getPose().getY())),
-    //Move to a closer position without hitting the charge station
-      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(m_Vision.getConeX()+2,m_Vision.getConeY()-.025), new Rotation2d(0)), ObjectToTarget.NONE, 0, 0, false)
-      //Raise arm and lift
-     // new InstantCommand(() -> m_lift.liftUp()),
-     // new InstantCommand(() -> m_arm.armUp()),
-      //GO TO Drop Poisiton using cone position
-      //Ends up approximatly 13-14inches away from the drop position
-     // new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(m_Vision.getConeX()+4,m_Vision.getConeY()-.025), new Rotation2d(0)), ObjectToTarget.NONE, 0, 0, false)
-      //new InstantCommand(() -> m_intake.AutoIntakeOut()),
-     // new WaitCommand(1),
-      //new InstantCommand(() -> m_arm.AutoArmUp())
+     
 
 
       

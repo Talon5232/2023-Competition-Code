@@ -22,6 +22,8 @@ import frc.robot.autos.VeryShortAuto;
 import frc.robot.autos.TestAutos.AutoLevelAuto;
 import frc.robot.autos.TestAutos.LongNewAuto;
 import frc.robot.autos.TestAutos.NewShortAutoVision;
+import frc.robot.autos.TestAutos.SingleDropAuto;
+import frc.robot.autos.TestAutos.VisionLongAuto;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.Flipper;
 import frc.robot.subsystems.Swerve;
@@ -132,6 +134,10 @@ public class RobotContainer {
         autoChooser.addOption("NewShortAuto", new NewShortAutoVision(s_Swerve, m_vision, m_Intake, m_lift, m_arm));
         autoChooser.addOption("NewLongAuto", new LongNewAuto(s_Swerve, m_vision, m_Intake, m_lift, m_arm));
         autoChooser.addOption("AutoLevelAuto", new AutoLevelAuto(s_Swerve, m_vision, m_Intake, m_lift, m_arm));
+        autoChooser.addOption("VisionLong", new VisionLongAuto(s_Swerve, m_vision, m_Intake, m_lift, m_arm));
+        autoChooser.addOption("SingleDropAuto", new SingleDropAuto(s_Swerve, m_vision, m_Intake, m_lift, m_arm));
+
+
 
         // SmartDashboard.putData("Autonomous Chooser", autoChooser);
         Shuffleboard.getTab("user tab").add(autoChooser);

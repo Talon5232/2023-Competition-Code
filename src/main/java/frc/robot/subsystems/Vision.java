@@ -58,6 +58,9 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("DistanceXToObject", generateDistanceXToObject());
     SmartDashboard.putNumber("DistnaceYToTarget", generateDistanceYToObject());
     SmartDashboard.putString("Object Tracking", getObject().toString());
+    SmartDashboard.putNumber("Conex", ConeX);
+    SmartDashboard.putNumber("ConeY", ConeY);
+
   }
 
   public void updatePipeline() {

@@ -43,6 +43,7 @@ public class LongNewAuto extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       //Reset ODO and begin looking for floor cone
+      
       new InstantCommand(() -> m_Swerve.zeroGyro()),
       new InstantCommand(() -> m_Swerve.zeroPosition(new Pose2d(new Translation2d(0, 0), new Rotation2d(0)), 0)),
       new InstantCommand(() -> m_Vision.setObject(ObjectToTarget.FLOOR_CONE)),
@@ -50,7 +51,14 @@ public class LongNewAuto extends SequentialCommandGroup {
       new InstantCommand(() -> m_intake.AutoIntakeIn()),
       new WaitCommand(1),
       new InstantCommand(() -> m_intake.AutoIntakeOff()),
-      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(-4.35,0), new Rotation2d(0)), ObjectToTarget.NONE, 0, 0, false)
+      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(-4.35,0), new Rotation2d(0)), ObjectToTarget.NONE, 0, 0, false),
+      new DriveToAndAlign(m_Swerve, m_Vision, m_Swerve::getPose, new Pose2d(new Translation2d(-4.45,0), new Rotation2d(Math.PI)), ObjectToTarget.NONE, 0, 0, false),
+      new InstantCommand(() -> m_Swerve.zeroGyro()),
+      new InstantCommand(() -> m_lift.liftLittleUp()),
+      new InstantCommand(() -> m_Swerve.drive(new Translation2d(0,0), 0, true,false)),
+      new WaitCommand(50)
+
+
       //Move lift and arm into intake position
      
 
